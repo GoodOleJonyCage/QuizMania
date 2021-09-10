@@ -1,7 +1,8 @@
 ﻿import React  from 'react';
 import { Question } from './Question';
 import { EOFQuiz } from './EOFQuiz'
-import { ProgressBar } from 'react-bootstrap';
+//import { ProgressBar } from 'react-bootstrap';
+import Progressbar   from './Progress_bar'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const QuestionContainer = (props) => {
@@ -9,7 +10,7 @@ export const QuestionContainer = (props) => {
     const ProgressBarHtml = () => {
         const percentComplete = props.getPercentCompleted();
            //return <ProgressBar className="progressbar" animated now={percentComplete} label={`${percentComplete}% finished`} />;
-        return <div className="text-center">Coming Soon</div>;
+        return <Progressbar bgcolor="orange" progress={percentComplete}  height={50} />
     }
 
     const QuestionList = () => {
