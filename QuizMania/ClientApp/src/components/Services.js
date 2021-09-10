@@ -1,12 +1,43 @@
 ﻿import { createContext, useEffect, useState, Component } from "react";
 import axios from 'axios';
 
-export const LoadQuiz = (func) => {
-
-    //axios.get('%PUBLIC_URL%/controller')
+export const LoadQuiz = (func) =>
+{
+    //axios.get('controller')
     //    .then((response) => {
     //        console.log(response.data);
     //    });
+ 
+    //fetch('controller')
+    //    .then(response => console.log(response.json()))
+    //    .then(commits => console.log((commits ))
+
+    //axios({
+    //    "method": "GET",
+    //    "url": "controller/Get",
+    //    //"headers": {
+    //    //    "content-type": "application/octet-stream",
+    //    //    "x-rapidapi-host": "quotes15.p.rapidapi.com",
+    //    //    "x-rapidapi-key": process.env.REACT_APP_API_KEY
+    //    //}, "params": {
+    //    //    "language_code": "en"
+    //    //}
+    //})
+    //    .then((response) => {
+    //        console.log(response.data)
+    //    })
+    //    .catch((error) => {
+    //        console.log(error)
+    //    })
+
+    //fetch("controller", {
+    //    method: "post",
+    //    headers: {
+    //        "Content-Type": "application/json",
+    //    },
+    //})
+    //    .then((response) => console.log(response.text()))
+    //    .then((data) => console.log(data));
 
     let Questions = [];
     for (var i = 1; i < 5; i++) {
@@ -20,8 +51,14 @@ export const LoadQuiz = (func) => {
 
         Questions.push(question);
     }
-
     func(Questions);
+
+    //useEffect(() => {
+    //    LoadDB()
+    //    //getToken();
+    //}, [])
+
+    
 }
 
 

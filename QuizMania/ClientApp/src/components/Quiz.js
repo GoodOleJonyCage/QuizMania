@@ -2,6 +2,7 @@
 import { LoadQuiz } from './Services'
 import { QuestionContainer } from './QuestionContainer'
 
+
 export const Quiz = () => {
 
     const [quiz, updatequizObj] = useState({ QuizNumber: 0, Name: '' });
@@ -77,6 +78,7 @@ export const Quiz = () => {
         }
         return (answeredCorrectly / questions.length) * 100;
     }
+
 
     return (
         <QuestionContainer

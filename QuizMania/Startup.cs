@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 using QuizMania.Data;
 using QuizMania.Models;
 
@@ -41,12 +42,24 @@ namespace QuizMania
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            
+            services.AddMvc(options => options.EnableEndpointRouting = false);
+
+            services.AddMvc().AddControllersAsServices();
+            //services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
+            services.AddCors(c => {
+                c.AddPolicy("policyName", p => {
+                    p.AllowAnyOrigin().AllowAnyMethod();
+                });
+            });
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
             });
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,7 +93,8 @@ namespace QuizMania
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-
+            app.UseMvcWithDefaultRoute();
+            app.UseCors("policyName");
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";

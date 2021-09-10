@@ -10,6 +10,7 @@ import { ApplicationPaths } from './components/api-authorization/ApiAuthorizatio
 import { Quiz } from './components/Quiz'
 import { NavMenu } from './components/NavMenu'
 import { ProgressBar } from 'react-bootstrap';
+import { DataLoaderService } from './components/DataLoaderService'
 //import { Button } from "@material-ui/core";
 
 import './custom.css'
@@ -52,7 +53,7 @@ const Header = () => {
 export default class App extends Component {
 
     static displayName = App.name;
-
+  
     render() {
         return (
             <div>
@@ -73,6 +74,7 @@ export default class App extends Component {
                                             <Route path='/counter' component={Counter} />
                                             <AuthorizeRoute path='/quiz' component={Quiz} />
                                             <AuthorizeRoute path='/fetch-data' component={FetchData} />
+                                            <AuthorizeRoute path='/dataload' component={DataLoaderService} />
                                             <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
                                         </Layout>
                                     </div>
