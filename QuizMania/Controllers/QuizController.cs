@@ -1,20 +1,33 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using QuizMania.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace QuizMania.Controllers
 {
-   // [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class QuizController : ControllerBase
     {
-         
+        [Route("submitquiz")]
+        public ViewModels.Quiz SubmitQuiz([FromBody] System.Text.Json.JsonElement questions)
+        {
+            ViewModels.Quiz vm = new ViewModels.Quiz();
+            
+            var questionlist = questions.GetProperty("questionlist");
+            vm.Questions = JsonConvert.DeserializeObject<List<ViewModels.Question>>(questionlist.ToString());
+            //save question stuff
+            
+            return vm;
+        }
+
         public ViewModels.Quiz Get()
         {
             ViewModels.Quiz vm = new ViewModels.Quiz();

@@ -40,7 +40,6 @@ export const LoadQuiz = (func) => {
             for (var i = 0; i < data.questions.length; i++) {
                 let question = { QID: data.questions[i].qid, Name: data.questions[i].name, Answers: [], Active: true, Message: '' };
                 for (var j = 0; j < data.questions[i].answers.length; j++) {
-                    console.log(data.questions[i].answers[j]);
                     question.Answers.push({
                         AID: data.questions[i].answers[j].aid,
                         Name: data.questions[i].answers[j].name,
@@ -50,10 +49,23 @@ export const LoadQuiz = (func) => {
                 }
                 Questions.push(question);
             }
-            console.log(Questions);
+           // console.log(Questions);
             func(Questions);
         });
 }
 
-
+export const submitQuizService = (questionlist) => {
+    console.log(questionlist);
+    fetch('quiz/submitquiz', {
+        method: 'POST',
+        body: JSON.stringify({ questionlist }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(res => console.log(res));
+    //console.log(questions);
+}
 

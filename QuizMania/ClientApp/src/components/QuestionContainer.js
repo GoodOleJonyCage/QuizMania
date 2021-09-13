@@ -8,18 +8,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export const QuestionContainer = (props) => {
 
     const ProgressBarHtml = () => {
-        const percentComplete = props.getPercentCompleted();
-           //return <ProgressBar className="progressbar" animated now={percentComplete} label={`${percentComplete}% finished`} />;
-        return <Progressbar bgcolor="orange" progress={percentComplete}  height={50} />
+        return <Progressbar bgcolor="orange" progress={props.getPercentCompleted() }  height = { 50} />
     }
 
     const QuestionList = () => {
 
         return <div className="wizard-branch wizard-wrapper">
-            <div className="step wizard-step current" >
+            <div className="step wizard-step cumoveToNextQuestionrrent" >
                 <ProgressBarHtml />
                 {
-                    props.currentquestionindex == props.Questions.length ? <EOFQuiz {...props} /> :
+                    props.currentquestionindex == props.Questions.length && props.Questions.length > 0 ? <EOFQuiz {...props} /> :
                         props.Questions.map(function (q, i) {
                             return props.currentquestionindex == i ?
                                 <Question
@@ -30,6 +28,7 @@ export const QuestionContainer = (props) => {
                                     currentquestionindex={props.currentquestionindex}
                                     moveToPreviousQuestion={props.moveToPreviousQuestion}
                                     moveToNextQuestion={props.moveToNextQuestion}
+                                    submitQuiz={props.submitQuiz}
                                     selectOneAnswer={props.selectOneAnswer}
                                     key={i}
                                     QuestionIndex={i}

@@ -1,5 +1,6 @@
 ﻿import React, { Component, useState, useEffect } from 'react';
 import { LoadQuiz } from './Services'
+import { submitQuizService } from './Services'
 import { QuestionContainer } from './QuestionContainer'
 
 
@@ -39,6 +40,13 @@ export const Quiz = () => {
         updatequiz(newquestions);
     }
 
+    const submitQuiz  = () => {
+
+        moveToNextQuestion();
+        submitQuizService(questions);
+        //ajax call 
+    }
+
     const moveToPreviousQuestion = () => {
         if (currentquestionindex == 0)
             return;
@@ -59,7 +67,8 @@ export const Quiz = () => {
     }
 
     const getPercentCompleted = () => {
-        return (currentquestionindex / questions.length) * 100;
+        let result = Math.trunc((currentquestionindex / questions.length) * 100);
+        return Number.isNaN(result) ? 0 : result;
     }
 
     const calculateScore = () => {
@@ -76,7 +85,7 @@ export const Quiz = () => {
                 }
             }
         }
-        return (answeredCorrectly / questions.length) * 100;
+        return Math.trunc((answeredCorrectly / questions.length) * 100);
     }
 
 
@@ -87,6 +96,7 @@ export const Quiz = () => {
             calculateScore={calculateScore}
             getPercentCompleted={getPercentCompleted}
             moveToPreviousQuestion={moveToPreviousQuestion}
+            submitQuiz={submitQuiz}
             moveToNextQuestion={moveToNextQuestion}
             currentquestionindex={currentquestionindex}
             selectOneAnswer={selectOneAnswer}
