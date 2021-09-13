@@ -47,8 +47,8 @@ export class DataLoaderService extends Component {
     }
 
     async populateData() {
-
-        //fetch(`weatherforecast`, {
+        //let Questions = [];
+        //fetch(`quiz`, {
         //    headers: {
         //        'Content-Type': 'application/json',
         //        'Accept': 'application/json'
@@ -56,8 +56,16 @@ export class DataLoaderService extends Component {
 
         //})
         //    .then((response) => response.json())
-        //    .then((messages) => { console.log("messages"); });
-
+        //    .then((data) => {
+        //        for (var i = 0; i < data.questions.length; i++) {
+        //            let question = { QID: data.questions[i].qid, Name: data.questions[i].name, Answers: [], Active: true, Message: '' };
+        //            for (var j = 0; j < data.questions[i].answers.length; j++) {
+        //                question.Answers.push({ AID: data.questions[i].answers[j].aid, Name: data.questions[i].answers[j].name, Selected: false, AnsweredCorrectly: false });
+        //            }
+        //            Questions.push(question);
+        //        }
+        //        console.log(Questions);
+        //    });
         //const response = await fetch('weatherforecast');
         //const data = await response.json();
         //this.setState({ forecasts: data, loading: false });
