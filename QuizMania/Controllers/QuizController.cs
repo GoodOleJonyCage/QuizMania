@@ -19,11 +19,24 @@ namespace QuizMania.Controllers
         [Route("submitquiz")]
         public ViewModels.Quiz SubmitQuiz([FromBody] System.Text.Json.JsonElement questions)
         {
-            ViewModels.Quiz vm = new ViewModels.Quiz();
-            
-            var questionlist = questions.GetProperty("questionlist");
-            vm.Questions = JsonConvert.DeserializeObject<List<ViewModels.Question>>(questionlist.ToString());
-            //save question stuff
+            ViewModels.Quiz vm  = new ViewModels.Quiz();
+            var questionlist    = questions.GetProperty("questionlist");
+            vm.Questions        = JsonConvert.DeserializeObject<List<ViewModels.Question>>(questionlist.ToString());
+            vm.Questions.ForEach(q =>
+            {
+                using (QuizMasterContext context = new QuizMasterContext())
+                {
+                    context.QuizQuestionAnswered.Add(new QuizQuestionAnswered()
+                    {
+                        UserId      = 1,
+                        QuizId      = 1,
+                        QuestionId  = q.QID,
+                        IsCorrect   = true
+                    });
+
+                    context.SaveChanges();
+                }
+            });
             
             return vm;
         }

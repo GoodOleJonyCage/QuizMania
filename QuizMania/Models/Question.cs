@@ -12,11 +12,13 @@ namespace QuizMania.Models
         public Question()
         {
             QuizQuestionAnswer = new HashSet<QuizQuestionAnswer>();
+            QuizQuestionAnswered = new HashSet<QuizQuestionAnswered>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<QuizQuestionAnswer> QuizQuestionAnswer { get; set; }
+        public virtual ICollection<QuizQuestionAnswered> QuizQuestionAnswered { get; set; }
     }
 }

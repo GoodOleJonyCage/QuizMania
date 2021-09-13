@@ -94,14 +94,21 @@ namespace QuizMania.Models
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.QuizQuestionAnswerId).HasColumnName("QuizQuestionAnswerID");
+                entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
+
+                entity.Property(e => e.QuizId).HasColumnName("QuizID");
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
-                entity.HasOne(d => d.QuizQuestionAnswer)
+                entity.HasOne(d => d.Question)
                     .WithMany(p => p.QuizQuestionAnswered)
-                    .HasForeignKey(d => d.QuizQuestionAnswerId)
-                    .HasConstraintName("FK_QuizQuestionAnswered_QuizQuestionAnswer");
+                    .HasForeignKey(d => d.QuestionId)
+                    .HasConstraintName("FK_QuizQuestionAnswered_Question");
+
+                entity.HasOne(d => d.Quiz)
+                    .WithMany(p => p.QuizQuestionAnswered)
+                    .HasForeignKey(d => d.QuizId)
+                    .HasConstraintName("FK_QuizQuestionAnswered_Quiz");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.QuizQuestionAnswered)
