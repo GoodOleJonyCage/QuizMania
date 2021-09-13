@@ -9,16 +9,12 @@ using System.Threading.Tasks;
 
 namespace QuizMania.Controllers
 {
-    //[Authorize]
+   // [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class QuizController : ControllerBase
     {
-        //public ActionResult Index()
-        //{
-        //    return Ok("000875");
-        //}
-
+         
         public ViewModels.Quiz Get()
         {
             ViewModels.Quiz vm = new ViewModels.Quiz();
@@ -65,6 +61,7 @@ namespace QuizMania.Controllers
                     vm.Questions = questions;
 
                 });
+                
             }
 
             return vm;
