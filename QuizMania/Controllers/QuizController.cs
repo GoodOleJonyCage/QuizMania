@@ -16,20 +16,20 @@ namespace QuizMania.Controllers
     [Route("[controller]")]
     public class QuizController : ControllerBase
     {
-        //private void ResetQuizForUser(int UserID, int QuizId)
-        //{
-        //    using (QuizMasterContext context = new QuizMasterContext())
-        //    {
-        //        var list = context.QuizQuestionAnswered.Where(a => a.UserId == UserID && a.QuizId == QuizId).ToList();
-        //        context.Remove(list);
-        //        context.SaveChanges();
-        //    }
-        //}
+        private void ResetQuizForUser(int UserID, int QuizId)
+        {
+            using (QuizMasterContext context = new QuizMasterContext())
+            {
+                context.QuizQuestionAnswered.RemoveRange(context.QuizQuestionAnswered.Where(a => a.UserId == 1 && a.QuizId == 1).ToList());
+                context.SaveChanges();
+            }
+        }
 
         [Route("submitquiz")]
         public ViewModels.Quiz SubmitQuiz([FromBody] System.Text.Json.JsonElement questions)
         {
-            //ResetQuizForUser(1,1);
+            ResetQuizForUser(1,1);
+           
             ViewModels.Quiz vm  = new ViewModels.Quiz();
             var questionlist    = questions.GetProperty("questionlist");
             vm.Questions        = JsonConvert.DeserializeObject<List<ViewModels.Question>>(questionlist.ToString());
