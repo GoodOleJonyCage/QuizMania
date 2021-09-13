@@ -11,8 +11,11 @@ export const Question = (props) => {
                         props.Question.Answers.map((ans, answerindex) => {
                             return (
                                 <div key={props.Question.QID + ans.AID} className={"form-group radio_questions " + (ans.Selected ? "answer-selected" : "")}>
-                                    <label key={ans.id} className="labelflex">
-                                        {ans.Name}
+                                    <label key={ans.id} className={(props.showCorrectAnswers ?
+                                        ans.Selected && !ans.AnsweredCorrectly ? "incorrectanswer" :
+                                            ans.AnsweredCorrectly && true ? "correctanswer" : "" : "") +
+                                        " labelflex"}>
+                                        {ans.Name} {ans.AnsweredCorrectly}
                                         <input key={ans.id}
                                             checked={ans.Selected ? true : false}
                                             onChange={(e) => {
@@ -28,7 +31,7 @@ export const Question = (props) => {
                                         {
                                             props.showCorrectAnswers ?
                                                 <i
-                                                    className={ans.Selected && ans.AnsweredCorrectly && true ?
+                                                    className={ ans.AnsweredCorrectly && true ?
                                                         "icon-check-outline color-green" :
                                                         ans.Selected && !ans.AnsweredCorrectly ?
                                                             "icon-cancel-circle color-red" : ""}></i> : ""

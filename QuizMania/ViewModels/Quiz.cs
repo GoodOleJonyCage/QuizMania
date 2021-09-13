@@ -9,6 +9,7 @@ namespace QuizMania.ViewModels
     {
         public int AID { get; set; }
         public string Name { get; set; }
+        public bool IsCorrect { get; set; }
         public bool Selected { get; set; }
         public bool AnsweredCorrectly { get; set; }
     }

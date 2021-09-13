@@ -72,7 +72,7 @@ export default class App extends Component {
                                         <Layout>
                                             <Route exact path='/' component={Home} />
                                             <Route path='/counter' component={Counter} />
-                                            <AuthorizeRoute path='/quiz' component={Quiz} />
+                                            <AuthorizeRoute path='/quizstart' component={Quiz} />
                                             <AuthorizeRoute path='/fetch-data' component={FetchData} />
                                             <AuthorizeRoute path='/dataload' component={DataLoaderService} />
                                             <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />

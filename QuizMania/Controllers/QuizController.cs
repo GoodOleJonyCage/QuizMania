@@ -59,7 +59,7 @@ namespace QuizMania.Controllers
                                      AID = a.Id,
                                      Name = a.Name,
                                      Selected = false,
-                                     AnsweredCorrectly = false
+                                     AnsweredCorrectly = qqa.IsCorrect.HasValue ? qqa.IsCorrect.Value: false
                                  }).ToList();
 
                     vm.Questions = questions;

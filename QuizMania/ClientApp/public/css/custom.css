@@ -77,3 +77,10 @@ label.labelflex {
     align-items: center;
     justify-content: center;
 }
+
+.correctanswer {
+    border: solid 1px green !important;
+}
+.incorrectanswer {
+    border: solid 1px red !important;
+}
