@@ -55,7 +55,7 @@ export const LoadQuiz = (func) => {
 }
 
 export const submitQuizService = (questionlist) => {
-    console.log(questionlist);
+    //console.log(questionlist);
     fetch('quiz/submitquiz', {
         method: 'POST',
         body: JSON.stringify({ questionlist }),

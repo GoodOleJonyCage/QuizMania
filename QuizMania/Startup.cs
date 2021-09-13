@@ -28,6 +28,8 @@ namespace QuizMania
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            const int TIMEOUT = 10;
+            
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -38,13 +40,13 @@ namespace QuizMania
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-            services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = System.TimeSpan.FromSeconds(1));
+            services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = System.TimeSpan.FromSeconds(TIMEOUT));
             services.AddAuthentication()
                 .AddIdentityServerJwt()
                 .Services.ConfigureApplicationCookie(options =>
                 {
                     options.SlidingExpiration = true;
-                    options.ExpireTimeSpan = System.TimeSpan.FromMinutes(1);
+                    options.ExpireTimeSpan = System.TimeSpan.FromMinutes(TIMEOUT);
                 });
 
             services.AddControllersWithViews();
