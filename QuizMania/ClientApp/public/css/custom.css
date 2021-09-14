@@ -84,3 +84,22 @@ label.labelflex {
 .incorrectanswer {
     border: solid 1px red !important;
 }
+
+.adminquiz{
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+}
+.textcenter {
+    text-align:center;
+}
+.questionitem{
+    display:flex;
+    align-items:center;
+    text-align:left;
+}
+
+.scrollable{
+    height:400px;
+    overflow:auto;
+}

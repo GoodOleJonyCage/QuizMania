@@ -1,34 +1,11 @@
 ﻿import { createContext, useEffect, useState, Component } from "react";
 import axios from 'axios';
+import { Question } from "./Question";
 
 export const LoadQuiz = (func) => {
 
     let Questions = [];
-    //axios({
-    //    "method": "GET",
-    //    "url": "quiz",
-    //    //"headers": {
-    //    //    "content-type": "application/octet-stream",
-    //    //    "x-rapidapi-host": "quotes15.p.rapidapi.com",
-    //    //    "x-rapidapi-key": process.env.REACT_APP_API_KEY
-    //    //}, "params": {
-    //    //    "language_code": "en"
-    //    //}
-    //})
-    //    .then((data) => {
-    //        for (var i = 0; i < data.questions.length; i++) {
-    //            let question = { QID: data.questions[i].qid, Name: data.questions[i].name, Answers: [], Active: true, Message: '' };
-    //            for (var j = 0; j < data.questions[i].answers.length; j++) {
-    //                question.Answers.push({ AID: data.questions[i].answers[j].aid, Name: data.questions[i].answers[j].name, Selected: false, AnsweredCorrectly: false });
-    //            }
-    //            Questions.push(question);
-    //        }
-    //        func(Questions);
-    //    })
-    //    .catch((error) => {
-    //        console.log(error)
-    //    })
-    
+
     fetch(`quiz`, {
         headers: {
             'Content-Type': 'application/json',
@@ -49,13 +26,13 @@ export const LoadQuiz = (func) => {
                 }
                 Questions.push(question);
             }
-           // console.log(Questions);
+            // console.log(Questions);
             func(Questions);
         });
 }
 
 export const submitQuizService = (questionlist) => {
-    //console.log(questionlist);
+
     fetch('quiz/submitquiz', {
         method: 'POST',
         body: JSON.stringify({ questionlist }),
@@ -64,8 +41,69 @@ export const submitQuizService = (questionlist) => {
             'Accept': 'application/json'
         }
     })
-    .then(res => res.json())
-    .then(res => console.log(res));
-    //console.log(questions);
+        .then(res => res.json())
+        .then(res => console.log(res));
+}
+
+export const AddQuestion = (question, func) => {
+
+    fetch('quiz/addquestion', {
+        method: 'POST',
+        body: JSON.stringify({ question }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+        .then(res => res.json())
+        .then(res => LoadQuestions(func));
+}
+
+export const AddAnswer = (answer, func) => {
+
+    fetch('quiz/addanswer', {
+        method: 'POST',
+        body: JSON.stringify({ answer }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+        .then(res => res.json())
+        .then(res => LoadAnswers(func));
+}
+
+export const LoadQuestions = (func) => {
+    let Questions = [];
+    fetch(`quiz/questions`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            for (var i = 0; i < data.length; i++) {
+                Questions.push(data[i].name);
+            }
+            func(Questions);
+        });
+}
+
+export const LoadAnswers = (func) => {
+    let Answers = [];
+    fetch(`quiz/answers`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            for (var i = 0; i < data.length; i++) {
+                Answers.push(data[i].name);
+            }
+            func(Answers);
+        });
 }
 

@@ -25,6 +25,90 @@ namespace QuizMania.Controllers
             }
         }
 
+        [Route("questions")]
+        public List<Question> GetQuestions()
+        {
+            List<Question> lst = new List<Question>();
+            try
+            {
+                using (QuizMasterContext context = new QuizMasterContext())
+                {
+                    lst.AddRange(context.Question.ToList());
+                }
+            }
+            catch (Exception exc)
+            {
+                
+            }
+            return lst;
+        }
+
+        [Route("answers")]
+        public List<Answer> GetAnswers()
+        {
+            List<Answer> lst = new List<Answer>();
+            try
+            {
+                using (QuizMasterContext context = new QuizMasterContext())
+                {
+                    lst.AddRange(context.Answer.ToList());
+                }
+            }
+            catch (Exception exc)
+            {
+
+            }
+            return lst;
+        }
+
+        [Route("addquestion")]
+        [HttpPost]
+        public string AddQuestion([FromBody] System.Text.Json.JsonElement question)
+        {
+            string message = string.Empty;
+            string questionText = question.GetProperty("question").GetString();
+            try
+            {
+                using (QuizMasterContext context = new QuizMasterContext())
+                {
+                    context.Question.Add(new Question()
+                    {
+                        Name = questionText
+                    });
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception exc)
+            {
+                message = exc.Message;
+            }
+            return message;
+        }
+        
+        [Route("addanswer")]
+        [HttpPost]
+        public string AddAnswer([FromBody] System.Text.Json.JsonElement answer)
+        {
+            string message = string.Empty;
+            string answerText = answer.GetProperty("answer").GetString();
+            try
+            {
+                using (QuizMasterContext context = new QuizMasterContext())
+                {
+                    context.Answer.Add(new Answer()
+                    {
+                        Name = answerText
+                    });
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception exc)
+            {
+                message = exc.Message;
+            }
+            return message;
+        }
+
         [Route("submitquiz")]
         public ViewModels.Quiz SubmitQuiz([FromBody] System.Text.Json.JsonElement questions)
         {

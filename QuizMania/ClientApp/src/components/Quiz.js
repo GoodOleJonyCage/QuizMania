@@ -44,7 +44,7 @@ export const Quiz = () => {
 
         moveToNextQuestion();
         submitQuizService(questions);
-        //ajax call 
+        
     }
 
     const moveToPreviousQuestion = () => {
