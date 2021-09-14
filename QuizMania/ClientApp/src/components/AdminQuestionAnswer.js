@@ -2,7 +2,9 @@
 import { useState, useEffect } from 'react';
 import { AddQuestion, AddAnswer, LoadQuestions, LoadAnswers } from './Services';
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
-
+import ReactDom from 'react-dom';
+import Popup from 'react-popup';
+import { BtnCellRenderer} from './BtnCellRenderer'
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
@@ -21,6 +23,10 @@ export const AdminQuestionAnswer = () => {
 
     const [questions, setquestionlist] = useState([]);
     const [answers, setanswerlist] = useState([]);
+    const frameworkComponents = {
+        buttonRenderer: BtnCellRenderer,
+       // dropDownRenderer: DropDownRender,
+    };
 
     const handlequestionchange = (e) => {
         setquestion(e.target.value);
@@ -57,12 +63,38 @@ export const AdminQuestionAnswer = () => {
         LoadAnswers(setanswerlist);
     }, []);
 
+    const onBtnClick = () => {
+
+        console.log('here');
+    }
+
     const AllQuestions = () => {
 
+
+
+        const columnDefs = [
+            {
+                field: 'Name',
+                valueFormatter: function (params) {
+                    return params.data.name;
+                },
+            },
+            {
+                headerName: "Delete Sessio",
+                cellRenderer: "buttonRenderer",
+                cellRendererParams: {
+                    onClick: function () {
+                        console.log('A');
+                    },
+                    label: "Edit",
+                }
+            }
+             
+        ]
+
         return <div className="ag-theme-alpine" style={{ height: 400 }}>
-            <AgGridReact rowData={questions} >
-                <AgGridColumn width={400}  field="name"></AgGridColumn>
-                    </AgGridReact>
+                <AgGridReact frameworkComponents={frameworkComponents} columnDefs={columnDefs} rowData={questions}>
+                </AgGridReact>
                 </div>;
 
         //return <div className="mt-3 scrollable">
@@ -79,38 +111,42 @@ export const AdminQuestionAnswer = () => {
     }
 
     const AllAnswers = () => {
-        return <div className="mt-3 scrollable">
-            {
-                answers.map((q, i) => {
-                    return (
-                        <div className="questionitem" key={i}>
-                            <span className="mr-2">A-{i + 1}) {q}</span>
-                            <div className="text-right">
-                                <button>Edit</button>
-                            </div>
-                        </div>
-                    );
-                })
-            }
-        </div>;
+        
+        return  <div>
+                   <Popup message='the text you need to display'/>
+                    <div className="mt-3 scrollable">
+                        {
+                            answers.map((q, i) => {
+                                return (
+                                    <div className="questionitem" key={i}>
+                                        <span className="mr-2">A-{i + 1}) {q}</span>
+                                        <div className="text-right">
+                                            <button onClick={() => { Popup.alert('a'); }}>Edit</button>
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+                </div>;
     }
 
     return <div className="adminquiz">
-        <div className="textcenter">
-            <div className="text-danger small">{questionmessage}</div>
-            <div>
-                <textarea value={question} onChange={handlequestionchange} className="form-control" />
+            <div className="textcenter">
+                <div className="text-danger small">{questionmessage}</div>
+                <div>
+                    <textarea value={question} onChange={handlequestionchange} className="form-control" />
+                </div>
+                <button onClick={AddNewQuestion} className="button">Add Question</button>
+                <AllQuestions />
             </div>
-            <button onClick={AddNewQuestion} className="button">Add Question</button>
-            <AllQuestions />
-        </div>
-        <div className="textcenter">
-            <div className="text-danger small" >{answermessage}</div>
-            <div>
-                <textarea value={answer} onChange={handleanswerchange} className="form-control" />
+            <div className="textcenter">
+                <div className="text-danger small" >{answermessage}</div>
+                <div>
+                    <textarea value={answer} onChange={handleanswerchange} className="form-control" />
+                </div>
+                <button onClick={AddNewAnswer} className="button">Add Answer</button>
+                <AllAnswers />
             </div>
-            <button onClick={AddNewAnswer} className="button">Add Answer</button>
-            <AllAnswers />
-        </div>
-    </div>;
+        </div>;
 }

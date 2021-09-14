@@ -3,7 +3,6 @@ import { LoadQuiz } from './Services'
 import { submitQuizService } from './Services'
 import { QuestionContainer } from './QuestionContainer'
 
-
 export const Quiz = () => {
 
     const [quiz, updatequizObj] = useState({ QuizNumber: 0, Name: '' });
@@ -13,11 +12,12 @@ export const Quiz = () => {
     useEffect(() => {
         updatequizObj({ QuizNumber: 11, Name: 'History of Mankind' });
         LoadQuiz(updatequiz);
+        
     }, []);
 
 
     const moveToNextQuestion = () => {
-
+        
         if (currentquestionindex == questions.length)
             return;
 
@@ -87,7 +87,6 @@ export const Quiz = () => {
         }
         return Math.trunc((answeredCorrectly / questions.length) * 100);
     }
-
 
     return (
         <QuestionContainer
