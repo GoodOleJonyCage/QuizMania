@@ -84,8 +84,9 @@ export const LoadQuestions = (func) => {
         .then((response) => response.json())
         .then((data) => {
             for (var i = 0; i < data.length; i++) {
-                Questions.push(data[i].name);
+                Questions.push({ name: data[i].name });
             }
+            //console.log(Questions);
             func(Questions);
         });
 }

@@ -92,14 +92,17 @@ label.labelflex {
 }
 .textcenter {
     text-align:center;
+    width:400px;
 }
 .questionitem{
     display:flex;
     align-items:center;
     text-align:left;
+    justify-content:space-between;
 }
 
 .scrollable{
     height:400px;
     overflow:auto;
 }
+ 
