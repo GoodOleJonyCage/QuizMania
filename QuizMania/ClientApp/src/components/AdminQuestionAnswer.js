@@ -23,22 +23,17 @@ export const AdminQuestionAnswer = () => {
     //const onBtnClick = () => {
     //    console.log('here');
     //}
-
     let textAnswerEditInput                                 = React.createRef();
     let textQuestionEditInput                               = React.createRef();
-   
-    const [answereditindex    , updateanswereditindex]      = useState(-1);
-    const [questioneditindex  , updatequestioneditindex]    = useState(-1);
-    const [answereditmessage  , updateanswereditmessage]    = useState('');
-    const [questioneditmessage, updatequestioneditmessage]  = useState('');
-
-    const [answermessage, setanswermessage] = useState('');
-    const [questionmessage, setquestionmessage] = useState('');
-    const [answer, setanswer] = useState('');
-    const [question, setquestion] = useState('');
-
+    //edit question and answer
+    const [editquestion, updateeditquestion] = useState({ index: -1, message: '' });
+    const [editanswer, updateeditanswer]     = useState({ index: -1, message: '' });
+    //add question answer
+    const [question, setquestion]   = useState({ name: '', message: '' });
+    const [answer  , setanswer  ]   = useState({ name: '', message: '' });
+    //list of questions and answers
     const [questions, setquestionlist] = useState([]);
-    const [answers, setanswerlist] = useState([]);
+    const [answers  , setanswerlist  ] = useState([]);
 
     useEffect(() => {
         LoadQuestions(setquestionlist);
@@ -48,7 +43,7 @@ export const AdminQuestionAnswer = () => {
     //Questions
 
     const handlequestionchange = (e) => {
-        setquestion(e.target.value);
+        setquestion({ name: e.target.value });
     }
 
     const onEditQuestionChanged = e => {
@@ -56,21 +51,21 @@ export const AdminQuestionAnswer = () => {
         textQuestionEditInput.current.value = e.target.value;
     };
 
-    const editQuestion = (id) => {
-        EditQuestion(id, textQuestionEditInput.current.value, updatequestioneditmessage, setquestionlist);
-        if (questioneditmessage.length == 0) {
-            updatequestioneditindex(-1);
+    const editCurrentQuestion = (id) => {
+        EditQuestion(id, textQuestionEditInput.current.value, updateeditquestion, setquestionlist);
+        console.log(editquestion);
+        if (editquestion.message.length == 0) {
+            updateeditquestion({ index: -1,message :'' });
         }
     }
 
     const AddNewQuestion = () => {
-        if (question.length == 0) {
-            setquestionmessage('Required');
+        if (question.name.length == 0) {
+            setquestion({ message: 'Required' });
         }
         else {
-            AddQuestion(question, setquestionlist);
-            setquestionmessage('');
-            setquestion('');
+            AddQuestion(question.name, setquestionlist);
+            setquestion({ name : '', message :''});
         }
     }
 
@@ -81,27 +76,30 @@ export const AdminQuestionAnswer = () => {
                 {
                     questions.map((q, i) => {
                         return (
-                            <div className="" key={i}>
+                            <div className="item-row" key={i}>
                                 {
-                                    questioneditindex == i ?
+                                    editquestion.index == i ?
                                         <div className="questionitem">
-                                            <textarea
-                                                ref={textQuestionEditInput}
-                                                key={i}
-                                                onChange={onEditQuestionChanged}
-                                                defaultValue={q.name}
-                                            ></textarea>
-                                            <span className="text-danger small pl-2 pr-2">{questionmessage}</span>
+                                            <div className="questionitem">
+                                                <span className="mr-2">A-{i + 1})</span>
+                                                <textarea
+                                                    ref={textQuestionEditInput}
+                                                    key={i}
+                                                    onChange={onEditQuestionChanged}
+                                                    defaultValue={q.name}
+                                                ></textarea>
+                                            </div>
+                                            <span className="text-danger small pl-2 pr-2">{question.message}</span>
                                             <div className="text-right">
-                                                <button onClick={() => editQuestion(q.id)}>Save</button>
-                                                <button onClick={() => updatequestioneditindex(-1)}>Cancel</button>
+                                                <button onClick={() => editCurrentQuestion(q.id)}>Save</button>
+                                                <button onClick={() => updateeditquestion({ index: -1, message: '' })}>Cancel</button>
                                             </div>
                                         </div>
                                         :
                                         <div className="questionitem">
-                                            <span className="mr-2">A-{i + 1}) {q.name}</span>
+                                            <span ><span className="mr-2">A-{i + 1})</span>{q.name}</span>
                                             <div className="text-right">
-                                                <button onClick={() => updatequestioneditindex(i)}>Edit</button>
+                                                <button onClick={() => updateeditquestion({ index: i, message: '' })}>Edit</button>
                                             </div>
                                         </div>
                                 }
@@ -161,22 +159,20 @@ export const AdminQuestionAnswer = () => {
         textAnswerEditInput.current.value = e.target.value;
     };
 
-    const editAnswer = (id) => {
-        //put await here
-        EditAnswer(id, textAnswerEditInput.current.value, updateanswereditmessage, setanswerlist);
-        if (answereditmessage.length == 0) {
-             updateanswereditindex(-1);
+    const editCurrentAnswer = (id) => {
+        EditAnswer(id, textAnswerEditInput.current.value, updateeditanswer, setanswerlist);
+        if (editanswer.message.length == 0) {
+            updateeditanswer({ index: -1 });
         }
     }
 
     const AddNewAnswer = () => {
-        if (answer.length == 0) {
-            setanswermessage('Required');
+        if (answer.name.length == 0) {
+            setanswer({ message: 'Required' });
         }
         else {
-            AddAnswer(answer, setanswerlist);
-            setanswermessage('');
-            setanswer('');
+            AddAnswer(answer.name, setanswerlist);
+            setanswer({name :'', message: '' });
         }
     }
 
@@ -186,27 +182,30 @@ export const AdminQuestionAnswer = () => {
             {
                 answers.map((a, i) => {
                     return (
-                        <div className="" key={i}>
+                        <div className="item-row" key={i}>
                             {
-                                answereditindex == i ?
+                                editanswer.index == i ?
                                     <div className="questionitem">
-                                        <textarea
-                                            ref={textAnswerEditInput}
-                                            key={i}
-                                            onChange={onEditAnswerChanged}
-                                            defaultValue={a.name}
-                                        ></textarea>
-                                        <span className="text-danger small pl-2 pr-2">{answereditmessage}</span>
+                                        <div className="questionitem">
+                                            <span className="mr-2">A-{i + 1})</span>
+                                            <textarea
+                                                ref={textAnswerEditInput}
+                                                key={i}
+                                                onChange={onEditAnswerChanged}
+                                                defaultValue={a.name}
+                                                ></textarea>
+                                        </div>
+                                        <span className="text-danger small pl-2 pr-2">{editanswer.message}</span>
                                         <div className="text-right">
-                                            <button onClick={() => editAnswer(a.id )}>Save</button>
-                                            <button onClick={() => updateanswereditindex(-1)}>Cancel</button>
+                                            <button onClick={() => editCurrentAnswer(a.id )}>Save</button>
+                                            <button onClick={() => updateeditanswer({ index: -1, message :'' })}>Cancel</button>
                                         </div>
                                     </div>
                                     :
                                     <div className="questionitem">
-                                        <span className="mr-2">A-{i + 1}) {a.name}</span>
+                                        <span ><span className="mr-2">A-{i + 1})</span>{a.name}</span>
                                         <div className="text-right">
-                                            <button onClick={() => updateanswereditindex(i)}>Edit</button>
+                                            <button onClick={() => updateeditanswer({ index: i , message :''})}>Edit</button>
                                         </div>
                                     </div>
                             }
@@ -222,17 +221,17 @@ export const AdminQuestionAnswer = () => {
 
     return <div className="adminquiz2">
             <div className="textcenter">
-                <div className="text-danger small">{questionmessage}</div>
+                <div className="text-danger small">{question.message}</div>
                 <div>
-                    <textarea value={question} onChange={handlequestionchange} className="form-control" />
+                    <textarea value={question.name} onChange={handlequestionchange} className="form-control" />
                 </div>
                 <button onClick={AddNewQuestion} className="button">Add Question</button>
                 <AllQuestions />
             </div>
             <div className="textcenter mt-5">
-                <div className="text-danger small" >{answermessage}</div>
+                <div className="text-danger small" >{answer.message}</div>
                 <div>
-                    <textarea value={answer} onChange={handleanswerchange} className="form-control" />
+                    <textarea value={answer.name} onChange={handleanswerchange} className="form-control" />
                 </div>
                 <button onClick={AddNewAnswer} className="button">Add Answer</button>
                 <AllAnswers />

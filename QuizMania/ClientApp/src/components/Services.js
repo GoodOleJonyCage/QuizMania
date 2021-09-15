@@ -123,8 +123,7 @@ export async function EditAnswer (id, name, func, funcAns) {
                 })
                 .then((response) => response.json())
                 .then((data) => {
-                    
-                    func(data);
+                    func({ index: -1, message: data });
                     LoadAnswers(funcAns);
                 });
 
@@ -145,29 +144,9 @@ export async function EditQuestion  (id, name, func, funcQues)   {
     })
         .then((response) => response.json())
         .then((data) => {
-            func(data);
+            func({ index: -1, message: data });
             LoadQuestions(funcQues);
         });
 }
 
-//!async function aaa() {
-//    let data = await fetch(`quiz/editanswer`, {
-//        method: 'POST',
-//        body: JSON.stringify({
-//            id: 1,
-//            name: 'abc'
-//        }),
-//        headers: {
-//            'Content-Type': 'application/json',
-//            'Accept': 'application/json'
-//        }
-//    })
-//        .then((response) => response.blob())
-//        .then(data => {
-//            return data;
-//        })
-//        .catch(error => {
-//            console.error(error);
-//        });
-//    console.log(data);
-//} 
+  

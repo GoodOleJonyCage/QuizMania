@@ -103,7 +103,10 @@ label.labelflex {
 }
 
 .scrollable{
-   
     overflow:auto;
+}
+
+.item-row {
+    padding:5px;
 }
  
