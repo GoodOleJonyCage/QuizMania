@@ -84,7 +84,7 @@ export const LoadQuestions = (func) => {
         .then((response) => response.json())
         .then((data) => {
             for (var i = 0; i < data.length; i++) {
-                Questions.push({ name: data[i].name });
+                Questions.push({ id: data[i].id, name: data[i].name });
             }
             //console.log(Questions);
             func(Questions);
@@ -102,9 +102,72 @@ export const LoadAnswers = (func) => {
         .then((response) => response.json())
         .then((data) => {
             for (var i = 0; i < data.length; i++) {
-                Answers.push(data[i].name);
+                Answers.push({ id: data[i].id, name: data[i].name });
             }
             func(Answers);
         });
 }
+ 
+export async function EditAnswer (id, name, func, funcAns) {
 
+    await fetch(`quiz/editanswer`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        id: id,
+                        name: name
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    
+                    func(data);
+                    LoadAnswers(funcAns);
+                });
+
+}
+
+export async function EditQuestion  (id, name, func, funcQues)   {
+
+    await fetch(`quiz/editquestion`, {
+        method: 'POST',
+        body: JSON.stringify({
+            id: id,
+            name: name
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            func(data);
+            LoadQuestions(funcQues);
+        });
+}
+
+//!async function aaa() {
+//    let data = await fetch(`quiz/editanswer`, {
+//        method: 'POST',
+//        body: JSON.stringify({
+//            id: 1,
+//            name: 'abc'
+//        }),
+//        headers: {
+//            'Content-Type': 'application/json',
+//            'Accept': 'application/json'
+//        }
+//    })
+//        .then((response) => response.blob())
+//        .then(data => {
+//            return data;
+//        })
+//        .catch(error => {
+//            console.error(error);
+//        });
+//    console.log(data);
+//} 

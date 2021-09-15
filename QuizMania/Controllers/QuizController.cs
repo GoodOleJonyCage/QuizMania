@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using QuizMania.Helper;
 using QuizMania.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+ 
 
 namespace QuizMania.Controllers
 {
@@ -23,6 +25,59 @@ namespace QuizMania.Controllers
                 context.QuizQuestionAnswered.RemoveRange(context.QuizQuestionAnswered.Where(a => a.UserId == 1 && a.QuizId == 1).ToList());
                 context.SaveChanges();
             }
+        }
+
+        [Route("editquestion")]
+        public string EditQuestion([FromBody] System.Text.Json.JsonElement obj)
+        {
+            string message = string.Empty;
+            int id = obj.GetProperty("id").GetInt32();  
+            string name = obj.GetProperty("name").GetString();
+            
+            try
+            {
+                using (QuizMasterContext context = new QuizMasterContext())
+                {
+                    var question = context.Question.Where(q => q.Id == id).SingleOrDefault();
+                    question.Name = name;
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception exc)
+            {
+                message = exc.Message;
+            }
+            return message;
+            ////var jsonString = "{\"message\":'" + "A" + "',\"errored\":'" + (message.Length > 0).ToString()  + "'}";
+            //var jsonString = "{\"message\":'A'}";
+            //return new QuizMania.Helper.RawJsonActionResult(jsonString);
+        }
+
+
+        [Route("editanswer")]
+        public string EditAnswer([FromBody] System.Text.Json.JsonElement obj)
+        {
+            string message = string.Empty;
+            int id = obj.GetProperty("id").GetInt32(); 
+            string name = obj.GetProperty("name").GetString();
+            
+            try
+            {
+                using (QuizMasterContext context = new QuizMasterContext())
+                {
+                    var answer = context.Answer.Where(a => a.Id == id).SingleOrDefault();
+                    answer.Name = name;
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception exc)
+            {
+                message = exc.Message;
+            }
+            return message;
+            ////var jsonString = "{\"message\":'" + "A" + "',\"errored\":'" + (message.Length > 0).ToString()  + "'}";
+            //var jsonString = "{\"message\":'A'}";
+            //return new QuizMania.Helper.RawJsonActionResult(jsonString);
         }
 
         [Route("questions")]

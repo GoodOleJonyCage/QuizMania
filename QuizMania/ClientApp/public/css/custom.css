@@ -92,7 +92,8 @@ label.labelflex {
 }
 .textcenter {
     text-align:center;
-    width:400px;
+    padding:10px;
+    border:solid 1px gray;
 }
 .questionitem{
     display:flex;
@@ -102,7 +103,7 @@ label.labelflex {
 }
 
 .scrollable{
-    height:400px;
+   
     overflow:auto;
 }
  
