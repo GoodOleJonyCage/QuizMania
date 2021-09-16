@@ -108,9 +108,9 @@ export const LoadAnswers = (func) => {
         });
 }
  
-export async function EditAnswer (id, name, func, funcAns) {
+export async function EditAnswer (id, name ) {
 
-    await fetch(`quiz/editanswer`, {
+    return await fetch(`quiz/editanswer`, {
                     method: 'POST',
                     body: JSON.stringify({
                         id: id,
@@ -123,15 +123,14 @@ export async function EditAnswer (id, name, func, funcAns) {
                 })
                 .then((response) => response.json())
                 .then((data) => {
-                    func({ index: -1, message: data });
-                    LoadAnswers(funcAns);
+                    return data;
                 });
 
 }
 
-export async function EditQuestion  (id, name, func, funcQues)   {
+export async function EditQuestion  (id, name )   {
 
-    await fetch(`quiz/editquestion`, {
+    return await fetch(`quiz/editquestion`, {
         method: 'POST',
         body: JSON.stringify({
             id: id,
@@ -144,8 +143,11 @@ export async function EditQuestion  (id, name, func, funcQues)   {
     })
         .then((response) => response.json())
         .then((data) => {
-            func({ index: -1, message: data });
-            LoadQuestions(funcQues);
+            //console.log("1 " + data.message);
+            //func({ index: -1, message: data.message });
+            //if (!data.errored)
+            //    LoadQuestions(funcQues);
+            return data;
         });
 }
 

@@ -104,6 +104,7 @@ label.labelflex {
 
 .scrollable{
     overflow:auto;
+   /* height:600px;*/
 }
 
 .item-row {

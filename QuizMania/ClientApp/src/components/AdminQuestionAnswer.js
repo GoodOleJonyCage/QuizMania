@@ -51,12 +51,18 @@ export const AdminQuestionAnswer = () => {
         textQuestionEditInput.current.value = e.target.value;
     };
 
-    const editCurrentQuestion = (id) => {
-        EditQuestion(id, textQuestionEditInput.current.value, updateeditquestion, setquestionlist);
-        console.log(editquestion);
-        if (editquestion.message.length == 0) {
-            updateeditquestion({ index: -1,message :'' });
-        }
+    const editCurrentQuestion = (id,i) => {
+        EditQuestion(id, textQuestionEditInput.current.value )
+            .then(result => {
+                if (result.errored) {
+                    updateeditquestion({ index: i ,message: result.message });
+                }
+                else {
+                    updateeditquestion({ index: -1, message: '' });
+                    LoadQuestions(setquestionlist);
+                }
+            });
+     
     }
 
     const AddNewQuestion = () => {
@@ -89,9 +95,9 @@ export const AdminQuestionAnswer = () => {
                                                     defaultValue={q.name}
                                                 ></textarea>
                                             </div>
-                                            <span className="text-danger small pl-2 pr-2">{question.message}</span>
+                                            <span className="text-danger small pl-2 pr-2">{editquestion.message}</span>
                                             <div className="text-right">
-                                                <button onClick={() => editCurrentQuestion(q.id)}>Save</button>
+                                                <button className="mr-1" onClick={() => editCurrentQuestion(q.id,i)}>Save</button>
                                                 <button onClick={() => updateeditquestion({ index: -1, message: '' })}>Cancel</button>
                                             </div>
                                         </div>
@@ -159,11 +165,17 @@ export const AdminQuestionAnswer = () => {
         textAnswerEditInput.current.value = e.target.value;
     };
 
-    const editCurrentAnswer = (id) => {
-        EditAnswer(id, textAnswerEditInput.current.value, updateeditanswer, setanswerlist);
-        if (editanswer.message.length == 0) {
-            updateeditanswer({ index: -1 });
-        }
+    const editCurrentAnswer = (id,i) => {
+        EditAnswer(id, textAnswerEditInput.current.value )  
+          .then(result => {
+              if (result.errored) {
+                  updateeditanswer({ index: i, message: result.message });
+              }
+              else {
+                  updateeditanswer({ index: -1, message: '' });
+                  LoadAnswers(setanswerlist);
+              }
+          });
     }
 
     const AddNewAnswer = () => {
@@ -197,7 +209,7 @@ export const AdminQuestionAnswer = () => {
                                         </div>
                                         <span className="text-danger small pl-2 pr-2">{editanswer.message}</span>
                                         <div className="text-right">
-                                            <button onClick={() => editCurrentAnswer(a.id )}>Save</button>
+                                            <button className="mr-1" onClick={() => editCurrentAnswer(a.id,i)}>Save</button>
                                             <button onClick={() => updateeditanswer({ index: -1, message :'' })}>Cancel</button>
                                         </div>
                                     </div>

@@ -28,56 +28,70 @@ namespace QuizMania.Controllers
         }
 
         [Route("editquestion")]
-        public string EditQuestion([FromBody] System.Text.Json.JsonElement obj)
+        public JsonVM EditQuestion([FromBody] System.Text.Json.JsonElement obj)
         {
-            string message = string.Empty;
+            JsonVM vm = new JsonVM();
+
             int id = obj.GetProperty("id").GetInt32();  
             string name = obj.GetProperty("name").GetString();
-            
-            try
+
+            if (string.IsNullOrEmpty(name.Trim()))
             {
-                using (QuizMasterContext context = new QuizMasterContext())
+                vm.Message = "Value Required";
+                vm.Errored = true;
+            }
+            else
+            {
+                try
                 {
-                    var question = context.Question.Where(q => q.Id == id).SingleOrDefault();
-                    question.Name = name;
-                    context.SaveChanges();
+                    using (QuizMasterContext context = new QuizMasterContext())
+                    {
+                        var question = context.Question.Where(q => q.Id == id).SingleOrDefault();
+                        question.Name = name;
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception exc)
+                {
+                    vm.Message = exc.Message;
+                    vm.Errored = true;
                 }
             }
-            catch (Exception exc)
-            {
-                message = exc.Message;
-            }
-            return message;
-            ////var jsonString = "{\"message\":'" + "A" + "',\"errored\":'" + (message.Length > 0).ToString()  + "'}";
-            //var jsonString = "{\"message\":'A'}";
-            //return new QuizMania.Helper.RawJsonActionResult(jsonString);
+            return vm;
         }
 
 
         [Route("editanswer")]
-        public string EditAnswer([FromBody] System.Text.Json.JsonElement obj)
+        public JsonVM EditAnswer([FromBody] System.Text.Json.JsonElement obj)
         {
-            string message = string.Empty;
+            JsonVM vm = new JsonVM();
+
             int id = obj.GetProperty("id").GetInt32(); 
             string name = obj.GetProperty("name").GetString();
-            
-            try
+            if (string.IsNullOrEmpty(name.Trim()))
             {
-                using (QuizMasterContext context = new QuizMasterContext())
+                vm.Message = "Value Required";
+                vm.Errored = true;
+            }
+            else
+            {
+                try
                 {
-                    var answer = context.Answer.Where(a => a.Id == id).SingleOrDefault();
-                    answer.Name = name;
-                    context.SaveChanges();
+                    using (QuizMasterContext context = new QuizMasterContext())
+                    {
+                        var answer = context.Answer.Where(a => a.Id == id).SingleOrDefault();
+                        answer.Name = name;
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception exc)
+                {
+                    vm.Message = exc.Message;
+                    vm.Errored = true;
                 }
             }
-            catch (Exception exc)
-            {
-                message = exc.Message;
-            }
-            return message;
-            ////var jsonString = "{\"message\":'" + "A" + "',\"errored\":'" + (message.Length > 0).ToString()  + "'}";
-            //var jsonString = "{\"message\":'A'}";
-            //return new QuizMania.Helper.RawJsonActionResult(jsonString);
+            return vm;
+             
         }
 
         [Route("questions")]
