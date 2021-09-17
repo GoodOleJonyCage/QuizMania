@@ -211,35 +211,60 @@ namespace QuizMania.Controllers
         public JsonVM SaveQuiz([FromBody] System.Text.Json.JsonElement questionanswers)
         {
             JsonVM vm = new JsonVM();
-
             ViewModels.Quiz quiz = new ViewModels.Quiz();
 
-            var list = questionanswers.GetProperty("questionanswers");
-            for (int i = 0; i < list.GetArrayLength() ; i++)
+            try
             {
-                var id = Int32.Parse(list[i].GetProperty("id").ToString());
-                var name = list[i].GetProperty("name").ToString();
-                var answers = list[i].GetProperty("answers");
-
-                List<ViewModels.Answer> ansList = new List<ViewModels.Answer>();
-                for (int j = 0; j < answers.GetArrayLength(); j++)
+                var list = questionanswers.GetProperty("questionanswers");
+                for (int i = 0; i < list.GetArrayLength(); i++)
                 {
-                    ansList.Add(new ViewModels.Answer()
+                    var id = Int32.Parse(list[i].GetProperty("id").ToString());
+                    var name = list[i].GetProperty("name").ToString();
+                    var answers = list[i].GetProperty("answers");
+
+                    List<ViewModels.Answer> ansList = new List<ViewModels.Answer>();
+                    for (int j = 0; j < answers.GetArrayLength(); j++)
                     {
-                        AID = Int32.Parse(answers[j].GetProperty("id").ToString()),
-                        Name = answers[j].GetProperty("name").ToString()
+                        ansList.Add(new ViewModels.Answer()
+                        {
+                            AID = Int32.Parse(answers[j].GetProperty("id").ToString()),
+                            Name = answers[j].GetProperty("name").ToString()
+                        });
+                    }
+
+                    quiz.Questions.Add(new ViewModels.Question()
+                    {
+                        QID = id,
+                        Name = name,
+                        Answers = ansList
                     });
                 }
-
-                quiz.Questions.Add(new ViewModels.Question()
+                //save quiz to db and send result back 
+                using (QuizMasterContext context = new QuizMasterContext())
                 {
-                    QID = id,
-                    Name = name,
-                    Answers = ansList
-                });
+                    context.QuizQuestionAnswer.RemoveRange(context.QuizQuestionAnswer.Where(a => a.QuizId == 1).ToList());
+                    context.SaveChanges();
+                    quiz.Questions.ForEach(q =>
+                    {
+                        q.Answers.ForEach(a =>
+                        {
+                            context.QuizQuestionAnswer.Add(new QuizQuestionAnswer()
+                            {
+                                QuizId = 1,
+                                QuestionId = q.QID,
+                                AnswerId = a.AID,
+                                IsCorrect = false
+                            });
+                        });
+                    });
+                    context.SaveChanges();
+                }
             }
-            //save quiz to db and send result back 
-
+            catch (Exception exc)
+            {
+                vm.Errored = true;
+                vm.Message = exc.Message;
+            }
             return vm;
         }
 

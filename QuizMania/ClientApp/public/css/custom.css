@@ -54,6 +54,7 @@ body {
     color: red;
     font-size: 20px;
 }
+ 
 .progressbar{
     font-size:20px !important;
 }
@@ -101,11 +102,15 @@ label.labelflex {
     text-align:left;
     justify-content:space-between;
 }
-
+.quizquestionitem{
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
+}
 .quizansweritem {
     display: flex;
-    justify-content:flex-start;
-    padding-top:10px;
+    justify-content: flex-start;
+    padding-top: 10px;
 }
 
 .scrollable{

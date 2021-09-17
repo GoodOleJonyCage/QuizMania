@@ -97,15 +97,21 @@ export const AdminQuestionAnswer = () => {
                                             </div>
                                             <span className="text-danger small pl-2 pr-2">{editquestion.message}</span>
                                             <div className="text-right">
-                                                <button className="mr-1" onClick={() => editCurrentQuestion(q.id,i)}>Save</button>
-                                                <button onClick={() => updateeditquestion({ index: -1, message: '' })}>Cancel</button>
+                                                <button className="mr-1" onClick={() => editCurrentQuestion(q.id, i)}>
+                                                    <i className="icon-ok-1 text-success" />
+                                                    Save</button>
+                                                <button onClick={() => updateeditquestion({ index: -1, message: '' })}>
+                                                    <i className="icon-block-4 text-danger" />
+                                                    Cancel</button>
                                             </div>
                                         </div>
                                         :
                                         <div className="questionitem">
                                             <span ><span className="mr-2">A-{i + 1})</span>{q.name}</span>
                                             <div className="text-right">
-                                                <button onClick={() => updateeditquestion({ index: i, message: '' })}>Edit</button>
+                                                <button onClick={() => updateeditquestion({ index: i, message: '' })}>
+                                                    <i class="icon-edit text-success"></i>
+                                                    Edit</button>
                                             </div>
                                         </div>
                                 }
@@ -209,15 +215,21 @@ export const AdminQuestionAnswer = () => {
                                         </div>
                                         <span className="text-danger small pl-2 pr-2">{editanswer.message}</span>
                                         <div className="text-right">
-                                            <button className="mr-1" onClick={() => editCurrentAnswer(a.id,i)}>Save</button>
-                                            <button onClick={() => updateeditanswer({ index: -1, message :'' })}>Cancel</button>
+                                            <button className="mr-1" onClick={() => editCurrentAnswer(a.id, i)}>
+                                                <i className="icon-ok-1 text-success" />
+                                                Save</button>
+                                            <button onClick={() => updateeditanswer({ index: -1, message: '' })}>
+                                                <i className="icon-block-4 text-danger" />
+                                                Cancel</button>
                                         </div>
                                     </div>
                                     :
                                     <div className="questionitem">
                                         <span ><span className="mr-2">A-{i + 1})</span>{a.name}</span>
                                         <div className="text-right">
-                                            <button onClick={() => updateeditanswer({ index: i , message :''})}>Edit</button>
+                                            <button onClick={() => updateeditanswer({ index: i, message: '' })}>
+                                                <i className="icon-edit text-success"/>
+                                                Edit</button>
                                         </div>
                                     </div>
                             }
@@ -231,13 +243,15 @@ export const AdminQuestionAnswer = () => {
 
     //Answers
 
-    return <div className="adminquiz">
+    return <div className="adminquiz2">
             <div className="textcenter">
                 <div className="text-danger small">{question.message}</div>
                 <div>
                     <textarea value={question.name} onChange={handlequestionchange} className="form-control" />
                 </div>
-                <button onClick={AddNewQuestion} className="button">Add Question</button>
+            <button onClick={AddNewQuestion} className="button">
+                <i className="icon-plus-circle-1 text-success" />
+                Add Question</button>
                 <AllQuestions />
             </div>
             <div className="textcenter mt-5">
@@ -245,7 +259,9 @@ export const AdminQuestionAnswer = () => {
                 <div>
                     <textarea value={answer.name} onChange={handleanswerchange} className="form-control" />
                 </div>
-                <button onClick={AddNewAnswer} className="button">Add Answer</button>
+                <button onClick={AddNewAnswer} className="button">
+                    <i className="icon-plus-circle-1 text-success" />
+                    Add Answer</button>
                 <AllAnswers />
             </div>
         </div>;

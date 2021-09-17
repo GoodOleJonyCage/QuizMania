@@ -8,6 +8,7 @@ let ddQuestionSelected = React.createRef();
 const AddQuestion = (props) => {
 
     return <div className="text-center">
+        <label className="label">Question</label>
         <select className="form-control"
             ref={ddQuestionSelected}
             onChange={(e) => { ddQuestionSelected.current.value = e.target.value }}>
@@ -37,17 +38,23 @@ const AddAnswer = (props) => {
 const SelectAnswer = (props) => {
 
     return <div className="text-center">
-        <select className="form-control"
-            ref={ddAnsSelected}            onChange={(e) => { ddAnsSelected.current.value = e.target.value }} >            {
-                props.answers.map(a => {
-                    return <option value={a.id}>{a.name}</option>
-                })
-            }
-        </select>
-        <div className="text-right">
-            <button className="button" onClick={() => { AddAnswer(props) }}>Add</button>
-        </div>
-    </div>;
+            <label className="label">Answer</label>
+            <select className="form-control"
+                ref={ddAnsSelected}                onChange={(e) => { ddAnsSelected.current.value = e.target.value }} >                {
+                    props.answers.map(a => {
+                        return <option value={a.id}>{a.name}</option>
+                    })
+                }
+            </select>
+            <div className="text-right">
+                <button className="button" onClick={() => { AddAnswer(props) }}>
+                <i className="icon-plus-circle-1 text-success" />Add Answer</button>
+            </div>
+            <div className="text-right mt-1">
+                <button className="button" onClick={() => { props.setselectedanswers([]) }}>
+                <i className="icon-cancel-circle-2 text-danger" />Clear Answers</button>
+            </div>
+        </div>;
 }
 
 const SelectedAnswers = (props) => {
@@ -71,21 +78,26 @@ const SelectedAnswers = (props) => {
 
 const AddQAToQuiz = (props) => {
 
-    var qID = ddQuestionSelected.current.value;
-    var questionExists = props.questionanswers.filter(q => { return q.id == qID });
-    if (questionExists.length == 0) {
-        var question = props.questions.filter(q => { return q.id == qID });
-        var newquestionanswers = [...props.questionanswers];
-        newquestionanswers.push({ id: question[0].id, name: question[0].name, answers: props.selectedanswers });
-        props.setquestionanswers(newquestionanswers);
+    if (props.selectedanswers.length > 0) {
+        var qID = ddQuestionSelected.current.value;
+        var questionExists = props.questionanswers.filter(q => { return q.id == qID });
+        if (questionExists.length == 0) {
+            props.setselectedanswers([]);
+            var question = props.questions.filter(q => { return q.id == qID });
+            var newquestionanswers = [...props.questionanswers];
+            newquestionanswers.push({ id: question[0].id, name: question[0].name, answers: props.selectedanswers });
+            props.setquestionanswers(newquestionanswers);
+        }
     }
 }
 
 const AddToQuiz = (props) => {
 
     return <div className="text-center mt-3">
-        <button className="button button-primary" onClick={(e) => AddQAToQuiz(props)} >Add To Quiz</button>
-    </div>;
+                <button className="button button-primary" onClick={(e) => AddQAToQuiz(props)} >
+                <i className="icon-plus-circle-1 text-success" />
+                Add Question/Answers To Quiz</button>
+            </div>;
 }
 
 const SaveCurrentQuiz = (props) => {
@@ -125,8 +137,13 @@ const QuizQuestionAnswers = (props) => {
 const AddButton = (props) => {
 
     return <div className="mt-2 text-center">
-        <button className="button" onClick={(e) => SaveCurrentQuiz(props.questionanswers)}>Save Quiz</button>
-            </div>;
+            {
+                props.questionanswers.length > 0 ?
+                    <button className="button" onClick={(e) => SaveCurrentQuiz(props.questionanswers)}>
+                        <i className="text-success icon-hdd" />
+                        Save Quiz</button> : ""
+            }
+         </div>;
 }
 
 export const AdminQuiz = () => {
@@ -154,6 +171,7 @@ export const AdminQuiz = () => {
                 <SelectedAnswers selectedanswers={selectedanswers} />
             </div>
             <AddToQuiz
+                setselectedanswers={setselectedanswers}
                 setselectedquestion={setselectedquestion}
                 selectedquestion={selectedquestion}
                 selectedanswers={selectedanswers}

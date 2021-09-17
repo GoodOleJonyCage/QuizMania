@@ -6,7 +6,10 @@ export const Question = (props) => {
     const QuestionAnswer = () => {
 
         return <div>
-                    <h3 className="main_question"><strong>{props.QuestionIndex + 1}/{props.QuestionLength}</strong>{props.Question.Name}</h3>
+                    <div className="quizquestionitem mb-3">
+                        <span className="mr-2">Q)-<span>{props.QuestionIndex + 1}/{props.QuestionLength}</span></span>
+                        <h5 className="main_question p-0 m-0">{props.Question.Name}</h5>
+                    </div>
                     {
                         props.Question.Answers.map((ans, answerindex) => {
                             return (
@@ -31,7 +34,7 @@ export const Question = (props) => {
                                         {
                                             props.showCorrectAnswers ?
                                                 <i
-                                                    className={ ans.AnsweredCorrectly && true ?
+                                                    className={ans.AnsweredCorrectly && true ?
                                                         "icon-check-outline color-green" :
                                                         ans.Selected && !ans.AnsweredCorrectly ?
                                                             "icon-cancel-circle color-red" : ""}></i> : ""
@@ -41,7 +44,7 @@ export const Question = (props) => {
                             );
                         })
                     }
-                </div>
+             </div>;
     }
 
     const ErrorSection = () => {
