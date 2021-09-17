@@ -231,7 +231,7 @@ export const AdminQuestionAnswer = () => {
 
     //Answers
 
-    return <div className="adminquiz2">
+    return <div className="adminquiz">
             <div className="textcenter">
                 <div className="text-danger small">{question.message}</div>
                 <div>

@@ -102,6 +102,12 @@ label.labelflex {
     justify-content:space-between;
 }
 
+.quizansweritem {
+    display: flex;
+    justify-content:flex-start;
+    padding-top:10px;
+}
+
 .scrollable{
     overflow:auto;
    /* height:600px;*/
@@ -110,4 +116,8 @@ label.labelflex {
 .item-row {
     padding:5px;
 }
- 
+
+.quiz-answer-area{
+    border: solid 1px lightgray;
+    padding:10px;
+} 

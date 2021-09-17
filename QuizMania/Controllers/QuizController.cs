@@ -27,6 +27,7 @@ namespace QuizMania.Controllers
             }
         }
 
+       
         [Route("editquestion")]
         public JsonVM EditQuestion([FromBody] System.Text.Json.JsonElement obj)
         {
@@ -205,6 +206,43 @@ namespace QuizMania.Controllers
             return vm;
         }
 
+        [HttpPost]
+        [Route("savequiz")]
+        public JsonVM SaveQuiz([FromBody] System.Text.Json.JsonElement questionanswers)
+        {
+            JsonVM vm = new JsonVM();
+
+            ViewModels.Quiz quiz = new ViewModels.Quiz();
+
+            var list = questionanswers.GetProperty("questionanswers");
+            for (int i = 0; i < list.GetArrayLength() ; i++)
+            {
+                var id = Int32.Parse(list[i].GetProperty("id").ToString());
+                var name = list[i].GetProperty("name").ToString();
+                var answers = list[i].GetProperty("answers");
+
+                List<ViewModels.Answer> ansList = new List<ViewModels.Answer>();
+                for (int j = 0; j < answers.GetArrayLength(); j++)
+                {
+                    ansList.Add(new ViewModels.Answer()
+                    {
+                        AID = Int32.Parse(answers[j].GetProperty("id").ToString()),
+                        Name = answers[j].GetProperty("name").ToString()
+                    });
+                }
+
+                quiz.Questions.Add(new ViewModels.Question()
+                {
+                    QID = id,
+                    Name = name,
+                    Answers = ansList
+                });
+            }
+            //save quiz to db and send result back 
+
+            return vm;
+        }
+
         public ViewModels.Quiz Get()
         {
             ViewModels.Quiz vm = new ViewModels.Quiz();
@@ -245,13 +283,13 @@ namespace QuizMania.Controllers
                                      AID = a.Id,
                                      Name = a.Name,
                                      Selected = false,
-                                     AnsweredCorrectly = qqa.IsCorrect.HasValue ? qqa.IsCorrect.Value: false
+                                     AnsweredCorrectly = qqa.IsCorrect.HasValue ? qqa.IsCorrect.Value : false
                                  }).ToList();
 
                     vm.Questions = questions;
 
                 });
-                
+
             }
 
             return vm;

@@ -12,6 +12,7 @@ import { NavMenu } from './components/NavMenu'
 import { ProgressBar } from 'react-bootstrap';
 import { DataLoaderService } from './components/DataLoaderService'
 import { AdminQuestionAnswer } from './components/AdminQuestionAnswer'
+import { AdminQuiz } from './components/AdminQuiz'
 //import { Button } from "@material-ui/core";
 
 import './custom.css'
@@ -74,6 +75,7 @@ export default class App extends Component {
                                             <Route exact path='/' component={Home} />
                                             <Route path='/counter' component={Counter} />
                                             <AuthorizeRoute path='/quizstart' component={Quiz} />
+                                            <AuthorizeRoute path='/adminquiz' component={AdminQuiz} />
                                             <AuthorizeRoute path='/adminquestiponanswer' component={AdminQuestionAnswer} />
                                             <AuthorizeRoute path='/fetch-data' component={FetchData} />
                                             <AuthorizeRoute path='/dataload' component={DataLoaderService} />
