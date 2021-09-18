@@ -111,6 +111,7 @@ label.labelflex {
     display: flex;
     justify-content: flex-start;
     padding-top: 10px;
+    align-items:center;
 }
 
 .scrollable{

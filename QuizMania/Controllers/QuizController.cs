@@ -228,8 +228,9 @@ namespace QuizMania.Controllers
                         ansList.Add(new ViewModels.Answer()
                         {
                             AID = Int32.Parse(answers[j].GetProperty("id").ToString()),
-                            Name = answers[j].GetProperty("name").ToString()
-                        });
+                            Name = answers[j].GetProperty("name").ToString(),
+                            AnsweredCorrectly = answers[j].GetProperty("iscorrect").GetBoolean()
+                        }); 
                     }
 
                     quiz.Questions.Add(new ViewModels.Question()
@@ -253,7 +254,7 @@ namespace QuizMania.Controllers
                                 QuizId = 1,
                                 QuestionId = q.QID,
                                 AnswerId = a.AID,
-                                IsCorrect = false
+                                IsCorrect = a.AnsweredCorrectly
                             });
                         });
                     });
