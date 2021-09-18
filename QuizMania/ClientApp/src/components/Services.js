@@ -108,6 +108,20 @@ export const LoadAnswers = (func) => {
         });
 }
 
+export async function LoadQuizes(func)  {
+     
+    fetch(`quiz/quizes`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        func(data);
+    });
+}
+
 export async function EditAnswer(id, name) {
 
     return await fetch(`quiz/editanswer`, {
@@ -151,11 +165,12 @@ export async function EditQuestion(id, name) {
         });
 }
 
-export async function SaveQuiz(questionanswers) {
+export async function SaveQuiz(name, questionanswers) {
 
     return await fetch(`quiz/savequiz`, {
         method: 'POST',
         body: JSON.stringify({
+            quizname: name,
             questionanswers: questionanswers
         }),
         headers: {

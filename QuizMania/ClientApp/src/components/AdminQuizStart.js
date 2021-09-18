@@ -5,7 +5,16 @@ import { useState } from 'react';
 
 export const AdminQuizStart = () => {
 
-    const [quizname, setquizname] = useState('');
+    const [quiz, setquiz] = useState({name :'', message :''});
+
+    const linkclicked = (e) => {
+        if (!quiz.name) {
+            e.preventDefault();
+            setquiz({  message: "Quiz Name Required"})
+        }
+        else
+            setquiz({ message: "" })
+    }
 
     return <div className="col-xl-9 col-lg-8 noborder container">
             <div className="wizard-branch wizard-wrapper">
@@ -17,17 +26,21 @@ export const AdminQuizStart = () => {
                                     <h5 className="main_question mb-5">
                                         Enter Quiz Name
                                 </h5>
-                                <input onChange={(e) => { setquizname(e.target.value)}} type="text" className="form-control" />
+                                <input onChange={(e) => { setquiz({ name: e.target.value })}} type="text" className="form-control" />
                                 </div>
-                            </div>
+                        </div>
+                        <div className="text-center text-danger">
+                            {quiz.message}
+                        </div>
                             <div id="bottom-wizard">
-                            <NavLink tag={Link} className="button"
-                                to={{
-                                    pathname: '/adminquiz',
-                                    state: { name: quizname },
-                            }}>
-                                <button className="button" type="button"><i className="icon-forward-2 text-success"/>Next</button>
-                            </NavLink>
+                                <NavLink tag={Link} className="button"
+                                    to={{
+                                        pathname: '/adminquiz',
+                                        state: { name: quiz.name },
+                                    }}
+                                    onClick={(e) => linkclicked(e)}>
+                                    <button className="button" type="button"><i className="icon-forward-2 text-success"/>Next</button>
+                                </NavLink>
                             </div>
                         </div>
                     </div>

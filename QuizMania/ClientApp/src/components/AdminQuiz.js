@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { useState, useEffect } from 'react';
 import { LoadAnswers, LoadQuestions, SaveQuiz } from './Services'
-
+ 
 let ddAnsSelected = React.createRef();
 let ddQuestionSelected = React.createRef();
 
@@ -109,7 +109,8 @@ const AddToQuiz = (props) => {
 
 const SaveCurrentQuiz = (props) => {
     
-    console.log(SaveQuiz(props));
+    console.log(SaveQuiz(props.location.state.name, props.questionanswers));
+    props.history.push('/adminquizlist')
 }
 
 const QuizQuestionAnswers = (props) => {
@@ -146,7 +147,7 @@ const AddButton = (props) => {
     return <div className="mt-2 text-center">
             {
                 props.questionanswers.length > 0 ?
-                    <button className="button" onClick={(e) => SaveCurrentQuiz(props.questionanswers)}>
+                <button className="button" onClick={(e) => SaveCurrentQuiz( props)}>
                         <i className="text-success icon-hdd" />
                         Save Quiz</button> : ""
             }
@@ -202,6 +203,6 @@ export const AdminQuiz = (props) => {
                 questionanswers={questionanswers}
                 {...props} />
             <QuizQuestionAnswers questionanswers={questionanswers} />
-            <AddButton questionanswers={questionanswers} />
+            <AddButton questionanswers={questionanswers}  {...props}/>
         </div>;
 }

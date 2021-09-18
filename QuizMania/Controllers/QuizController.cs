@@ -208,14 +208,17 @@ namespace QuizMania.Controllers
 
         [HttpPost]
         [Route("savequiz")]
-        public JsonVM SaveQuiz([FromBody] System.Text.Json.JsonElement questionanswers)
+        public JsonVM SaveQuiz([FromBody] System.Text.Json.JsonElement param)
         {
             JsonVM vm = new JsonVM();
             ViewModels.Quiz quiz = new ViewModels.Quiz();
-
+            
             try
             {
-                var list = questionanswers.GetProperty("questionanswers");
+                #region creating vm 
+                quiz.Name = param.GetProperty("quizname").ToString();
+
+                var list = param.GetProperty("questionanswers");
                 for (int i = 0; i < list.GetArrayLength(); i++)
                 {
                     var id = Int32.Parse(list[i].GetProperty("id").ToString());
@@ -240,18 +243,25 @@ namespace QuizMania.Controllers
                         Answers = ansList
                     });
                 }
-                //save quiz to db and send result back 
+                #endregion
+
+                #region save quiz to db 
                 using (QuizMasterContext context = new QuizMasterContext())
                 {
-                    context.QuizQuestionAnswer.RemoveRange(context.QuizQuestionAnswer.Where(a => a.QuizId == 1).ToList());
+                    var newquiz = new Quiz()
+                    {
+                        Name = quiz.Name
+                    };
+                    context.Quiz.Add(newquiz);
                     context.SaveChanges();
+                    
                     quiz.Questions.ForEach(q =>
                     {
                         q.Answers.ForEach(a =>
                         {
                             context.QuizQuestionAnswer.Add(new QuizQuestionAnswer()
                             {
-                                QuizId = 1,
+                                QuizId = newquiz.Id,
                                 QuestionId = q.QID,
                                 AnswerId = a.AID,
                                 IsCorrect = a.AnsweredCorrectly
@@ -260,6 +270,7 @@ namespace QuizMania.Controllers
                     });
                     context.SaveChanges();
                 }
+                #endregion 
             }
             catch (Exception exc)
             {
@@ -268,6 +279,18 @@ namespace QuizMania.Controllers
             }
             return vm;
         }
+
+        [Route("quizes")]
+        public List<Quiz> Quizes()
+        {
+            List<Quiz> vm = new List<Quiz>();
+            using (QuizMasterContext context = new QuizMasterContext())
+            {
+                vm.AddRange(context.Quiz.Select(q => new Quiz() { Id = q.Id, Name = q.Name }).ToList());
+            }
+            return vm;
+        }
+    
 
         public ViewModels.Quiz Get()
         {
@@ -320,5 +343,6 @@ namespace QuizMania.Controllers
 
             return vm;
         }
+       
     }
 }

@@ -13,6 +13,7 @@ import { AdminQuestionAnswer } from './components/AdminQuestionAnswer'
 import { AdminQuiz } from './components/AdminQuiz'
 import { AdminQuizStart } from './components/AdminQuizStart'
 import { AdminQuizCreated } from './components/AdminQuizCreated'
+import { AdminQuizList } from './components/AdminQuizList'
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 
@@ -78,6 +79,7 @@ export default class App extends Component {
                                             <AuthorizeRoute path='/quizstart' component={Quiz} />
                                             <AuthorizeRoute path='/adminquizstart' component={AdminQuizStart} />
                                             <AuthorizeRoute path='/adminquiz' component={AdminQuiz} />
+                                            <AuthorizeRoute path='/adminquizlist' component={AdminQuizList} />
                                             <AuthorizeRoute path='/adminquizcreated' component={AdminQuizCreated} />
                                             <AuthorizeRoute path='/adminquestiponanswer' component={AdminQuestionAnswer} />
                                             <AuthorizeRoute path='/fetch-data' component={FetchData} />
