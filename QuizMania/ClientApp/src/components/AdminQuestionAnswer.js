@@ -110,7 +110,7 @@ export const AdminQuestionAnswer = () => {
                                             <span ><span className="mr-2">A-{i + 1})</span>{q.name}</span>
                                             <div className="text-right">
                                                 <button onClick={() => updateeditquestion({ index: i, message: '' })}>
-                                                    <i class="icon-edit text-success"></i>
+                                                    <i className="icon-edit text-success"></i>
                                                     Edit</button>
                                             </div>
                                         </div>

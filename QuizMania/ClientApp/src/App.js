@@ -4,8 +4,6 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
-import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
-import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants';
 import { Quiz } from './components/Quiz'
 import { NavMenu } from './components/NavMenu'
@@ -13,7 +11,10 @@ import { ProgressBar } from 'react-bootstrap';
 import { DataLoaderService } from './components/DataLoaderService'
 import { AdminQuestionAnswer } from './components/AdminQuestionAnswer'
 import { AdminQuiz } from './components/AdminQuiz'
-//import { Button } from "@material-ui/core";
+import { AdminQuizStart } from './components/AdminQuizStart'
+import { AdminQuizCreated } from './components/AdminQuizCreated'
+import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
+import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 
 import './custom.css'
 
@@ -75,7 +76,9 @@ export default class App extends Component {
                                             <Route exact path='/' component={Home} />
                                             <Route path='/counter' component={Counter} />
                                             <AuthorizeRoute path='/quizstart' component={Quiz} />
+                                            <AuthorizeRoute path='/adminquizstart' component={AdminQuizStart} />
                                             <AuthorizeRoute path='/adminquiz' component={AdminQuiz} />
+                                            <AuthorizeRoute path='/adminquizcreated' component={AdminQuizCreated} />
                                             <AuthorizeRoute path='/adminquestiponanswer' component={AdminQuestionAnswer} />
                                             <AuthorizeRoute path='/fetch-data' component={FetchData} />
                                             <AuthorizeRoute path='/dataload' component={DataLoaderService} />

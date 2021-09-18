@@ -146,7 +146,12 @@ const AddButton = (props) => {
          </div>;
 }
 
-export const AdminQuiz = () => {
+const Header = (props) => {
+
+    return <div className="text-center mb-3"><h4>{props.location.state.name}</h4></div>;
+}
+
+export const AdminQuiz = (props) => {
 
     //question list
     const [questions, setquestions] = useState([]);
@@ -164,21 +169,22 @@ export const AdminQuiz = () => {
         LoadAnswers(setanswers);
     }, []);
 
-    return <div>
-            <AddQuestion questions={questions} />
-            <div className="quiz-answer-area">
-                <SelectAnswer answers={answers} selectedanswers={selectedanswers} setselectedanswers={setselectedanswers} />
-                <SelectedAnswers selectedanswers={selectedanswers} />
-            </div>
-            <AddToQuiz
-                setselectedanswers={setselectedanswers}
-                setselectedquestion={setselectedquestion}
-                selectedquestion={selectedquestion}
-                selectedanswers={selectedanswers}
-                questions={questions}
-                setquestionanswers={setquestionanswers}
-                questionanswers={questionanswers}  />
-                <QuizQuestionAnswers questionanswers={questionanswers} />
-                <AddButton questionanswers={questionanswers} />
-        </div>;
+    return  <div>
+                <Header {...props}/>
+                <AddQuestion questions={questions} />
+                    <div className="quiz-answer-area">
+                        <SelectAnswer answers={answers} selectedanswers={selectedanswers} setselectedanswers={setselectedanswers} />
+                        <SelectedAnswers selectedanswers={selectedanswers} />
+                    </div>
+                    <AddToQuiz
+                        setselectedanswers={setselectedanswers}
+                        setselectedquestion={setselectedquestion}
+                        selectedquestion={selectedquestion}
+                        selectedanswers={selectedanswers}
+                        questions={questions}
+                        setquestionanswers={setquestionanswers}
+                        questionanswers={questionanswers}  />
+                        <QuizQuestionAnswers questionanswers={questionanswers} />
+                        <AddButton questionanswers={questionanswers} />
+            </div>;
 }
