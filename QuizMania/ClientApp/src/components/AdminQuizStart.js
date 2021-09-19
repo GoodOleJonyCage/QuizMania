@@ -36,7 +36,7 @@ export const AdminQuizStart = () => {
                                 <NavLink tag={Link} className="button"
                                     to={{
                                         pathname: '/adminquiz',
-                                        state: { name: quiz.name },
+                                        state: { id: 0 , name: quiz.name },
                                     }}
                                     onClick={(e) => linkclicked(e)}>
                                     <button className="button" type="button"><i className="icon-forward-2 text-success"/>Next</button>

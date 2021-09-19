@@ -7,8 +7,18 @@ export const Quizes = (props) => {
     
     return <div className="text-center">
             {
-                props.list.map(i => {
-                    return <h5>{i.name}</h5>
+                props.list.map(q => {
+                    return <div className="questionitem">
+                                <h5>{q.name}</h5>
+                                <NavLink tag={Link} className="button"
+                                    to={{
+                                        pathname: '/adminquiz',
+                                        state: { id: q.id, name: q.name },
+                                    }}>
+                                    <button className="button" type="button"><i className="icon-forward-2 text-success" />Edit</button>
+                                </NavLink>
+                            </div>
+                    
                 })
             }
         </div>
@@ -23,11 +33,21 @@ export const AdminQuizList = () => {
     }, []);
 
     return <div>
-        <Quizes list={list} />
-        <NavLink tag={Link} className="button"
-            to={{
-                pathname: '/adminquizstart',
-            }}> Create New Quiz </NavLink>
-    </div>
+                <div className="text-center">
+                    <NavLink tag={Link} className="button"
+                        to={{
+                    pathname: '/adminquizstart',
+                    }}>
+                        <button className="button">Create New Quiz</button>
+                    </NavLink>
+                    <NavLink tag={Link} className="button"
+                        to={{
+                            pathname: '/adminquestiponanswer',
+                        }}>
+                        <button className="button">Questions and Answers</button>
+                    </NavLink>
+                </div>
+                <Quizes list={list} />
+            </div>
 
 }
