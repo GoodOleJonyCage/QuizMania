@@ -5,23 +5,23 @@ import { LoadQuizes } from './Services'
 
 export const Quizes = (props) => {
 
-    return <div className="item-row">
+    return <ul class="list_ok">
         {
             props.list.map(q => {
-                return <div className="questionitem" key={q.id}>
-                        <span>{q.name}</span>
-                        <NavLink tag={Link} className="button"
-                            to={{
-                                pathname: '/StartQuizPage',
-                                state: { id: q.id, name: q.name },
-                            }}>
-                            <button className="button" type="button"><i className="icon-forward-2 text-success" />Start Quiz</button>
-                        </NavLink>
-                </div>
 
+                return <li className="quizitem">
+                    <span>{q.name}</span>
+                    <NavLink tag={Link} className="button"
+                        to={{
+                            pathname: '/StartQuizPage',
+                            state: { id: q.id, name: q.name },
+                        }}>
+                        <button className="button" ><i className="icon-forward-2 text-success" />Start Quiz</button>
+                    </NavLink>
+                </li>
             })
         }
-    </div>
+    </ul>
 }
 
 export const QuizList = () => {
