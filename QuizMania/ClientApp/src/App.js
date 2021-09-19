@@ -83,7 +83,7 @@ export default class App extends Component {
                                             <AuthorizeRoute path='/startquizpage' component={StartQuizPage} />
                                             <AuthorizeRoute path='/endquizpage' component={EndQuizPage} />
                                             <AuthorizeRoute path='/quizlist' component={QuizList} />
-                                            <AuthorizeRoute path='/quizstart' component={Quiz} />
+                                            <AuthorizeRoute path='/quiz' component={Quiz} />
                                             <AuthorizeRoute path='/adminquizstart' component={AdminQuizStart} />
                                             <AuthorizeRoute path='/adminquiz' component={AdminQuiz} />
                                             <AuthorizeRoute path='/adminquizlist' component={AdminQuizList} />

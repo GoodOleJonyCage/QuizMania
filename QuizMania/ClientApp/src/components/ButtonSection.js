@@ -3,8 +3,11 @@
 export const ButtonSection = (props) => {
     return props.QuestionIndex == props.QuestionLength ? "" :
         <div id="bottom-wizard" >
-            <button onClick={() => { props.moveToPreviousQuestion() }}
-                type="button" name="backward" className="backward">Back </button>
+            {
+                props.QuestionIndex == 0 ? "" :
+                    <button onClick={() => { props.moveToPreviousQuestion() }}
+                        type="button" name="backward" className="backward">Back </button>
+            }
             {
                 props.QuestionIndex + 1 == props.QuestionLength ?
                     <button

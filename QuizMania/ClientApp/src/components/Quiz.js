@@ -3,16 +3,16 @@ import { LoadQuiz } from './Services'
 import { submitQuizService } from './Services'
 import { QuestionContainer } from './QuestionContainer'
 
-export const Quiz = () => {
+export const Quiz = (props) => {
 
-    const [quiz, updatequizObj] = useState({ QuizNumber: 0, Name: '' });
+    const [quiz, updatequizObj] = useState({ id: 0, name: '' });
     const [questions, updatequiz] = useState([]);
     const [currentquestionindex, setcurrentquestionindex] = useState(0);
 
     useEffect(() => {
-        updatequizObj({ QuizNumber: 11, Name: 'History of Mankind' });
-        LoadQuiz(updatequiz);
-        
+         
+        updatequizObj({ id: props.location.state.id, name: props.location.state.name});
+        LoadQuiz(props.location.state.id, updatequiz);
     }, []);
 
 

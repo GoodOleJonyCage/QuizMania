@@ -27,7 +27,6 @@ namespace QuizMania.Controllers
             }
         }
 
-       
         [Route("editquestion")]
         public JsonVM EditQuestion([FromBody] System.Text.Json.JsonElement obj)
         {
@@ -60,7 +59,6 @@ namespace QuizMania.Controllers
             }
             return vm;
         }
-
 
         [Route("editanswer")]
         public JsonVM EditAnswer([FromBody] System.Text.Json.JsonElement obj)
@@ -291,16 +289,14 @@ namespace QuizMania.Controllers
             return vm;
         }
     
-
-        public ViewModels.Quiz Get()
+        public ViewModels.Quiz Get([FromBody] System.Text.Json.JsonElement param)
         {
             ViewModels.Quiz vm = new ViewModels.Quiz();
-
+            vm.ID =  Int32.Parse(param.GetProperty("quizid").ToString());
             using (QuizMasterContext context = new QuizMasterContext())
             {
-
                 vm = (from q in context.Quiz
-                      where q.Id == 1
+                      where q.Id == vm.ID
                       select new ViewModels.Quiz()
                       {
                           ID = q.Id,
@@ -326,7 +322,8 @@ namespace QuizMania.Controllers
                                  join qz in context.Quiz on qqa.QuizId equals qz.Id
                                  join a in context.Answer on qqa.AnswerId equals a.Id
                                  where
-                                 qqa.QuestionId == q.QID
+                                 qqa.QuestionId == q.QID &&
+                                 qz.Id == vm.ID
                                  select new ViewModels.Answer()
                                  {
                                      AID = a.Id,

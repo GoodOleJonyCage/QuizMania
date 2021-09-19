@@ -2,15 +2,17 @@
 import axios from 'axios';
 import { Question } from "./Question";
 
-export const LoadQuiz = (func) => {
+export const LoadQuiz = (quizid, func) => {
 
+    console.log(quizid);
     let Questions = [];
-
     fetch(`quiz`, {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
-        }
+        },
+        method: 'POST',
+        body: JSON.stringify({ quizid : quizid }),
     })
         .then((response) => response.json())
         .then((data) => {

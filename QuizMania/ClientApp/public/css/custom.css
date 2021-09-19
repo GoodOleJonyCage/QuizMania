@@ -131,3 +131,7 @@ label.labelflex {
 .hidden_class{
     display:block;
 }
+
+.marginbottom100{
+    margin-bottom:200px;
+}

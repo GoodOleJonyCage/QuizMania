@@ -9,7 +9,7 @@ export const Quizes = (props) => {
             {
                 props.list.map(q => {
                     return <div className="questionitem">
-                                <h5>{q.name}</h5>
+                                <span>{q.name}</span>
                                 <NavLink tag={Link} className="button"
                                     to={{
                                         pathname: '/adminquiz',
