@@ -1,6 +1,8 @@
 ﻿import React, { Component, useState, useEffect } from 'react';
+import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
-export const Notifications = (props) => {
+export const EndQuizPage = (props) => {
 
     const [classs, setclasss] = useState(true);
 
@@ -41,6 +43,15 @@ export const Notifications = (props) => {
                     </div>
                 </div>
             </div>
+            <NavLink tag={Link} className="button"
+                to={{
+                    pathname: '/quizstart',
+                    //state: { id: 0, name: quiz.name },
+                }}
+            /*onClick={(e) => linkclicked(e)}*/
+            >
+                <button className="button" type="button"><i className="icon-forward-2 text-success" />Start Quiz</button>
+            </NavLink>
         </div>
     );
 }

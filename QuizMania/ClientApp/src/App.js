@@ -14,7 +14,10 @@ import { AdminQuiz } from './components/AdminQuiz'
 import { AdminQuizStart } from './components/AdminQuizStart'
 import { AdminQuizCreated } from './components/AdminQuizCreated'
 import { AdminQuizList } from './components/AdminQuizList'
-import { Notifications } from './components/Notifications'
+import { StartQuizPage } from './components/StartQuizPage'
+import { EndQuizPage } from './components/EndQuizPage'
+import { QuizList } from './components/QuizList'
+
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 
@@ -77,7 +80,9 @@ export default class App extends Component {
                                         <Layout>
                                             <Route exact path='/' component={Home} />
                                             <Route path='/counter' component={Counter} />
-                                            <Route path='/notifications' component={Notifications} />
+                                            <AuthorizeRoute path='/startquizpage' component={StartQuizPage} />
+                                            <AuthorizeRoute path='/endquizpage' component={EndQuizPage} />
+                                            <AuthorizeRoute path='/quizlist' component={QuizList} />
                                             <AuthorizeRoute path='/quizstart' component={Quiz} />
                                             <AuthorizeRoute path='/adminquizstart' component={AdminQuizStart} />
                                             <AuthorizeRoute path='/adminquiz' component={AdminQuiz} />
