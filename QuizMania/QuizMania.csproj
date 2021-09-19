@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\public\Notifications\" />
     <Folder Include="Database\" />
   </ItemGroup>
 

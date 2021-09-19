@@ -126,4 +126,8 @@ label.labelflex {
 .quiz-answer-area{
     border: solid 1px lightgray;
     padding:10px;
-} 
+}
+
+.hidden_class{
+    display:block;
+}
