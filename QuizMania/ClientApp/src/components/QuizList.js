@@ -5,16 +5,16 @@ import { LoadQuizes } from './Services'
 
 export const Quizes = (props) => {
 
-    return <ul class="list_ok">
+    return <ul className="list_ok">
         {
             props.list.map(q => {
 
-                return <li className="quizitem">
+                return <li className="quizitem" key={q.id}>
                     <span>{q.name}</span>
                     <NavLink tag={Link} className="button"
                         to={{
-                            pathname: '/StartQuizPage',
-                            state: { id: q.id, name: q.name },
+                            pathname: '/startquizpage',
+                            state: { id: q.id, name: q.name  },
                         }}>
                         <button className="button" ><i className="icon-forward-2 text-success" />Start Quiz</button>
                     </NavLink>
@@ -24,16 +24,16 @@ export const Quizes = (props) => {
     </ul>
 }
 
-export const QuizList = () => {
+export const QuizList = (props) => {
 
     const [list, setlist] = useState([]);
-
     useEffect(() => {
         LoadQuizes(setlist);
+        props.updatetext('QuizList');
     }, []);
-
+    //LoadQuizes(setlist);
     return <div>
-        <Quizes list={list} />
+        <Quizes list={list} {...props}  />
     </div>
 
 }

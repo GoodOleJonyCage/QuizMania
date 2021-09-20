@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState} from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
@@ -30,12 +30,14 @@ const Logo = () => {
     </div>;
 }
 
-const Aside = () => {
+const Aside = (props) => {
+
+    //const [title , settitle] = useState('');
 
     return <aside className="col-xl-3 col-lg-4">
-        {/*<h2>{props.quiz.Name}</h2>*/}
+        {/*<h2>{props.text}</h2>*/}
         {/*<p className="lead">Quiz # {props.quiz.QuizNumber}</p>*/}
-        <h2>History of Mankind</h2>
+        <h2>{props.text}</h2>
         <p className="lead">Quiz # 23</p>
         <ul className="list_ok">
             <li>Please select at least one correct answer.</li>
@@ -58,60 +60,52 @@ const Header = () => {
     </header>;
 }
 
-export default class App extends Component {
 
-    static displayName = App.name;
-  
-    render() {
-        return (
-            <div>
-                <div id="loader_form">
-                    <div data-loader="circle-side-2" />
-                </div>
-                <div id="main_container" className="visible">
-                    <Logo />
-                    <div className="wrapper_in">
-                        <div className="container-fluid">
-                            <div className="tab-content">
-                                <div className="tab-pane fade show active" >
-                                    <div className="subheader" id="quote" />
-                                    <div className="row">
-                                        <Aside />
-                                        <Layout>
-                                            <Route exact path='/' component={Home} />
-                                            <Route path='/counter' component={Counter} />
-                                            <AuthorizeRoute path='/startquizpage' component={StartQuizPage} />
-                                            <AuthorizeRoute path='/endquizpage' component={EndQuizPage} />
-                                            <AuthorizeRoute path='/quizlist' component={QuizList} />
-                                            <AuthorizeRoute path='/quiz' component={Quiz} />
-                                            <AuthorizeRoute path='/adminquizstart' component={AdminQuizStart} />
-                                            <AuthorizeRoute path='/adminquiz' component={AdminQuiz} />
-                                            <AuthorizeRoute path='/adminquizlist' component={AdminQuizList} />
-                                            <AuthorizeRoute path='/adminquizcreated' component={AdminQuizCreated} />
-                                            <AuthorizeRoute path='/adminquestiponanswer' component={AdminQuestionAnswer} />
-                                            <AuthorizeRoute path='/fetch-data' component={FetchData} />
-                                            <AuthorizeRoute path='/dataload' component={DataLoaderService} />
-                                            <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
-                                        </Layout>
-                                    </div>
+function App() {
+
+    const [text, settext] = useState('');
+    const updatetext = (newVal) => {
+        settext(newVal);
+    }
+
+    return (
+        <div>
+            <div id="loader_form">
+                <div data-loader="circle-side-2" />
+            </div>
+            <div id="main_container" className="visible">
+                <Logo />
+                <div className="wrapper_in">
+                    <div className="container-fluid">
+                        <div className="tab-content">
+                            <div className="tab-pane fade show active" >
+                                <div className="subheader" id="quote" />
+                                <div className="row">
+                                    <Aside text={text} />
+                                    <Layout>
+                                        <Route exact path='/'                   component={(e) => <Home  {...e} updatetext={updatetext}  />} />
+                                        <Route path='/counter'                  component={(e) => <Counter  {...e} updatetext={updatetext} />} />
+                                        <AuthorizeRoute path='/startquizpage'   component={(e) => <StartQuizPage {...e} updatetext={updatetext} />} />
+                                        <AuthorizeRoute path='/quizlist'        component={(e) => <QuizList {...e} updatetext={updatetext} />} />
+                                        <AuthorizeRoute path='/endquizpage'     component={(e) => <EndQuizPage updatetext={updatetext}   />}  />
+                                        <AuthorizeRoute path='/quiz'            component={(e) => <Quiz {...e} updatetext={updatetext} />} />
+                                        <AuthorizeRoute path='/adminquizstart'  component={(e) => <AdminQuizStart {...e} updatetext={updatetext}   />}   />
+                                        <AuthorizeRoute path='/adminquiz'       component={(e) => <AdminQuiz  {...e} updatetext={updatetext}   />}   />
+                                        <AuthorizeRoute path='/adminquizlist'   component={(e) => <AdminQuizList  {...e}  updatetext={updatetext}  />}  />
+                                        <AuthorizeRoute path='/adminquizcreated' component={(e) => <AdminQuizCreated  {...e} updatetext={updatetext}  />}    />
+                                        <AuthorizeRoute path='/adminquestiponanswer' component={(e) => <AdminQuestionAnswer  {...e} updatetext={updatetext}   />}    />
+                                        <AuthorizeRoute path='/fetch-data'      component={FetchData} />
+                                        <AuthorizeRoute path='/dataload'        component={DataLoaderService} />
+                                        <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
+                                        
+                                    </Layout>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
-
-//function App() {
-//    return (
-//        <div className="App">
-//            <Button>
-//                Disabled
-//            </Button>
-
-//        </div>
-//    );
-//}
-//export default App;
+export default App;

@@ -6,7 +6,8 @@ export class Counter extends Component {
   constructor(props) {
     super(props);
     this.state = { currentCount: 0 };
-    this.incrementCounter = this.incrementCounter.bind(this);
+      this.incrementCounter = this.incrementCounter.bind(this);
+      props.updatetext("counter");
   }
 
   incrementCounter() {
@@ -18,7 +19,7 @@ export class Counter extends Component {
   render() {
     return (
       <div>
-        <h1>Counter</h1>
+            <h1>Counter</h1>
 
         <p>This is a simple example of a React component.</p>
 

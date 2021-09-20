@@ -13,6 +13,7 @@ export const Quiz = (props) => {
          
         updatequizObj({ id: props.location.state.id, name: props.location.state.name});
         LoadQuiz(props.location.state.id, updatequiz);
+        props.updatetext('q started');
     }, []);
 
 

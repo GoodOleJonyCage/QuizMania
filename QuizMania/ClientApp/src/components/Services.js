@@ -3,8 +3,6 @@ import axios from 'axios';
 import { Question } from "./Question";
 
 export const LoadQuiz = (quizid, func) => {
-
-    console.log(quizid);
     let Questions = [];
     fetch(`quiz`, {
         headers: {
