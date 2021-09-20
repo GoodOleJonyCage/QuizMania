@@ -22,7 +22,7 @@ namespace QuizMania.Controllers
         {
             using (QuizMasterContext context = new QuizMasterContext())
             {
-                context.QuizQuestionAnswered.RemoveRange(context.QuizQuestionAnswered.Where(a => a.UserId == 1 && a.QuizId == 1).ToList());
+                context.QuizQuestionAnswered.RemoveRange(context.QuizQuestionAnswered.Where(a => a.UserId == 1 && a.QuizId == QuizId).ToList());
                 context.SaveChanges();
             }
         }
@@ -180,27 +180,33 @@ namespace QuizMania.Controllers
         [Route("submitquiz")]
         public ViewModels.Quiz SubmitQuiz([FromBody] System.Text.Json.JsonElement questions)
         {
-            ResetQuizForUser(1,1);
-           
             ViewModels.Quiz vm  = new ViewModels.Quiz();
-            var questionlist    = questions.GetProperty("questionlist");
+            vm.ID               = Int32.Parse(questions.GetProperty("quizid").ToString());
+            var questionlist = questions.GetProperty("questionlist");
+            
+            ResetQuizForUser(1, vm.ID);
+            
             vm.Questions        = JsonConvert.DeserializeObject<List<ViewModels.Question>>(questionlist.ToString());
             vm.Questions.ForEach(q =>
             {
                 using (QuizMasterContext context = new QuizMasterContext())
                 {
-                    context.QuizQuestionAnswered.Add(new QuizQuestionAnswered()
+                    q.Answers.ForEach(a =>
                     {
-                        UserId      = 1,
-                        QuizId      = 1,
-                        QuestionId  = q.QID,
-                        IsCorrect   = q.Answers.Where( a => a.Selected && a.AnsweredCorrectly ).SingleOrDefault() != null 
+                        context.QuizQuestionAnswered.Add(new QuizQuestionAnswered()
+                        {
+                            UserId = 1,
+                            QuizId = vm.ID,
+                            QuestionId = q.QID,
+                            AnswerId = a.AID,
+                            Selected = a.Selected,
+                            IsCorrect = a.Selected && a.AnsweredCorrectly
+                        });
                     });
-
                     context.SaveChanges();
                 }
             });
-            
+
             return vm;
         }
 

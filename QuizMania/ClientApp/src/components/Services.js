@@ -31,11 +31,14 @@ export const LoadQuiz = (quizid, func) => {
         });
 }
 
-export const submitQuizService = (questionlist) => {
+export const saveAndSubmitQuiz = (quizid,questionlist) => {
 
     fetch('quiz/submitquiz', {
         method: 'POST',
-        body: JSON.stringify({ questionlist }),
+        body: JSON.stringify({
+            quizid: quizid,
+            questionlist: questionlist
+        }),
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'

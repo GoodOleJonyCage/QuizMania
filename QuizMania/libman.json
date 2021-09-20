@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "material-ui@4.12.3",
+      "destination": "wwwroot/lib/material-ui/"
+    }
+  ]
+}

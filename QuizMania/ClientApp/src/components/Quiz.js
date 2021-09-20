@@ -1,6 +1,6 @@
 ﻿import React, { Component, useState, useEffect } from 'react';
 import { LoadQuiz } from './Services'
-import { submitQuizService } from './Services'
+import { saveAndSubmitQuiz } from './Services'
 import { QuestionContainer } from './QuestionContainer'
 
 export const Quiz = (props) => {
@@ -44,7 +44,7 @@ export const Quiz = (props) => {
     const submitQuiz  = () => {
 
         moveToNextQuestion();
-        submitQuizService(questions);
+        saveAndSubmitQuiz(quiz.id,questions);
         
     }
 
