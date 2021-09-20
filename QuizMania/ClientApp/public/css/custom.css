@@ -145,4 +145,7 @@ label.labelflex {
     max-width: 100%;
     height: auto;
 }
- 
+.box_feat h3 {
+    color: dimgrey ;
+    padding-top:10px;
+}

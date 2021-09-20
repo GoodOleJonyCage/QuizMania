@@ -26,7 +26,7 @@ export const StartQuizPage = (props) => {
                         </div>
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="noti-layout-three__para-wrap">
-                                <p>{props.location.state.name}</p>
+                                <h3><b>{props.location.state.name}</b></h3>
                             </div>
                         </div>
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
