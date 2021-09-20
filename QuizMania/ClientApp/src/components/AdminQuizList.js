@@ -5,7 +5,7 @@ import { LoadQuizes } from './Services'
 
 export const Quizes = (props) => {
     
-    return <div className="text-center">
+    return <div className="textcenter">
             {
                 props.list.map(q => {
                     return <div className="questionitem">

@@ -5,12 +5,12 @@ import { LoadQuizes } from './Services'
 
 export const Quizes = (props) => {
 
-    return <ul className="list_ok">
+    return <ul className="list_ok textcenter p-4">
         {
             props.list.map(q => {
 
-                return <li className="quizitem" key={q.id}>
-                    <span>{q.name}</span>
+                return <li className="quizitem  " key={q.id}>
+                    <h5>{q.name}</h5>
                     <NavLink tag={Link} className="button"
                         to={{
                             pathname: '/startquizpage',

@@ -94,7 +94,7 @@ label.labelflex {
 .textcenter {
     text-align:center;
     padding:10px;
-    border:solid 1px gray;
+    border:solid 1px lightgray;
 }
 .questionitem{
     display:flex;
@@ -139,3 +139,10 @@ label.labelflex {
 .marginbottom100{
     margin-bottom:200px;
 }
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+ 

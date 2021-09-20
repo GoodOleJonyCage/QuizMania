@@ -1,13 +1,14 @@
 ﻿import React, { Component } from 'react';
 import { Question } from './Question';
 import { ButtonSection } from './ButtonSection'
+
 export const EOFQuiz = (props) => {
 
     return <div>
-            <div className="text-center mt-4">
-                <div className="displayflex">
-                <span className="pe-7s-alarm font-size-40 mr-2"></span><h4>You have completed the Quiz</h4>
-                </div>
+                <div className="text-center mt-4">
+                     <div className="displayflex">
+                        <span className="pe-7s-alarm font-size-40 mr-2"></span><h4>You have completed the Quiz</h4>
+                     </div>
                 <h4>Your score is <span className="score-label">{props.calculateScore()}%</span></h4>
                 </div>
                 {

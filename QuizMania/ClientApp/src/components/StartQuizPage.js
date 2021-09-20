@@ -6,38 +6,100 @@ export const StartQuizPage = (props) => {
     //load total questions 
     const [classs, setclasss] = useState(true);
     return (
-        <div >
-            {/*<button className="button" onClick={(e) => { setclasss(true) }}>Show</button>*/}
-            <div className={`mb-5 noti-section-one noti-design-seventeen ${classs ? 'fadeInLeft' : 'fadeOutLeft'} animated`}>
-                <div className="noti-layout-nine">
-                    <div className="noti-layout-nine__wrapper">
-                        <div className="row">
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <h3 className="noti-layout-nine__heading">{props.location.state.name}</h3>
-                                <button type="button" className="noti-layout-nine__close close-one" onClick={(e) => { setclasss(false) }} />
+            <div className={`noti-section-one noti-design-one ${classs ? 'fadeInLeft' : 'fadeOutLeft'} animated`}>
+            <div className="noti-layout-three">
+                <div className="noti-layout-three__wrapper">
+                    <div className="row">
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div className="noti-layout-three__logo-wrap">
+                                <img
+                                    src="./Notifications/assets/images/butterfly.png"
+
+                                    className="img-responsive noti-layout-three__sticker-image "
+                                />
+                                <img
+                                    src="./Notifications/assets/images/index1.png"
+
+                                    className="img-responsive noti-layout-three__logo"
+                                />
                             </div>
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div className="noti-layout-nine__content-wrap">
-                                    <div className="noti-layout-nine__img-wrap">
-                                        <img src="./Notifications/assets/images/congrats.png" />
-                                    </div>
-                                    <p className="noti-layout-nine__paragraph">
-                                        BEST OF LUCK!
-                                    </p>
-                                    <NavLink tag={Link} className="button"
-                                        to={{
-                                            pathname: '/quiz',
-                                            state: { id: props.location.state.id, name: props.location.state.name }
-                                        }}
-                                        /*onClick={(e) => linkclicked(e)}*/ >
-                                        <button className="noti-layout-nine__continue"  ><i className="icon-forward-2 text-success" />Start Quiz</button>
-                                    </NavLink>
-                                </div>
+                        </div>
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div className="noti-layout-three__para-wrap">
+                                <p>{props.location.state.name}</p>
+                            </div>
+                        </div>
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div className="noti-layout-three__check-in-button">
+                                <NavLink tag={Link} className="button"
+                                    to={{
+                                        pathname: '/quiz',
+                                        state: { id: props.location.state.id, name: props.location.state.name }
+                                    }}>
+                                    <button type="button" className="noti-layout-three__check-in" onClick={(e) => { setclasss(false) }} >
+                                        Start Quiz
+                                    </button>
+                                </NavLink>
+
+                            </div>
+                        </div>
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div className="noti-layout-three__button-wrap">
+                                <a href="#" className="anchor-btn close-one">
+                                    Best of Luck !
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    );
+            );
 }
+
+//const EOQ_Notification = () => {
+
+//    return (
+//        <div className="noti-section-one noti-design-one fadeInLeft animated">
+//            <div className="noti-layout-three">
+//                <div className="noti-layout-three__wrapper">
+//                    <div className="row">
+//                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+//                            <div className="noti-layout-three__logo-wrap">
+//                                <img
+//                                    src="./Notifications/assets/images/butterfly.png"
+//                                    className="img-responsive noti-layout-three__sticker-image "
+//                                />
+//                                <img
+//                                    src="./Notifications/assets/images/index1.png"
+//                                    className="img-responsive noti-layout-three__logo"
+//                                />
+//                            </div>
+//                        </div>
+//                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+//                            <div className="noti-layout-three__para-wrap">
+//                                <p>Quiz</p>
+//                            </div>
+//                        </div>
+//                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+//                            <div className="noti-layout-three__check-in-button">
+//                                <a className="button nav-link" href="/quiz">
+//                                    <button type="button" className="noti-layout-three__check-in">
+//                                        Start Quiz
+//                                    </button>
+//                                </a>
+//                            </div>
+//                        </div>
+//                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+//                            <div className="noti-layout-three__button-wrap">
+//                                <a href="#" className="anchor-btn close-one">
+//                                    Best of Luck !
+//                                </a>
+//                            </div>
+//                        </div>
+//                    </div>
+//                </div>
+//            </div>
+//        </div>
+//    );
+//}
