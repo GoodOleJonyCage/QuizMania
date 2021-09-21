@@ -8,7 +8,7 @@ export const Quiz = (props) => {
     const [quiz, updatequizObj] = useState({ id: 0, name: '' });
     const [questions, updatequiz] = useState([]);
     const [currentquestionindex, setcurrentquestionindex] = useState(0);
-
+     
     useEffect(() => {
          
         updatequizObj({ id: props.location.state.id, name: props.location.state.name});

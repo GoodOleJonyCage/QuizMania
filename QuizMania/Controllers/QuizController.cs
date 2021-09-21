@@ -285,12 +285,32 @@ namespace QuizMania.Controllers
         }
 
         [Route("quizes")]
-        public List<Quiz> Quizes()
+        public List<ViewModels.Quiz> Quizes()
         {
-            List<Quiz> vm = new List<Quiz>();
+            List<ViewModels.Quiz> vm = new List<ViewModels.Quiz>();
             using (QuizMasterContext context = new QuizMasterContext())
             {
-                vm.AddRange(context.Quiz.Select(q => new Quiz() { Id = q.Id, Name = q.Name }).ToList());
+                vm.AddRange(context.Quiz.Select(q => new ViewModels.Quiz()
+                {
+                    ID = q.Id,
+                    Name = q.Name,
+                    Questions = (from qt in context.Question
+                                 join qa in context.QuizQuestionAnswer
+                                 on qt.Id equals qa.QuestionId 
+                                 where qa.QuizId == q.Id
+                                 select new ViewModels.Question()
+                                 {
+                                     QID = qt.Id,
+                                     Answers = (from a in context.Answer
+                                                join qa in context.QuizQuestionAnswer
+                                                on a.Id equals qa.AnswerId
+                                                where qa.QuizId == q.Id
+                                                select new ViewModels.Answer()
+                                                {
+                                                   AID = a.Id
+                                                }).ToList()
+                                 }).ToList()
+                }).ToList());
             }
             return vm;
         }

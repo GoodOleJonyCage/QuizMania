@@ -26,7 +26,6 @@ export const LoadQuiz = (quizid, func) => {
                 }
                 Questions.push(question);
             }
-            // console.log(Questions);
             func(Questions);
         });
 }
