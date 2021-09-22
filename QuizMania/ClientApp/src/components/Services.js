@@ -2,6 +2,36 @@
 import axios from 'axios';
 import { Question } from "./Question";
 
+export const LoadQuizToEdit = (quizid, setquestionanswers) => {
+
+    if (quizid > 0) {
+        let questions = [];
+        fetch(`quiz`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({ quizid: quizid }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                for (var i = 0; i < data.questions.length; i++) {
+                    let question = { id: data.questions[i].qid, name: data.questions[i].name, answers: [] };
+                    for (var j = 0; j < data.questions[i].answers.length; j++) {
+                        question.answers.push({
+                            id: data.questions[i].answers[j].aid,
+                            name: data.questions[i].answers[j].name,
+                            iscorrect: data.questions[i].answers[j].answeredCorrectly
+                        });
+                    }
+                    questions.push(question);
+                }
+                setquestionanswers(questions);
+            });
+    }
+}
+
 export const LoadQuiz = (quizid, func) => {
     let Questions = [];
     fetch(`quiz`, {
@@ -167,11 +197,12 @@ export async function EditQuestion(id, name) {
         });
 }
 
-export async function SaveQuiz(name, questionanswers) {
+export async function SaveQuiz(id, name, questionanswers) {
 
     return await fetch(`quiz/savequiz`, {
         method: 'POST',
         body: JSON.stringify({
+            id: id,
             quizname: name,
             questionanswers: questionanswers
         }),

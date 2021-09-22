@@ -220,6 +220,7 @@ namespace QuizMania.Controllers
             try
             {
                 #region creating vm 
+                quiz.ID = Int32.Parse(param.GetProperty("id").ToString());
                 quiz.Name = param.GetProperty("quizname").ToString();
 
                 var list = param.GetProperty("questionanswers");
@@ -252,12 +253,20 @@ namespace QuizMania.Controllers
                 #region save quiz to db 
                 using (QuizMasterContext context = new QuizMasterContext())
                 {
-                    var newquiz = new Quiz()
+                    var newquiz = new Quiz();
+                    if (quiz.ID == 0)
                     {
-                        Name = quiz.Name
-                    };
-                    context.Quiz.Add(newquiz);
-                    context.SaveChanges();
+                        newquiz.Name = quiz.Name;
+                        context.Quiz.Add(newquiz);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        newquiz.Id = quiz.ID;
+                        var lstToRemove = context.QuizQuestionAnswer.Where(x => x.QuizId == newquiz.Id).ToList();
+                        context.QuizQuestionAnswer.RemoveRange(lstToRemove);
+                        context.SaveChanges();
+                    }
                     
                     quiz.Questions.ForEach(q =>
                     {
@@ -290,31 +299,38 @@ namespace QuizMania.Controllers
             List<ViewModels.Quiz> vm = new List<ViewModels.Quiz>();
             using (QuizMasterContext context = new QuizMasterContext())
             {
-                vm.AddRange(context.Quiz.Select(q => new ViewModels.Quiz()
+                context.Quiz.ToList().ForEach(q =>
                 {
-                    ID = q.Id,
-                    Name = q.Name,
-                    Questions = (from qt in context.Question
-                                 join qa in context.QuizQuestionAnswer
-                                 on qt.Id equals qa.QuestionId 
-                                 where qa.QuizId == q.Id
-                                 select new ViewModels.Question()
-                                 {
-                                     QID = qt.Id,
-                                     Answers = (from a in context.Answer
-                                                join qa in context.QuizQuestionAnswer
-                                                on a.Id equals qa.AnswerId
-                                                where qa.QuizId == q.Id
-                                                select new ViewModels.Answer()
-                                                {
-                                                   AID = a.Id
-                                                }).ToList()
-                                 }).ToList()
-                }).ToList());
+                    var quizQuestions = (from qt in context.Question
+                                         join qa in context.QuizQuestionAnswer
+                                          on qt.Id equals qa.QuestionId
+                                         where qa.QuizId == q.Id
+                                         select new ViewModels.Question
+                                         {
+                                             QID = qt.Id,
+                                             Answers = (from a in context.Answer
+                                                        join qa in context.QuizQuestionAnswer
+                                                        on a.Id equals qa.AnswerId
+                                                        where qa.QuizId == q.Id && qa.QuestionId == qt.Id
+                                                        select new ViewModels.Answer { AID = a.Id })
+                                                        .Distinct()
+                                                        .ToList()
+                                         })
+                                         .Distinct()
+                                         .ToList();
+
+
+                    vm.Add(new ViewModels.Quiz()
+                    {
+                        ID = q.Id,
+                        Name = q.Name,
+                        Questions = quizQuestions
+                    });
+                });
             }
             return vm;
         }
-    
+
         public ViewModels.Quiz Get([FromBody] System.Text.Json.JsonElement param)
         {
             ViewModels.Quiz vm = new ViewModels.Quiz();

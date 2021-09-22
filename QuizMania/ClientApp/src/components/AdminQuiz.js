@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { useState, useEffect } from 'react';
-import { LoadAnswers, LoadQuestions, SaveQuiz } from './Services'
+import { LoadAnswers, LoadQuestions, SaveQuiz, LoadQuizToEdit } from './Services'
  
 let ddAnsSelected = React.createRef();
 let ddQuestionSelected = React.createRef();
@@ -108,8 +108,7 @@ const AddToQuiz = (props) => {
 }
 
 const SaveCurrentQuiz = (props) => {
-    
-    console.log(SaveQuiz(props.location.state.name, props.questionanswers));
+    console.log(SaveQuiz(props.location.state.id,props.location.state.name, props.questionanswers));
     props.history.push('/adminquizlist')
 }
 
@@ -164,6 +163,8 @@ const Message = (props) => {
     return <div className="text-center text-danger mt-3">{props.message}</div>;
 }
 
+
+
 export const AdminQuiz = (props) => {
 
     //question list
@@ -182,8 +183,14 @@ export const AdminQuiz = (props) => {
     useEffect(() => {
         LoadQuestions(setquestions);
         LoadAnswers(setanswers);
+
+        let quizid = props.location.state.id;
+        if (quizid > 0) {
+            LoadQuizToEdit(quizid, setquestionanswers);
+        }
+
     }, []);
-     
+    
     return <div>
             <Header {...props} />
             <AddQuestion questions={questions} />
