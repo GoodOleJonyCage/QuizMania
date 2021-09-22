@@ -149,3 +149,9 @@ label.labelflex {
     color: dimgrey ;
     padding-top:10px;
 }
+
+.editquestionitem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

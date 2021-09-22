@@ -112,6 +112,11 @@ const SaveCurrentQuiz = (props) => {
     props.history.push('/adminquizlist')
 }
 
+const QuestionAnswerRemoved = () => {
+
+    console.log('here');
+}
+
 const QuizQuestionAnswers = (props) => {
 
     return <div className="text-center">
@@ -119,11 +124,16 @@ const QuizQuestionAnswers = (props) => {
             props.questionanswers.map((q, i) => {
                 return (
                     <div key={i} className="mt-3">
-                        <div className="quizansweritem" >
-                            <span className="mr-2">Q-{i + 1})</span>
-                            <span key={q.id} className="labelflex">
+                        <div key={i}  className="editquestionitem" >
+                            <div key={i} >
+                                <span className="mr-2">Q-{i + 1})</span>
+                                <span key={q.id} className="labelflex">
                                 {q.name}
-                            </span>
+                                </span>
+                            </div>
+                            <a href="#" onClick={QuestionAnswerRemoved}>
+                                <i className="icon-cancel-circle-2 color-red" />
+                            </a>
                         </div>
                         {
                             q.answers.map((a, ai) => {
