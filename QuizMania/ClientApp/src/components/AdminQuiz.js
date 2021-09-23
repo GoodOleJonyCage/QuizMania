@@ -112,9 +112,10 @@ const SaveCurrentQuiz = (props) => {
     props.history.push('/adminquizlist')
 }
 
-const QuestionAnswerRemoved = () => {
+const QuestionAnswerRemoved = (props,questionasnwer) => {
 
-    console.log('here');
+    var newquestionanswers = props.questionanswers.filter(x => x.id != questionasnwer.id);
+    props.setquestionanswers(newquestionanswers);
 }
 
 const QuizQuestionAnswers = (props) => {
@@ -131,7 +132,7 @@ const QuizQuestionAnswers = (props) => {
                                 {q.name}
                                 </span>
                             </div>
-                            <a href="#" onClick={QuestionAnswerRemoved}>
+                            <a  onClick={(e) => { QuestionAnswerRemoved(props, q) }}>
                                 <i className="icon-cancel-circle-2 color-red" />
                             </a>
                         </div>
@@ -219,7 +220,7 @@ export const AdminQuiz = (props) => {
                 setquestionanswers={setquestionanswers}
                 questionanswers={questionanswers}
                 {...props} />
-            <QuizQuestionAnswers questionanswers={questionanswers} />
+        <QuizQuestionAnswers setquestionanswers={setquestionanswers} questionanswers={questionanswers} />
             <AddButton questionanswers={questionanswers}  {...props}/>
         </div>;
 }

@@ -14,18 +14,27 @@ const GetAnswerCount = (questions) => {
     return count;
 }
 
+const GetImageIndex = (index) => {
+
+    let value = (index + 1) % 4;
+    console.log(value);
+    if (value == 0)
+        value = 4;
+    return value;
+}
+
 export const Quizes = (props) => {
 
     return <div className="row">
             {
-                props.list.map(q => {
+                props.list.map((q,index) => {
                     return <div className="col-md-6" key={q.id}>
                         <NavLink key={q.id} tag={Link} className="button"
                             to={{
                                 pathname: '/startquizpage',
                                 state: { id: q.id, name: q.name },
                             }}>
-                            <div key={q.id} className="box_feat"  >
+                            <div key={q.id} className="box_feat" id={"icon_" + GetImageIndex(index)}>
                                 <h3 className="mt-3 black"><b>{q.name}</b></h3>
                                 <p>
                                     Question : {q.questions.length} , Answer : {GetAnswerCount(q.questions)}
