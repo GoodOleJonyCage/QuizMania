@@ -16,6 +16,7 @@ namespace QuizMania.Models
         public bool? IsCorrect { get; set; }
         public int? AnswerId { get; set; }
         public bool? Selected { get; set; }
+        public int? Attempt { get; set; }
 
         public virtual Answer Answer { get; set; }
         public virtual Question Question { get; set; }

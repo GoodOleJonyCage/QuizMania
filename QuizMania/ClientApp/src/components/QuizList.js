@@ -36,9 +36,12 @@ export const Quizes = (props) => {
                             }}>
                             <div key={q.id} className="box_feat" id={"icon_" + GetImageIndex(index)}>
                                 <h3 className="mt-3 black"><b>{q.name}</b></h3>
-                                <p>
-                                    Question : {q.questions.length} , Answer : {GetAnswerCount(q.questions)}
-                                </p>
+                                <div className="quizinfo">
+                                    <span className="mr-2">Questions <span className="color-black">{q.questions.length}</span></span>
+                                    <div>Answers <span className="color-black">{GetAnswerCount(q.questions)}</span></div>
+                                    <div>Attempts <span className="color-black">{q.attempts}</span></div>
+                                    <div>Best Score <span className="color-black">45%</span></div>
+                                </div>
                             </div>
                         </NavLink>
                     </div>

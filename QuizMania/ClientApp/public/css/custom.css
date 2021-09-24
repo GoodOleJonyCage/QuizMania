@@ -54,6 +54,9 @@ body {
     color: red;
     font-size: 20px;
 }
+.color-black {
+    color: black;
+}
  
 .progressbar{
     font-size:20px !important;
@@ -155,3 +158,10 @@ label.labelflex {
     align-items: center;
     justify-content: space-between;
 }
+
+.quizinfo {
+    color: #f5ab35;
+}
+
+
+ 

@@ -27,6 +27,31 @@ namespace QuizMania.Controllers
             }
         }
 
+        private int GetMaxQuizAttemptForUser(int UserID, int QuizId)
+        {
+            var maxValue = 0;
+            using (QuizMasterContext context = new QuizMasterContext())
+            {
+                var maxAttemptVal = context.QuizQuestionAnswered.Where(q => q.QuizId == QuizId && q.UserId == UserID)
+                                .Max(x => x.Attempt);
+
+                maxValue = maxAttemptVal.HasValue ? maxAttemptVal.Value : 0  ;
+            }
+            return maxValue;
+        }
+
+        private int GetAttemptCountForUser(int UserID, int QuizId)
+        {
+            var maxValue = 0;
+            using (QuizMasterContext context = new QuizMasterContext())
+            {
+                var numAttempts = context.QuizQuestionAnswered.Where(q => q.QuizId == QuizId && q.UserId == UserID)
+                                  .Select(x => x.Attempt);
+                maxValue = numAttempts.Max().HasValue ? numAttempts.Max().Value : 0;
+            }
+            return maxValue;
+        }
+
         [Route("editquestion")]
         public JsonVM EditQuestion([FromBody] System.Text.Json.JsonElement obj)
         {
@@ -183,9 +208,10 @@ namespace QuizMania.Controllers
             ViewModels.Quiz vm  = new ViewModels.Quiz();
             vm.ID               = Int32.Parse(questions.GetProperty("quizid").ToString());
             var questionlist = questions.GetProperty("questionlist");
-            
-            ResetQuizForUser(1, vm.ID);
-            
+
+            //ResetQuizForUser(1, vm.ID);
+            var newAttempt = GetMaxQuizAttemptForUser(1, vm.ID) + 1;
+
             vm.Questions        = JsonConvert.DeserializeObject<List<ViewModels.Question>>(questionlist.ToString());
             vm.Questions.ForEach(q =>
             {
@@ -199,6 +225,7 @@ namespace QuizMania.Controllers
                             QuizId = vm.ID,
                             QuestionId = q.QID,
                             AnswerId = a.AID,
+                            Attempt = newAttempt,
                             Selected = a.Selected,
                             IsCorrect = a.Selected && a.AnsweredCorrectly
                         });
@@ -324,7 +351,8 @@ namespace QuizMania.Controllers
                     {
                         ID = q.Id,
                         Name = q.Name,
-                        Questions = quizQuestions
+                        Questions = quizQuestions,
+                        Attempts = GetAttemptCountForUser(1,q.Id)
                     });
                 });
             }
@@ -344,7 +372,6 @@ namespace QuizMania.Controllers
                           ID = q.Id,
                           Name = q.Name
                       }).SingleOrDefault();
-
 
                 var questions = (from qqa in context.QuizQuestionAnswer
                                  join qz in context.Quiz on qqa.QuizId equals qz.Id
@@ -375,11 +402,8 @@ namespace QuizMania.Controllers
                                  }).ToList();
 
                     vm.Questions = questions;
-
                 });
-
             }
-
             return vm;
         }
        

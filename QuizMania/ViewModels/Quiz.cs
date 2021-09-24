@@ -26,6 +26,7 @@ namespace QuizMania.ViewModels
     public class Quiz
     {
         public int ID { get; set; }
+        public int Attempts { get; set; }
         public string Name { get; set; }
         public List<Question> Questions { get; set; } = new List<Question>();
     }
