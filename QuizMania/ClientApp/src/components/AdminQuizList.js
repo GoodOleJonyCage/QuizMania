@@ -61,7 +61,7 @@ export const Quizes = (props) => {
                                 <span className="mr-2">Questions <span className="color-black">{q.questions.length}</span></span>
                                 <div>Answers <span className="color-black">{GetAnswerCount(q.questions)}</span></div>
                                 <div>Attempts <span className="color-black">{q.attempts}</span></div>
-                                <div>Best Score <span className="color-black">45%</span></div>
+                                <div>Best Score <span className="color-black">{q.bestScore}%</span></div>
                             </div>
                         </div>
                     </NavLink>

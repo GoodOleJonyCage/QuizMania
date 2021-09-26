@@ -52,6 +52,37 @@ namespace QuizMania.Controllers
             return maxValue;
         }
 
+        private int GetBestScoreForUser(int UserID, int QuizId)
+        {
+            List<int> lstScores = new List<int>();
+            using (QuizMasterContext context = new QuizMasterContext())
+            {
+                var lstAttempts = context.QuizQuestionAnswered.Where(q => q.QuizId == QuizId && q.UserId == UserID)
+                                 .Select(x => x.Attempt)  
+                                 .ToList().Distinct();
+
+                foreach (var attempt in lstAttempts)
+                {
+                    var quizQuestions = 
+                                  context.QuizQuestionAnswered
+                                  .Where(q => 
+                                  q.QuizId == QuizId && 
+                                  q.UserId == UserID && 
+                                  q.Attempt == attempt)
+                                 .Select(x => x)
+                                 .ToList();
+
+                    var correctQAs         = quizQuestions.Where(q => q.IsCorrect == true ).ToList();
+                    var correctSelectedQAs = quizQuestions.Where(q => q.IsCorrect == true && q.Selected == true).ToList();
+                    decimal score          = correctQAs.Count > 0 ?
+                                     ((decimal)correctSelectedQAs.Count / (decimal)correctQAs.Count) * 100 : 0 ; 
+                    
+                    lstScores.Add((int)score);
+                }
+            }
+            return lstScores.Count > 0 ? lstScores.Max() : 0 ;
+        }
+
         [Route("editquestion")]
         public JsonVM EditQuestion([FromBody] System.Text.Json.JsonElement obj)
         {
@@ -227,7 +258,7 @@ namespace QuizMania.Controllers
                             AnswerId = a.AID,
                             Attempt = newAttempt,
                             Selected = a.Selected,
-                            IsCorrect = a.Selected && a.AnsweredCorrectly
+                            IsCorrect = a.AnsweredCorrectly
                         });
                     });
                     context.SaveChanges();
@@ -352,6 +383,7 @@ namespace QuizMania.Controllers
                         ID = q.Id,
                         Name = q.Name,
                         Questions = quizQuestions,
+                        BestScore = GetBestScoreForUser(1, q.Id),
                         Attempts = GetAttemptCountForUser(1,q.Id)
                     });
                 });

@@ -27,6 +27,7 @@ namespace QuizMania.ViewModels
     {
         public int ID { get; set; }
         public int Attempts { get; set; }
+        public int BestScore { get; set; }
         public string Name { get; set; }
         public List<Question> Questions { get; set; } = new List<Question>();
     }
