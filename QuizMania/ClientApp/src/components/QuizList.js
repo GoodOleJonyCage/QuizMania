@@ -41,6 +41,7 @@ export const Quizes = (props) => {
                                     <div>Answers <span className="color-black">{GetAnswerCount(q.questions)}</span></div>
                                     <div>Attempts <span className="color-black">{q.attempts}</span></div>
                                     <div>Best Score <span className="color-black">{q.bestScore}%</span></div>
+                                    <div>Average Score <span className="color-black">{q.averageScore}%</span></div>
                                 </div>
                             </div>
                         </NavLink>
@@ -56,7 +57,7 @@ export const QuizList = (props) => {
     const [list, setlist] = useState([]);
     useEffect(() => {
         LoadQuizes(setlist);
-        props.updatetext('QuizList');
+        props.updatequizid(0);
     }, []);
 
     return <div>

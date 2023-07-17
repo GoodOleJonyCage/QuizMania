@@ -163,7 +163,7 @@ export const AdminQuestionAnswer = () => {
     //Answers
 
     const handleanswerchange = (e) => {
-        setanswer(e.target.value);
+        setanswer({ name: e.target.value });
     }
 
     const onEditAnswerChanged = e => {
@@ -185,6 +185,7 @@ export const AdminQuestionAnswer = () => {
     }
 
     const AddNewAnswer = () => {
+        console.log(answer);
         if (answer.name.length == 0) {
             setanswer({ message: 'Required' });
         }

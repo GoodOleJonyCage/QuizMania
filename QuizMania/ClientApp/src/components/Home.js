@@ -5,7 +5,6 @@ export class Home extends Component {
 
     constructor(props) {
         super(props);
-        props.updatetext('home');
     }
 
     render() {
@@ -22,8 +21,12 @@ export class Home extends Component {
                                 <span />
                                 <h3>Responsive site design</h3>
                                 <p>
-                                    Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat
-                                    cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel.
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    Donec hendrerit vehicula est, in consequat. Lorem ipsum
+                                    dolor sit amet, consectetur adipiscing elit. Donec
+                                    hendrerit vehicula est, in consequat. Donec hendrerit
+                                    vehicula est, in consequat. Donec hendrerit vehicula est,
+                                    in consequat.
                                 </p>
                             </div>
                         </div>
@@ -32,8 +35,12 @@ export class Home extends Component {
                                 <span />
                                 <h3>Web site check</h3>
                                 <p>
-                                    Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat
-                                    cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel.
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    Donec hendrerit vehicula est, in consequat. Lorem ipsum
+                                    dolor sit amet, consectetur adipiscing elit. Donec
+                                    hendrerit vehicula est, in consequat. Donec hendrerit
+                                    vehicula est, in consequat. Donec hendrerit vehicula est,
+                                    in consequat.
                                 </p>
                             </div>
                         </div>
@@ -70,13 +77,12 @@ export class Home extends Component {
                                     <span>Suas summo id sed, erat erant oporteat cu pri.</span>
                                 </h4>
                                 <p>
-                                    Cum iusto nonumes dignissim ad, movet vocent ceteros nec ut. Eu
-                                    putent utroque ius, ei usu purto doctus, ludus nostrud consectetuer
-                                    ex pri. Maiorum petentium similique duo id. Sea ex nostro offendit,
-                                    ius sumo electram theophrastus et. Nam eu dolore aliquid laoreet, ei
-                                    eos tacimates assueverit inciderint. His deserunt recteque consequat
-                                    in. Vis mucius virtute consequat ad, suavitate interesset an mei,
-                                    oporteat temporibus at sea.
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    Donec hendrerit vehicula est, in consequat. Lorem ipsum
+                                    dolor sit amet, consectetur adipiscing elit. Donec
+                                    hendrerit vehicula est, in consequat. Donec hendrerit
+                                    vehicula est, in consequat. Donec hendrerit vehicula est,
+                                    in consequat.
                                 </p>
                             </div>
                         </div>
@@ -87,13 +93,12 @@ export class Home extends Component {
                                     Mission<span>Suas summo id sed, erat erant oporteat cu pri.</span>
                                 </h4>
                                 <p>
-                                    Cum iusto nonumes dignissim ad, movet vocent ceteros nec ut. Eu
-                                    putent utroque ius, ei usu purto doctus, ludus nostrud consectetuer
-                                    ex pri. Maiorum petentium similique duo id. Sea ex nostro offendit,
-                                    ius sumo electram theophrastus et. Nam eu dolore aliquid laoreet, ei
-                                    eos tacimates assueverit inciderint. His deserunt recteque consequat
-                                    in. Vis mucius virtute consequat ad, suavitate interesset an mei,
-                                    oporteat temporibus at sea.
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    Donec hendrerit vehicula est, in consequat. Lorem ipsum
+                                    dolor sit amet, consectetur adipiscing elit. Donec
+                                    hendrerit vehicula est, in consequat. Donec hendrerit
+                                    vehicula est, in consequat. Donec hendrerit vehicula est,
+                                    in consequat.
                                 </p>
                             </div>
                         </div>

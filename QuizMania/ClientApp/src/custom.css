@@ -12,3 +12,19 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+/*styling the nav bar for burger display*/
+@media (max-width: 575px) {
+    #logo_in {
+        display: none;
+    }
+    .navbar-nav {
+        background-color: cornsilk;
+        padding: 10px;
+    }
+    .navbar-nav li {
+         color: dimgrey;
+    }
+}
+
+

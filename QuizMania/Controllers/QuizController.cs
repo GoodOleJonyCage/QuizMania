@@ -54,33 +54,46 @@ namespace QuizMania.Controllers
 
         private int GetBestScoreForUser(int UserID, int QuizId)
         {
+            List<int> lstScores = GetScoresForUser(UserID, QuizId);
+            return lstScores.Count > 0 ? lstScores.Max() : 0;
+        }
+
+        private static List<int> GetScoresForUser(int UserID, int QuizId)
+        {
             List<int> lstScores = new List<int>();
             using (QuizMasterContext context = new QuizMasterContext())
             {
                 var lstAttempts = context.QuizQuestionAnswered.Where(q => q.QuizId == QuizId && q.UserId == UserID)
-                                 .Select(x => x.Attempt)  
+                                 .Select(x => x.Attempt)
                                  .ToList().Distinct();
 
                 foreach (var attempt in lstAttempts)
                 {
-                    var quizQuestions = 
+                    var quizQuestions =
                                   context.QuizQuestionAnswered
-                                  .Where(q => 
-                                  q.QuizId == QuizId && 
-                                  q.UserId == UserID && 
+                                  .Where(q =>
+                                  q.QuizId == QuizId &&
+                                  q.UserId == UserID &&
                                   q.Attempt == attempt)
                                  .Select(x => x)
                                  .ToList();
 
-                    var correctQAs         = quizQuestions.Where(q => q.IsCorrect == true ).ToList();
+                    var correctQAs = quizQuestions.Where(q => q.IsCorrect == true).ToList();
                     var correctSelectedQAs = quizQuestions.Where(q => q.IsCorrect == true && q.Selected == true).ToList();
-                    decimal score          = correctQAs.Count > 0 ?
-                                     ((decimal)correctSelectedQAs.Count / (decimal)correctQAs.Count) * 100 : 0 ; 
-                    
+                    decimal score = correctQAs.Count > 0 ?
+                                     ((decimal)correctSelectedQAs.Count / (decimal)correctQAs.Count) * 100 : 0;
+
                     lstScores.Add((int)score);
                 }
             }
-            return lstScores.Count > 0 ? lstScores.Max() : 0 ;
+
+            return lstScores;
+        }
+
+        private int GetAverageScoreForUser(int UserID, int QuizId)
+        {
+            List<int> lstScores = GetScoresForUser(UserID, QuizId);
+            return lstScores.Count > 0 ? (int)lstScores.Average() : 0;
         }
 
         [Route("editquestion")]
@@ -384,6 +397,7 @@ namespace QuizMania.Controllers
                         Name = q.Name,
                         Questions = quizQuestions,
                         BestScore = GetBestScoreForUser(1, q.Id),
+                        AverageScore = GetAverageScoreForUser(1, q.Id),
                         Attempts = GetAttemptCountForUser(1,q.Id)
                     });
                 });

@@ -8,12 +8,13 @@ export const Quiz = (props) => {
     const [quiz, updatequizObj] = useState({ id: 0, name: '' });
     const [questions, updatequiz] = useState([]);
     const [currentquestionindex, setcurrentquestionindex] = useState(0);
-     
+
     useEffect(() => {
-         
-        updatequizObj({ id: props.location.state.id, name: props.location.state.name});
+        updatequizObj({ id: props.location.state.id, name: props.location.state.name });
         LoadQuiz(props.location.state.id, updatequiz);
-        props.updatetext('q started');
+        //updating quizid and quiz name in the aside bar 
+        props.updatetext(props.location.state.name);
+        props.updatequizid(props.location.state.id);
     }, []);
 
 

@@ -33,18 +33,20 @@ const Logo = () => {
 const Aside = (props) => {
 
     //const [title , settitle] = useState('');
-
-    return <aside className="col-xl-3 col-lg-4">
-        {/*<h2>{props.text}</h2>*/}
-        {/*<p className="lead">Quiz # {props.quiz.QuizNumber}</p>*/}
-        <h2>{props.text}</h2>
-        <p className="lead">Quiz # 23</p>
-        <ul className="list_ok">
-            <li>Please select at least one correct answer.</li>
-            <li>Use the Next button tp proceed forward.</li>
-            <li>Use the Back button tp move backwards.</li>
-        </ul>
-    </aside>;
+    if (props.quizid > 0)
+        return (
+                <aside className="col-xl-3 col-lg-4">
+                <h2>{props.text}</h2>
+                <p className="lead">Quiz ID {props.quizid}</p>
+                <ul className="list_ok">
+                    <li>Please select at least one correct answer.</li>
+                    <li>Use the Next button to proceed forward.</li>
+                    <li>Use the Back button to move backwards.</li>
+                </ul>
+                </aside>
+             );
+    else
+        return <></>;
 }
 
 const Header = () => {
@@ -63,9 +65,14 @@ const Header = () => {
 
 function App() {
 
+    const [quizid, setquizid] = useState(0);
     const [text, settext] = useState('');
+
     const updatetext = (newVal) => {
         settext(newVal);
+    }
+    const updatequizid = (newVal) => {
+        setquizid(newVal);
     }
 
     return (
@@ -81,19 +88,19 @@ function App() {
                             <div className="tab-pane fade show active" >
                                 <div className="subheader" id="quote" />
                                 <div className="row">
-                                    <Aside text={text} />
+                                    <Aside text={text} quizid={quizid} />
                                     <Layout>
-                                        <Route exact path='/'                   component={(e) => <Home  {...e} updatetext={updatetext}  />} />
-                                        <Route path='/counter'                  component={(e) => <Counter  {...e} updatetext={updatetext} />} />
-                                        <AuthorizeRoute path='/startquizpage'   component={(e) => <StartQuizPage {...e} updatetext={updatetext} />} />
-                                        <AuthorizeRoute path='/quizlist'        component={(e) => <QuizList {...e} updatetext={updatetext} />} />
-                                        <AuthorizeRoute path='/endquizpage'     component={(e) => <EndQuizPage updatetext={updatetext}   />}  />
-                                        <AuthorizeRoute path='/quiz'            component={(e) => <Quiz {...e} updatetext={updatetext} />} />
-                                        <AuthorizeRoute path='/adminquizstart'  component={(e) => <AdminQuizStart {...e} updatetext={updatetext}   />}   />
-                                        <AuthorizeRoute path='/adminquiz'       component={(e) => <AdminQuiz  {...e} updatetext={updatetext}   />}   />
-                                        <AuthorizeRoute path='/adminquizlist'   component={(e) => <AdminQuizList  {...e}  updatetext={updatetext}  />}  />
-                                        <AuthorizeRoute path='/adminquizcreated' component={(e) => <AdminQuizCreated  {...e} updatetext={updatetext}  />}    />
-                                        <AuthorizeRoute path='/adminquestiponanswer' component={(e) => <AdminQuestionAnswer  {...e} updatetext={updatetext}   />}    />
+                                        <Route exact path='/' component={(e) => <Home  {...e} updatetext={updatetext} updatequizid={updatequizid}  />} />
+                                        <Route path='/counter' component={(e) => <Counter  {...e} updatetext={updatetext} updatequizid={updatequizid}/>} />
+                                        <AuthorizeRoute path='/startquizpage' component={(e) => <StartQuizPage {...e} updatetext={updatetext} updatequizid={updatequizid}/>} />
+                                        <AuthorizeRoute path='/quizlist' component={(e) => <QuizList {...e} updatetext={updatetext} updatequizid={updatequizid}/>} />
+                                        <AuthorizeRoute path='/endquizpage' component={(e) => <EndQuizPage updatetext={updatetext} updatequizid={updatequizid} />}  />
+                                        <AuthorizeRoute path='/quiz' component={(e) => <Quiz {...e} updatetext={updatetext} updatequizid={updatequizid}/>} />
+                                        <AuthorizeRoute path='/adminquizstart' component={(e) => <AdminQuizStart {...e} updatetext={updatetext} updatequizid={updatequizid}  />}   />
+                                        <AuthorizeRoute path='/adminquiz' component={(e) => <AdminQuiz  {...e} updatetext={updatetext} updatequizid={updatequizid} />}   />
+                                        <AuthorizeRoute path='/adminquizlist' component={(e) => <AdminQuizList  {...e} updatetext={updatetext} updatequizid={updatequizid}/>}  />
+                                        <AuthorizeRoute path='/adminquizcreated' component={(e) => <AdminQuizCreated  {...e} updatetext={updatetext} updatequizid={updatequizid}/>}    />
+                                        <AuthorizeRoute path='/adminquestiponanswer' component={(e) => <AdminQuestionAnswer  {...e} updatetext={updatetext} updatequizid={updatequizid}  />}    />
                                         <AuthorizeRoute path='/fetch-data'      component={FetchData} />
                                         <AuthorizeRoute path='/dataload'        component={DataLoaderService} />
                                         <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
