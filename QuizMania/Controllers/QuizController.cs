@@ -52,12 +52,6 @@ namespace QuizMania.Controllers
             return maxValue;
         }
 
-        private int GetBestScoreForUser(int UserID, int QuizId)
-        {
-            List<int> lstScores = GetScoresForUser(UserID, QuizId);
-            return lstScores.Count > 0 ? lstScores.Max() : 0;
-        }
-
         private static List<int> GetScoresForUser(int UserID, int QuizId)
         {
             List<int> lstScores = new List<int>();
@@ -90,11 +84,15 @@ namespace QuizMania.Controllers
             return lstScores;
         }
 
-        private int GetAverageScoreForUser(int UserID, int QuizId)
-        {
-            List<int> lstScores = GetScoresForUser(UserID, QuizId);
-            return lstScores.Count > 0 ? (int)lstScores.Average() : 0;
-        }
+        //private int GetBestScoreForUser(List<int> lstScores)
+        //{
+        //    return lstScores.Count > 0 ? lstScores.Max() : 0;
+        //}
+
+        //private int GetAverageScoreForUser(List<int> lstScores)
+        //{
+        //    return lstScores.Count > 0 ? (int)lstScores.Average() : 0;
+        //}
 
         [Route("editquestion")]
         public JsonVM EditQuestion([FromBody] System.Text.Json.JsonElement obj)
@@ -390,14 +388,14 @@ namespace QuizMania.Controllers
                                          .Distinct()
                                          .ToList();
 
-
+                    var lstScores = GetScoresForUser(1, q.Id);
                     vm.Add(new ViewModels.Quiz()
                     {
                         ID = q.Id,
                         Name = q.Name,
                         Questions = quizQuestions,
-                        BestScore = GetBestScoreForUser(1, q.Id),
-                        AverageScore = GetAverageScoreForUser(1, q.Id),
+                        BestScore = lstScores.Count > 0  ? lstScores.Max() : 0 ,
+                        AverageScore = lstScores.Count > 0 ? (int)lstScores.Average(): 0,
                         Attempts = GetAttemptCountForUser(1,q.Id)
                     });
                 });

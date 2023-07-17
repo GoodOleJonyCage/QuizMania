@@ -26,5 +26,9 @@ code {
          color: dimgrey;
     }
 }
+/*Horizontally aligning the fancy box that slides from the left*/
+.noti-section-one{
+    left:35%;
+}
 
 
