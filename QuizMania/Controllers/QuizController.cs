@@ -329,23 +329,28 @@ namespace QuizMania.Controllers
                         context.Quiz.Add(newquiz);
                         context.SaveChanges();
                     }
-                    else
+                    else //clearing quiz question and answers
                     {
                         newquiz.Id = quiz.ID;
                         var lstToRemove = context.QuizQuestionAnswer.Where(x => x.QuizId == newquiz.Id).ToList();
                         context.QuizQuestionAnswer.RemoveRange(lstToRemove);
                         context.SaveChanges();
                     }
-                    
+
+                  
                     quiz.Questions.ForEach(q =>
                     {
+                        var questionAdded = context.Question.Add(new Question() { Name = q.Name });
+                        context.SaveChanges();
                         q.Answers.ForEach(a =>
                         {
+                            var ansAdded = context.Answer.Add(new Answer() {  Name = a.Name });
+                            context.SaveChanges();
                             context.QuizQuestionAnswer.Add(new QuizQuestionAnswer()
                             {
                                 QuizId = newquiz.Id,
-                                QuestionId = q.QID,
-                                AnswerId = a.AID,
+                                QuestionId = questionAdded.Entity.Id,
+                                AnswerId = ansAdded.Entity.Id,
                                 IsCorrect = a.AnsweredCorrectly
                             });
                         });

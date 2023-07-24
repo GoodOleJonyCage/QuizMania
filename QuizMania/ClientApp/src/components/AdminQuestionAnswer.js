@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { useState, useEffect } from 'react';
+import { useRef,useState, useEffect } from 'react';
 import { AddQuestion, AddAnswer, LoadQuestions, LoadAnswers, EditAnswer, EditQuestion } from './Services';
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import ReactDom from 'react-dom';
@@ -29,11 +29,15 @@ export const AdminQuestionAnswer = () => {
     const [editquestion, updateeditquestion] = useState({ index: -1, message: '' });
     const [editanswer, updateeditanswer]     = useState({ index: -1, message: '' });
     //add question answer
-    const [question, setquestion]   = useState({ name: '', message: '' });
+    //const [question, setquestion]   = useState({ name: '', message: '' });
     const [answer  , setanswer  ]   = useState({ name: '', message: '' });
     //list of questions and answers
     const [questions, setquestionlist] = useState([]);
-    const [answers  , setanswerlist  ] = useState([]);
+    const [answers, setanswerlist] = useState([]);
+
+    //const [divQuestionScollPosition, setdivQuestionScollPosition] = useState(0);
+    //figure out how load scroll position
+    const bottomRef = useRef(null);
 
     useEffect(() => {
         LoadQuestions(setquestionlist);
@@ -42,13 +46,14 @@ export const AdminQuestionAnswer = () => {
 
     //Questions
 
-    const handlequestionchange = (e) => {
-        setquestion({ name: e.target.value });
-    }
+    //const handlequestionchange = (e) => {
+    //    setquestion({ name: e.target.value });
+    //}
 
     const onEditQuestionChanged = e => {
         e.preventDefault();
         textQuestionEditInput.current.value = e.target.value;
+        //let v = textQuestionEditInput.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
     const editCurrentQuestion = (id,i) => {
@@ -60,35 +65,40 @@ export const AdminQuestionAnswer = () => {
                 else {
                     updateeditquestion({ index: -1, message: '' });
                     LoadQuestions(setquestionlist);
+
+                    //let v  = bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
                 }
+                
             });
      
     }
 
-    const AddNewQuestion = () => {
-        if (question.name.length == 0) {
-            setquestion({ message: 'Required' });
-        }
-        else {
-            AddQuestion(question.name, setquestionlist);
-            setquestion({ name : '', message :''});
-        }
-    }
+    //const AddNewQuestion = () => {
+    //    if (question.name.length == 0) {
+    //        setquestion({ message: 'Required' });
+    //    }
+    //    else {
+    //        AddQuestion(question.name, setquestionlist);
+    //        setquestion({ name : '', message :''});
+    //    }
+    //}
 
     const AllQuestions = () => {
 
         return <div>
-            <div className="mt-3 scrollable">
+            <div
+                
+                className="mt-3 scrollabe-section" >
                 {
                     questions.map((q, i) => {
                         return (
-                            <div className="item-row" key={i}>
+                            <div className="item-row" key={i} ref={bottomRef}>
                                 {
                                     editquestion.index == i ?
-                                        <div className="questionitem">
-                                            <div className="questionitem">
-                                                <span className="mr-2">A-{i + 1})</span>
-                                                <textarea
+                                        <div className="questionitem" >
+                                            <div className="questionitem" >
+                                                <span   className="mr-2">A-{i + 1})</span>
+                                                <textarea 
                                                     ref={textQuestionEditInput}
                                                     key={i}
                                                     onChange={onEditQuestionChanged}
@@ -97,7 +107,7 @@ export const AdminQuestionAnswer = () => {
                                             </div>
                                             <span className="text-danger small pl-2 pr-2">{editquestion.message}</span>
                                             <div className="text-right">
-                                                <button className="mr-1" onClick={() => editCurrentQuestion(q.id, i)}>
+                                                <button className="mr-1" onClick={(e) => editCurrentQuestion(q.id, i)}>
                                                     <i className="icon-ok-1 text-success" />
                                                     Save</button>
                                                 <button onClick={() => updateeditquestion({ index: -1, message: '' })}>
@@ -109,7 +119,7 @@ export const AdminQuestionAnswer = () => {
                                         <div className="questionitem">
                                             <span ><span className="mr-2">A-{i + 1})</span>{q.name}</span>
                                             <div className="text-right">
-                                                <button onClick={() => updateeditquestion({ index: i, message: '' })}>
+                                                <button onClick={() => updateeditquestion({ index: i, message: ''})}>
                                                     <i className="icon-edit text-success"></i>
                                                     Edit</button>
                                             </div>
@@ -119,6 +129,7 @@ export const AdminQuestionAnswer = () => {
                         );
                     })
                 }
+                 
             </div>
         </div>;
         //const columnDefs = [
@@ -162,9 +173,9 @@ export const AdminQuestionAnswer = () => {
 
     //Answers
 
-    const handleanswerchange = (e) => {
-        setanswer({ name: e.target.value });
-    }
+    //const handleanswerchange = (e) => {
+    //    setanswer({ name: e.target.value });
+    //}
 
     const onEditAnswerChanged = e => {
         e.preventDefault();
@@ -184,20 +195,20 @@ export const AdminQuestionAnswer = () => {
           });
     }
 
-    const AddNewAnswer = () => {
-        console.log(answer);
-        if (answer.name.length == 0) {
-            setanswer({ message: 'Required' });
-        }
-        else {
-            AddAnswer(answer.name, setanswerlist);
-            setanswer({name :'', message: '' });
-        }
-    }
+    //const AddNewAnswer = () => {
+    //    console.log(answer);
+    //    if (answer.name.length == 0) {
+    //        setanswer({ message: 'Required' });
+    //    }
+    //    else {
+    //        AddAnswer(answer.name, setanswerlist);
+    //        setanswer({name :'', message: '' });
+    //    }
+    //}
 
     const AllAnswers = () => {
            
-        return <div className="mt-3 scrollable">
+        return <div className="mt-3 scrollabe-section">
             {
                 answers.map((a, i) => {
                     return (
@@ -246,23 +257,26 @@ export const AdminQuestionAnswer = () => {
 
     return <div className="adminquiz2">
             <div className="textcenter">
-                <div className="text-danger small">{question.message}</div>
-                <div>
-                    <textarea value={question.name} onChange={handlequestionchange} className="form-control" />
-                </div>
-            <button onClick={AddNewQuestion} className="button">
-                <i className="icon-plus-circle-1 text-success" />
-                Add Question</button>
+                {/*<div className="text-danger small">{question.message}</div>*/}
+                {/*<div>*/}
+                {/*    <textarea value={question.name} onChange={handlequestionchange} className="form-control" />*/}
+                {/*</div>*/}
+            {/*<button onClick={AddNewQuestion} className="button">*/}
+            {/*    <i className="icon-plus-circle-1 text-success" />*/}
+            {/*    Add Question</button>*/}
+                <div>Questions</div>
                 <AllQuestions />
             </div>
+           
             <div className="textcenter mt-5">
                 <div className="text-danger small" >{answer.message}</div>
-                <div>
-                    <textarea value={answer.name} onChange={handleanswerchange} className="form-control" />
-                </div>
-                <button onClick={AddNewAnswer} className="button">
-                    <i className="icon-plus-circle-1 text-success" />
-                    Add Answer</button>
+                {/*<div>*/}
+                {/*    <textarea value={answer.name} onChange={handleanswerchange} className="form-control" />*/}
+                {/*</div>*/}
+                {/*<button onClick={AddNewAnswer} className="button">*/}
+                {/*    <i className="icon-plus-circle-1 text-success" />*/}
+            {/*    Add Answer</button>*/}
+            <div>Answers</div>
                 <AllAnswers />
             </div>
         </div>;

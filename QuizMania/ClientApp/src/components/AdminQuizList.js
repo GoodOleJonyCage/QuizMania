@@ -92,7 +92,7 @@ export const AdminQuizList = () => {
                         to={{
                             pathname: '/adminquestiponanswer',
                         }}>
-                        <button className="button">Questions and Answers</button>
+                        <button className="button">Edit Questions and Answers</button>
                     </NavLink>
                 </div>
                 <Quizes list={list} />

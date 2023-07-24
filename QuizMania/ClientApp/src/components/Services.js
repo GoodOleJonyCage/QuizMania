@@ -120,6 +120,7 @@ export const LoadQuestions = (func) => {
             }
             //console.log(Questions);
             func(Questions);
+
         });
 }
 
