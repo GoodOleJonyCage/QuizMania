@@ -74,7 +74,7 @@ export const saveAndSubmitQuiz = (quizid,questionlist) => {
         }
     })
         .then(res => res.json())
-        .then(res => console.log(res));
+        .then(res =>  res);
 }
 
 export const AddQuestion = (question, func) => {
@@ -197,7 +197,7 @@ export async function EditQuestion(id, name) {
         });
 }
 
-export async function SaveQuiz(id, name, questionanswers) {
+export async function SaveQuiz(id, name, questionanswers,currpage) {
 
     return await fetch(`quiz/savequiz`, {
         method: 'POST',
@@ -213,7 +213,8 @@ export async function SaveQuiz(id, name, questionanswers) {
     })
         .then((response) => response.json())
         .then((data) => {
-
-            return data;
+            //return data;
+            //navigate back to admin quiz page
+            currpage.push('/adminquizlist');
         });
 }

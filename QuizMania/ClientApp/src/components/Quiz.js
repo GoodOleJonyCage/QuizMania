@@ -5,22 +5,19 @@ import { QuestionContainer } from './QuestionContainer'
 
 export const Quiz = (props) => {
 
-    const [quiz, updatequizObj] = useState({ id: 0, name: '' });
+    const [quizid, setquizid] = useState(0);
     const [questions, updatequiz] = useState([]);
     const [currentquestionindex, setcurrentquestionindex] = useState(0);
 
     useEffect(() => {
-        updatequizObj({ id: props.location.state.id, name: props.location.state.name });
+        setquizid(props.location.state.id);
         LoadQuiz(props.location.state.id, updatequiz);
-        //updating quizid and quiz name in the aside bar 
-        props.updatetext(props.location.state.name);
-        props.updatequizid(props.location.state.id);
     }, []);
 
 
     const moveToNextQuestion = () => {
         
-        if (currentquestionindex == questions.length)
+        if (currentquestionindex === questions.length)
             return;
 
         let newquestions = [...questions];
@@ -45,12 +42,12 @@ export const Quiz = (props) => {
     const submitQuiz  = () => {
 
         moveToNextQuestion();
-        saveAndSubmitQuiz(quiz.id,questions);
+        saveAndSubmitQuiz(quizid,questions);
         
     }
 
     const moveToPreviousQuestion = () => {
-        if (currentquestionindex == 0)
+        if (currentquestionindex === 0)
             return;
         setcurrentquestionindex(currentquestionindex - 1);
     }
@@ -92,7 +89,6 @@ export const Quiz = (props) => {
 
     return (
         <QuestionContainer
-            quiz={quiz}
             disableClick={disableClick}
             calculateScore={calculateScore}
             getPercentCompleted={getPercentCompleted}

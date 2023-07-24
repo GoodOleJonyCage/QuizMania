@@ -25,7 +25,7 @@ const AddAnswer = (props) => {
 
     var ansID = ddAnsSelected.current.value;
     var answerExists = props.selectedanswers.filter(a => { return a.id == ansID });
-    if (answerExists.length == 0) {
+    if (answerExists.length === 0) {
 
         var answer = props.answers.filter(a => { return a.id == ansID });
         var newselectedanswers = [...props.selectedanswers];
@@ -79,11 +79,11 @@ const SelectedAnswers = (props) => {
 const AddQAToQuiz = (props) => {
     
     if (props.selectedanswers.length > 0) {
-        var atLeastOneAnsSelected = props.selectedanswers.filter(a => { return a.iscorrect == true });
+        var atLeastOneAnsSelected = props.selectedanswers.filter(a => { return a.iscorrect === true });
         if (atLeastOneAnsSelected.length > 0) {
             var qID = ddQuestionSelected.current.value;
             var questionExists = props.questionanswers.filter(q => { return q.id == qID });
-            if (questionExists.length == 0) {
+            if (questionExists.length === 0) {
                 props.setselectedanswers([]);
                 var question = props.questions.filter(q => { return q.id == qID });
                 var newquestionanswers = [...props.questionanswers];
@@ -108,8 +108,8 @@ const AddToQuiz = (props) => {
 }
 
 const SaveCurrentQuiz = (props) => {
-    console.log(SaveQuiz(props.location.state.id,props.location.state.name, props.questionanswers));
-    props.history.push('/adminquizlist')
+    SaveQuiz(props.location.state.id,props.location.state.name, props.questionanswers,props.history);
+    //props.history.push('/adminquizlist')
 }
 
 const QuestionAnswerRemoved = (props,questionasnwer) => {

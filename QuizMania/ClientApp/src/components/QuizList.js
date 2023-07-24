@@ -17,7 +17,6 @@ const GetAnswerCount = (questions) => {
 const GetImageIndex = (index) => {
 
     let value = (index + 1) % 4;
-    console.log(value);
     if (value == 0)
         value = 4;
     return value;
@@ -57,7 +56,6 @@ export const QuizList = (props) => {
     const [list, setlist] = useState([]);
     useEffect(() => {
         LoadQuizes(setlist);
-        props.updatequizid(0);
     }, []);
 
     return <div>

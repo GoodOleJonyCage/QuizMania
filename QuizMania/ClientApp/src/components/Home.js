@@ -140,7 +140,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar2.jpg" alt />
+                                                        <img src="img/avatar2.jpg"   />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -163,7 +163,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar3.jpg" alt />
+                                                        <img src="img/avatar3.jpg"   />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -187,7 +187,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar1.jpg" alt />
+                                                        <img src="img/avatar1.jpg"   />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -210,7 +210,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar2.jpg" alt />
+                                                        <img src="img/avatar2.jpg"   />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -233,7 +233,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar3.jpg" alt />
+                                                        <img src="img/avatar3.jpg"   />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -257,7 +257,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar1.jpg" alt />
+                                                        <img src="img/avatar1.jpg"   />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -280,7 +280,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar2.jpg" alt />
+                                                        <img src="img/avatar2.jpg"   />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
