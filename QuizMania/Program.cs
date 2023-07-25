@@ -23,4 +23,5 @@ namespace QuizMania
                     webBuilder.UseStartup<Startup>();
                 });
     }
+
 }

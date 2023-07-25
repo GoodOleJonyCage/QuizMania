@@ -24,7 +24,7 @@ const AddQuestion = (props) => {
         <textarea className="form-control" ref={txtQuestionEntered}
             onChange={(e) => { txtQuestionEntered.current.value = e.target.value }}></textarea>
         <QuestionMessage quesmessage={props.quesmessage}></QuestionMessage>
-        <div >{txtQuestionEntered?.current?.value}</div>
+        <div >{props.questionentered.name}</div>
         <div className="text-right">
             <button className="button" onClick={() => { AddQuestionText(props) }}>
                 <i className="icon-plus-circle-1 text-success" />Add Question</button>
@@ -128,6 +128,12 @@ const ClearQuestionAnswerSet = (props) => {
 }
 
 const AddQAToQuiz = (props) => {
+
+    //check for question value
+    if (props.questionentered?.name?.length <= 0) {
+        props.setmessage('Enter a value for question');
+        return;
+    }
 
     if (props.selectedanswers.length > 0) {
         var atLeastOneAnsSelected = props.selectedanswers.filter(a => { return a.iscorrect === true });
@@ -253,7 +259,7 @@ const QuestionMessage = (props) => {
 export const AdminQuiz = (props) => {
 
     //question entered
-    const [questionentered, setquestionentered] = useState([]);
+    const [questionentered, setquestionentered] = useState({ id: 0, name: "", iscorrect: false });
 
     //question list
     const [questions, setquestions] = useState([]);
@@ -291,7 +297,7 @@ export const AdminQuiz = (props) => {
             questions={questions}
             questionentered={questionentered}
             setquestionentered={setquestionentered}
-                                                    />
+            />
             <div className="quiz-answer-area">
             <SelectAnswer answers={answers}
                 ansmessage={ansmessage}

@@ -36,3 +36,7 @@ code {
     max-height: 400px;
     overflow-y: scroll
 }
+
+.highlight-required {
+    border-color: red !important;
+}

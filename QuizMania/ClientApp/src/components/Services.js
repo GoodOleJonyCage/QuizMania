@@ -219,3 +219,20 @@ export async function SaveQuiz(id, name, questionanswers,currpage) {
             currpage.push('/adminquizlist');
         });
 }
+
+export const LoginUser = async (username, pwd) => {
+
+    return await fetch(`user/login`, {
+        method: 'POST',
+        body: JSON.stringify({
+            username: username,
+            password: pwd
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => { return response.json() })
+
+}

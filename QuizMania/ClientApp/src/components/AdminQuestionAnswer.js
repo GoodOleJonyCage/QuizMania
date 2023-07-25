@@ -88,7 +88,7 @@ export const AdminQuestionAnswer = () => {
         return <div>
             <div
                 
-                className="mt-3 scrollabe-section" >
+                className="mt-3 " >
                 {
                     questions.map((q, i) => {
                         return (
@@ -208,7 +208,7 @@ export const AdminQuestionAnswer = () => {
 
     const AllAnswers = () => {
            
-        return <div className="mt-3 scrollabe-section">
+        return <div className="mt-3 ">
             {
                 answers.map((a, i) => {
                     return (
