@@ -220,19 +220,26 @@ export async function SaveQuiz(id, name, questionanswers,currpage) {
         });
 }
 
-export const LoginUser = async (username, pwd) => {
+export const LoginUser = async (name, pwd) => {
 
     return await fetch(`user/login`, {
         method: 'POST',
         body: JSON.stringify({
-            username: username,
-            password: pwd
+            name: name
+            /*password: pwd*/
         }),
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
     })
-    .then(response => { return response.json() })
+        .then(response => {
+            if (response.ok)
+                return response.json();
+            else {
+                //console.log(response);
+                throw Error(response);
+            }
+        })
 
 }

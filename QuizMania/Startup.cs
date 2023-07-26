@@ -49,22 +49,23 @@ namespace QuizMania
                 .Services.ConfigureApplicationCookie(options =>
                 {
                     options.SlidingExpiration = true;
-                    options.ExpireTimeSpan = System.TimeSpan.FromMinutes(TIMEOUT);
+                    options.ExpireTimeSpan = System.TimeSpan.FromMinutes(double.Parse(Configuration["Timeout"].ToString()));
                 });
 
             //JWT Authentication
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
-            //    options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuer = true,
-            //        ValidateAudience = true,
-            //        ValidateLifetime = true,
-            //        ValidateIssuerSigningKey = true,
-            //        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            //        ValidAudience = builder.Configuration["Jwt:Audience"],
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-            //    };
-            //});
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                };
+            });
 
             services.AddControllersWithViews();
             services.AddRazorPages();

@@ -48,7 +48,7 @@ export class NavMenu extends Component {
                                     <NavLink tag={Link} className="text-dark" to="/adminquizlist">Admin</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" onClick={() => { this.props.clearToken() }}>Logout</NavLink>
+                                        <NavLink tag={Link} className="text-dark" to="/"  onClick={() => { this.props.clearToken() }}>Logout</NavLink>
                                 </NavItem>
                                 {/*tied with asp.net authetication*/}
                                 {/*<LoginMenu></LoginMenu>*/}

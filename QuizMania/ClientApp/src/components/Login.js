@@ -6,14 +6,21 @@ export const Login = (props) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [authresult, setauthresult] = useState('');
     const [submitted, setsubmitted] = useState(false);
 
     const handleSubmit = async (e) => {
+        setauthresult('');
         setsubmitted(true);
         if (username.length > 0 && password.length > 0) {
-            const token = await LoginUser(LoginUser(username, password));
-            console.log(token);
-            props.setToken(token);
+            try {
+                const token = await LoginUser(username, password);
+                //console.log(token);
+                props.setToken(token);
+            } catch (e) {
+                setauthresult('User Not Found');
+                //console.log(e);
+            }
         }
     }
 
@@ -42,6 +49,7 @@ export const Login = (props) => {
                                         <input onChange={(e) => { setPassword(e.target.value) }}
                                             className={submitted && !username ? "highlight-required" : ""}
                                             type="password" placeholder="Enter Password" name="psw" required />
+                                        <div className="text-center text-danger bold">{authresult}</div>
                                         <button
                                             onClick={handleSubmit}
                                             type="submit" className="btn_1 medium">Login</button>
