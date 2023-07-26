@@ -40,3 +40,7 @@ code {
 .highlight-required {
     border-color: red !important;
 }
+
+.hide-link{
+    visibility:hidden;
+}

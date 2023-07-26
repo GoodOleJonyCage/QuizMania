@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { LoginMenu } from './api-authorization/LoginMenu';
+
 import './NavMenu.css';
 
 export class NavMenu extends Component {
@@ -23,9 +24,14 @@ export class NavMenu extends Component {
     }
 
     render() {
+
+        var loggedIn = this.props.token?.length > 0;
+
         return (
-            <header>
-                <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
+            !loggedIn ? <></> :
+            <header >
+                <Navbar
+                    className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
                     <Container>
                         {/*<NavbarBrand tag={Link} to="/">QuizMaster</NavbarBrand>*/}
                         <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
@@ -41,9 +47,11 @@ export class NavMenu extends Component {
                                 <NavItem>
                                     <NavLink tag={Link} className="text-dark" to="/adminquizlist">Admin</NavLink>
                                 </NavItem>
-                                
-                                <LoginMenu>
-                                </LoginMenu>
+                                <NavItem>
+                                    <NavLink tag={Link} className="text-dark" onClick={() => { this.props.clearToken() }}>Logout</NavLink>
+                                </NavItem>
+                                {/*tied with asp.net authetication*/}
+                                {/*<LoginMenu></LoginMenu>*/}
                             </ul>
                         </Collapse>
                     </Container>
