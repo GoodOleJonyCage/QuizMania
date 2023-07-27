@@ -141,18 +141,17 @@ export const LoadAnswers = (func) => {
         });
 }
 
-export async function LoadQuizes(func)  {
+export const LoadQuizes = async (abortController) => {
      
-    fetch(`quiz/quizes`, {
+    return await fetch(`quiz/quizes`, {
+        signal: abortController.signal,
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
     })
-    .then((response) => response.json())
-    .then((data) => {
-        func(data);
-    });
+        .then((response) => response.json())
+        .then((data) => { return data; });
 }
 
 export async function EditAnswer(id, name) {

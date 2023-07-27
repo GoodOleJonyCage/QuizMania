@@ -47,7 +47,7 @@ export const Login = (props) => {
                                             type="text" placeholder="Enter Username" name="uname" required />
                                         <label htmlFor="psw"><b>Password</b></label>
                                         <input onChange={(e) => { setPassword(e.target.value) }}
-                                            className={submitted && !username ? "highlight-required" : ""}
+                                            className={submitted && !password ? "highlight-required" : ""}
                                             type="password" placeholder="Enter Password" name="psw" required />
                                         <div className="text-center text-danger bold">{authresult}</div>
                                         <button

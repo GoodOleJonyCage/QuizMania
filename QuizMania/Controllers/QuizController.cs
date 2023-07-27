@@ -367,9 +367,52 @@ namespace QuizMania.Controllers
             return vm;
         }
 
+        //[Route("quizes")]
+        //public List<ViewModels.Quiz> Quizes()
+        //{
+        //    List<ViewModels.Quiz> vm = new List<ViewModels.Quiz>();
+        //    using (QuizMasterContext context = new QuizMasterContext())
+        //    {
+        //        context.Quiz.ToList().ForEach(q =>
+        //        {
+        //            var quizQuestions = (from qt in context.Question
+        //                                 join qa in context.QuizQuestionAnswer
+        //                                  on qt.Id equals qa.QuestionId
+        //                                 where qa.QuizId == q.Id
+        //                                 select new ViewModels.Question
+        //                                 {
+        //                                     QID = qt.Id,
+        //                                     Answers = (from a in context.Answer
+        //                                                join qa in context.QuizQuestionAnswer
+        //                                                on a.Id equals qa.AnswerId
+        //                                                where qa.QuizId == q.Id && qa.QuestionId == qt.Id
+        //                                                select new ViewModels.Answer { AID = a.Id })
+        //                                                .Distinct()
+        //                                                .ToList()
+        //                                 })
+        //                                 .Distinct()
+        //                                 .ToList();
+
+        //            var lstScores = GetScoresForUser(1, q.Id);
+        //            vm.Add(new ViewModels.Quiz()
+        //            {
+        //                ID = q.Id,
+        //                Name = q.Name,
+        //                Questions = quizQuestions,
+        //                BestScore = lstScores.Count > 0 ? lstScores.Max() : 0,
+        //                AverageScore = lstScores.Count > 0 ? (int)lstScores.Average() : 0,
+        //                Attempts = GetAttemptCountForUser(1, q.Id)
+        //            });
+        //        });
+        //    }
+        //    return vm;
+        //}
+        [AllowAnonymous]
+        [HttpGet]
         [Route("quizes")]
-        public List<ViewModels.Quiz> Quizes()
+        public ActionResult Quizes()
         {
+
             List<ViewModels.Quiz> vm = new List<ViewModels.Quiz>();
             using (QuizMasterContext context = new QuizMasterContext())
             {
@@ -399,13 +442,13 @@ namespace QuizMania.Controllers
                         ID = q.Id,
                         Name = q.Name,
                         Questions = quizQuestions,
-                        BestScore = lstScores.Count > 0  ? lstScores.Max() : 0 ,
-                        AverageScore = lstScores.Count > 0 ? (int)lstScores.Average(): 0,
-                        Attempts = GetAttemptCountForUser(1,q.Id)
+                        BestScore = lstScores.Count > 0 ? lstScores.Max() : 0,
+                        AverageScore = lstScores.Count > 0 ? (int)lstScores.Average() : 0,
+                        Attempts = GetAttemptCountForUser(1, q.Id)
                     });
                 });
             }
-            return vm;
+            return Ok(vm);
         }
 
         public ViewModels.Quiz Get([FromBody] System.Text.Json.JsonElement param)

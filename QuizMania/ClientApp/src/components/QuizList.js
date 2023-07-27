@@ -25,8 +25,9 @@ const GetImageIndex = (index) => {
 export const Quizes = (props) => {
 
     return <div className="row">
-            {
-                props.list.map((q,index) => {
+        {
+            props.quizes.length === 0 ? <div className="container text-center">Loading...</div> :
+                props.quizes.map((q, index) => {
                     return <div className="col-md-6" key={q.id}>
                         <NavLink key={q.id} tag={Link} className="button"
                             to={{
@@ -53,14 +54,24 @@ export const Quizes = (props) => {
 
 export const QuizList = (props) => {
 
-    const [list, setlist] = useState([]);
+    const [quizes, setquizes] = useState([]);
+
+    const LoadData = async (abortController) => {
+        const vm = await LoadQuizes(abortController);
+        setquizes(vm);
+    }
+
     useEffect(() => {
-        LoadQuizes(setlist);
+        //let isMounted = true;
+        //if (isMounted)
+        const abortController = new AbortController();
+        LoadData(abortController);
+        return () => { console.log("fetch call aborted!" ); abortController.abort();/*isMounted = false*/ };
     }, []);
 
     return <div>
-        <h3 className="text-center">Start a Quiz!</h3>
-        <Quizes list={list} {...props} />
-    </div>
+                <h3 className="text-center">Start a Quiz!</h3>
+                <Quizes quizes={quizes} {...props} />
+            </div>
 
 }

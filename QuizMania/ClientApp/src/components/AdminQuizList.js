@@ -3,27 +3,6 @@ import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLi
 import { Link } from 'react-router-dom';
 import { LoadQuizes } from './Services'
 
-//export const Quizes = (props) => {
-    
-//    return <div className="textcenter">
-//            {
-//                props.list.map(q => {
-//                    return <div className="questionitem">
-//                                <span>{q.name}</span>
-//                                <NavLink tag={Link} className="button"
-//                                    to={{
-//                                        pathname: '/adminquiz',
-//                                        state: { id: q.id, name: q.name },
-//                                    }}>
-//                                    <button className="button" type="button"><i className="icon-forward-2 text-success" />Edit</button>
-//                                </NavLink>
-//                            </div>
-                    
-//                })
-//            }
-//        </div>
-//}
-
 const GetAnswerCount = (questions) => {
 
     var count = 0;
@@ -47,7 +26,8 @@ export const Quizes = (props) => {
 
     return <div className="row">
         {
-            props.list.map((q, index) => {
+            props.quizes.length === 0 ? <div className="container text-center">Loading...</div> :
+                props.quizes.map((q, index) => {
                 return <div className="col-md-6" key={q.id}>
                     <NavLink key={q.id} tag={Link} className="button"
                         to={{
@@ -74,10 +54,19 @@ export const Quizes = (props) => {
 
 export const AdminQuizList = () => {
 
-    const [list, setlist] = useState([]);
+    const [quizes, setquizes] = useState([]);
+
+    const LoadData = async (abortController) => {
+        const vm = await LoadQuizes(abortController);
+        setquizes(vm);
+    }
 
     useEffect(() => {
-        LoadQuizes(setlist);
+        //let isMounted = true;
+        //if (isMounted)
+        const abortController = new AbortController();
+        LoadData(abortController);
+        return () => { console.log("fetch call aborted!"); abortController.abort();/*isMounted = false*/ };
     }, []);
 
     return <div>
@@ -95,7 +84,7 @@ export const AdminQuizList = () => {
                         <button className="button">Edit Questions and Answers</button>
                     </NavLink>
                 </div>
-                <Quizes list={list} />
+                <Quizes quizes={quizes} />
             </div>
 
 }

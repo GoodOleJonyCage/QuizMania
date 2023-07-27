@@ -16,7 +16,7 @@ import { AdminQuizList } from './components/AdminQuizList'
 import { StartQuizPage } from './components/StartQuizPage'
 import { EndQuizPage } from './components/EndQuizPage'
 import { QuizList } from './components/QuizList'
-import { useLocation } from "react-router-dom";
+
 import { Aside } from './components/Aside'
 import { Login } from './components/Login'
 import { Logo } from './components/Logo'
@@ -29,18 +29,18 @@ import './styles/custom.css'
 import './styles/login.css'
 import './styles/shortcodes.css'
 
-const Header = () => {
-    return <header>
-        <a id="menu-button-mobile" className="cmn-toggle-switch cmn-toggle-switch__htx" href="#"><span>Menu mobile</span></a>
-        <nav className="main_nav">
-            <ul className="nav nav-tabs">
-                <li><a href="#tab_1" data-toggle="tab" className="active show">Request a quote</a></li>
-                <li><a href="#tab_2" data-toggle="tab">About</a></li>
-                <li><a href="#tab_3" data-toggle="tab">Contact</a></li>
-            </ul>
-        </nav>
-    </header>;
-}
+//const Header = () => {
+//    return <header>
+//        <a id="menu-button-mobile" className="cmn-toggle-switch cmn-toggle-switch__htx" href="#"><span>Menu mobile</span></a>
+//        <nav className="main_nav">
+//            <ul className="nav nav-tabs">
+//                <li><a href="#tab_1" data-toggle="tab" className="active show">Request a quote</a></li>
+//                <li><a href="#tab_2" data-toggle="tab">About</a></li>
+//                <li><a href="#tab_3" data-toggle="tab">Contact</a></li>
+//            </ul>
+//        </nav>
+//    </header>;
+//}
 
 ////use enums
     //function pageType(string route) {
@@ -78,87 +78,13 @@ const Header = () => {
     //    return pagetype;
     //}
 
-function GetTitle() {
-        let title = "Home";
-        const location = useLocation();
-        //console.log(location);
-        switch (location.pathname) {
-
-            case "/":
-                title = "Home";
-                break;
-            case "/quizlist":
-                title = "Our Quizes";
-                break;
-
-            case "/adminquizlist" :
-                title = "Admin - Our Quizes";
-                break;
-
-            case "/adminquizstart":
-                title = "Create Quiz";
-                break;
-
-
-            case "/adminquiz":
-                title = "Start Quiz";
-                break;
-
-            case "/adminquestiponanswer":
-                title = "Questions and Answers";
-                break;
-
-            default:
-                title = "Home";
-                break;
-        }
-        return title;
-}
-
-function GetHeading() {
-    let heading = "Home";
-    const location = useLocation();
-    //console.log(location);
-    switch (location.pathname) {
-
-        case "/":
-            heading = "Welcome to QuizMania!";
-            break;
-        case "/quizlist":
-            heading = "View Our Quizes";
-            break;
-
-        case "/adminquizlist":
-            heading = "Admin - View Our Quizes";
-            break;
-
-        case "/adminquizstart":
-            heading = "Quiz Creator";
-            break;
-
-
-        case "/adminquiz":
-            heading = "Quiz Starter";
-            break;
-
-        case "/adminquestiponanswer":
-            heading = "Questions and Answers";
-            break;
-
-        default:
-            heading = "Home";
-            break;
-    }
-    return heading;
-}
-
 function App() {
 
 
     const { token, setToken, clearToken } = useToken();
 
     if (!token)
-        return <Login setToken={setToken}></Login>;
+        return <Login clearToken={clearToken} token={token} setToken={setToken}></Login> 
      
     return (
         <div>
@@ -166,14 +92,14 @@ function App() {
                 <div data-loader="circle-side-2" />
             </div>
             <div id="main_container" className="visible">
-                <Logo clearToken={clearToken} token={token} />
+                <Logo clearToken={clearToken} token={token} setToken={setToken} />
                 <div className="wrapper_in">
                     <div className="container-fluid">
                         <div className="tab-content">
                             <div className="tab-pane fade show active" >
                                 <div className="subheader" id="quote" />
                                 <div className="row">
-                                    <Aside Heading={GetHeading()} Title={GetTitle()}></Aside>
+                                    <Aside></Aside>
                                     <Layout>
                                         <Route exact path='/' component={(e) => <Home  {...e} />} />
                                         <Route path='/counter' component={(e) => <Counter  {...e} />} />
