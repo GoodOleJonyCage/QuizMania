@@ -42,13 +42,13 @@ namespace QuizMania
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
             services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = System.TimeSpan.FromSeconds(double.Parse(Configuration["Timeout"].ToString())));
-            services.AddAuthentication()
-                .AddIdentityServerJwt()
-                .Services.ConfigureApplicationCookie(options =>
-                {
-                    options.SlidingExpiration = true;
-                    options.ExpireTimeSpan = System.TimeSpan.FromMinutes(double.Parse(Configuration["Timeout"].ToString()));
-                });
+            //services.AddAuthentication()
+            //    .AddIdentityServerJwt()
+            //    .Services.ConfigureApplicationCookie(options =>
+            //    {
+            //        options.SlidingExpiration = true;
+            //        options.ExpireTimeSpan = System.TimeSpan.FromMinutes(double.Parse(Configuration["Timeout"].ToString()));
+            //    });
 
             //JWT Authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -109,7 +109,7 @@ namespace QuizMania
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseIdentityServer();
+            //app.UseIdentityServer();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
