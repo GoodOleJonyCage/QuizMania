@@ -141,10 +141,10 @@ export const LoadAnswers = (func) => {
         });
 }
 
-export const LoadQuizes = async (abortController) => {
+export const LoadQuizes = async (/*abortController*/) => {
      
     return await fetch(`quiz/quizes`, {
-        signal: abortController.signal,
+        //signal: abortController.signal,
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'

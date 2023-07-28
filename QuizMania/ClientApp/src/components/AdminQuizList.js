@@ -26,7 +26,7 @@ export const Quizes = (props) => {
 
     return <div className="row">
         {
-            props.quizes.length === 0 ? <div className="container text-center">Loading...</div> :
+            props.quizes.length === 0 ? <div className="container text-center largeandbold">Loading...</div> :
                 props.quizes.map((q, index) => {
                 return <div className="col-md-6" key={q.id}>
                     <NavLink key={q.id} tag={Link} className="button"
