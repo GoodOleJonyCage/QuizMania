@@ -7,6 +7,7 @@ using System;
 using System.Web.Http;
 using Microsoft.Extensions.Configuration;
 using System.Net;
+using Microsoft.AspNetCore.Identity;
 
 namespace QuizMania.Controllers
 {
