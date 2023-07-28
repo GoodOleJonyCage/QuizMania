@@ -141,6 +141,19 @@ export const LoadAnswers = (func) => {
         });
 }
 
+export const LoadAdminQuizes = async (/*abortController*/) => {
+
+    return await fetch(`quiz/adminquizes`, {
+        //signal: abortController.signal,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+        .then((response) => response.json())
+        .then((data) => { return data; });
+}
+
 export const LoadQuizes = async (/*abortController*/) => {
      
     return await fetch(`quiz/quizes`, {

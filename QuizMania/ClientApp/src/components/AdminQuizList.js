@@ -1,7 +1,7 @@
 ﻿import React, { Component, useEffect, useState } from 'react'
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { LoadQuizes } from './Services'
+import { LoadAdminQuizes } from './Services'
 
 const GetAnswerCount = (questions) => {
 
@@ -17,7 +17,7 @@ const GetAnswerCount = (questions) => {
 const GetImageIndex = (index) => {
 
     let value = (index + 1) % 4;
-    if (value == 0)
+    if (value === 0)
         value = 4;
     return value;
 }
@@ -56,17 +56,17 @@ export const AdminQuizList = () => {
 
     const [quizes, setquizes] = useState([]);
 
-    const LoadData = async (abortController) => {
-        const vm = await LoadQuizes(abortController);
+    const LoadData = async (/*abortController*/) => {
+        const vm = await LoadAdminQuizes(/*abortController*/);
         setquizes(vm);
     }
 
     useEffect(() => {
         //let isMounted = true;
         //if (isMounted)
-        const abortController = new AbortController();
-        LoadData(abortController);
-        return () => { console.log("fetch call aborted!"); abortController.abort();/*isMounted = false*/ };
+        //const abortController = new AbortController();
+        LoadData(/*abortController*/);
+        /*return () => { console.log("fetch call aborted!"); abortController.abort();*//*isMounted = false*//* };*/
     }, []);
 
     return <div>

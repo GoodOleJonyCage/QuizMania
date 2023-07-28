@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using QuizMania.Helper;
@@ -373,8 +374,22 @@ namespace QuizMania.Controllers
         [Route("quizes")]
         public ActionResult Quizes()
         {
-            //this should be a stored proc. 
-            List<ViewModels.Quiz> vm = new List<ViewModels.Quiz>();
+            //sp implementation
+            var lst = new List<GetQuizSummary_Result>();
+            using (QuizMasterContext context = new QuizMasterContext())
+            {
+                lst = context.Set<GetQuizSummary_Result>().FromSqlRaw("EXEC sp_GetQuizSummary").ToList();
+            }
+            return Ok(lst);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("adminquizes")]
+        public ActionResult AdminQuizes()
+        {
+            //EF implemenation
+            var vm = new List<ViewModels.Quiz>();
             using (QuizMasterContext context = new QuizMasterContext())
             {
                 context.Quiz.ToList().ForEach(q =>
