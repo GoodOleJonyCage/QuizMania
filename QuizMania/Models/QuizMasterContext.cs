@@ -220,6 +220,9 @@ namespace QuizMania.Models
 
             modelBuilder.Entity<QuizQuestionAnswer>(entity =>
             {
+                entity.HasIndex(e => e.QuizId)
+                    .HasName("idx_quizid");
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.AnswerId).HasColumnName("AnswerID");
@@ -246,6 +249,12 @@ namespace QuizMania.Models
 
             modelBuilder.Entity<QuizQuestionAnswered>(entity =>
             {
+                entity.HasIndex(e => e.QuizId)
+                    .HasName("idx_quizid");
+
+                entity.HasIndex(e => e.UserId)
+                    .HasName("idx_userid");
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.AnswerId).HasColumnName("AnswerID");
@@ -281,7 +290,13 @@ namespace QuizMania.Models
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.IsAdmin).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.Name)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Password)
                     .HasMaxLength(500)
                     .IsUnicode(false);
             });
