@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { LoginMenu } from './api-authorization/LoginMenu';
+import { userNameStore } from './userNameStore'
 
 import './NavMenu.css';
 
@@ -25,6 +26,7 @@ export class NavMenu extends Component {
 
     render() {
 
+        const { getUsername } = userNameStore();
         var loggedIn = this.props.token?.length > 0;
 
         return (
@@ -46,6 +48,9 @@ export class NavMenu extends Component {
                                
                                 <NavItem>
                                     <NavLink tag={Link} className="text-dark" to="/adminquizlist">Admin</NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <label className="text-dark nav-link">{getUsername()}</label>
                                 </NavItem>
                                 <NavItem>
                                         <NavLink tag={Link} className="text-dark" to="/"  onClick={() => { this.props.clearToken() }}>Logout</NavLink>

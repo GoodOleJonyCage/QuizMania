@@ -1,21 +1,28 @@
 import React, { Component, useState } from 'react';
 import { Logo } from './Logo'
 import { LoginUser } from './Services'
+import { userNameStore } from './userNameStore'
 
 export const Login = (props) => {
 
-    const [username, setUsername] = useState('');
+    const { setUsername, clearUsername } = userNameStore();
+
+    const [userID, setUserID] = useState('');
     const [password, setPassword] = useState('');
     const [authresult, setauthresult] = useState('');
     const [submitted, setsubmitted] = useState(false);
 
     const handleSubmit = async (e) => {
+
         setauthresult('');
+        clearUsername(null);
         setsubmitted(true);
-        if (username.length > 0 && password.length > 0) {
+
+        if (userID.length > 0 && password.length > 0) {
             try {
-                const token = await LoginUser(username, password);
+                const token = await LoginUser(userID, password);
                 //console.log(token);
+                setUsername(userID);
                 props.setToken(token);
             } catch (e) {
                 setauthresult('User Not Found');
@@ -42,8 +49,8 @@ export const Login = (props) => {
                                     </div>
                                     <div className="container">
                                         <label htmlFor="uname"><b>Username</b></label>
-                                        <input onChange={(e) => { setUsername(e.target.value) }}
-                                            className={submitted && !username ? "highlight-required" : ""}
+                                        <input onChange={(e) => { setUserID(e.target.value) }}
+                                            className={submitted && !userID ? "highlight-required" : ""}
                                             type="text" placeholder="Enter Username" name="uname" required />
                                         <label htmlFor="psw"><b>Password</b></label>
                                         <input onChange={(e) => { setPassword(e.target.value) }}
