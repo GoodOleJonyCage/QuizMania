@@ -42,9 +42,10 @@ code {
 }
 
 .largeandbold {
-    font-size: larger;
+    font-size: xx-large;
     font-weight: bold;
     color: red;
     text-transform: uppercase;
+    text-align:center;
 }
  

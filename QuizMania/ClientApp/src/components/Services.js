@@ -145,19 +145,23 @@ export const LoadAnswers = (func) => {
 
 export const LoadAdminQuizes = async (/*abortController*/) => {
 
-    return await fetch(`quiz/adminquizes`, {
+    let response = await fetch(`quiz/adminquizes`, {
         //signal: abortController.signal,
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Authorization': "Bearer " + getJwtToken()
         }
-    })
-        .then((response) => response.json())
-        .then((data) => { return data; })
-        .catch((error) => {
-            console.log(error)
-        });
+    });
+    //console.log(response.status);
+    if (response.ok) {
+        let data = response.json();
+        return data;
+    }
+    else if (response.status === 401 || response.status === 403) {
+        throw new Error("Unauthorized Access");
+    }
+
 }
 
 export const LoadQuizes = async (/*abortController*/) => {

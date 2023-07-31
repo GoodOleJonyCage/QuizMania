@@ -24,41 +24,63 @@ const GetImageIndex = (index) => {
 
 export const Quizes = (props) => {
 
-    return <div className="row">
-        {
-            props.quizes.length === 0 ? <div className="container text-center largeandbold">Loading...</div> :
-                props.quizes.map((q, index) => {
-                return <div className="col-md-6" key={q.id}>
-                    <NavLink key={q.id} tag={Link} className="button"
-                        to={{
-                            pathname: '/adminquiz',
-                            state: { id: q.id, name: q.name },
-                        }}>
-                        <div key={q.id} className="box_feat" id={"icon_" + GetImageIndex(index)}>
-                            <h3 className="mt-3 black"><b>{q.name}</b></h3>
-                            <div className="quizinfo">
-                                <span className="mr-2">Questions <span className="color-black">{q.questions.length}</span></span>
-                                <div>Answers <span className="color-black">{GetAnswerCount(q.questions)}</span></div>
-                                <div>Attempts <span className="color-black">{q.attempts}</span></div>
-                                <div>Best Score <span className="color-black">{q.bestScore}%</span></div>
-                                <div>Average Score <span className="color-black">{q.averageScore}%</span></div>
-                            </div>
+    return props.quizes.length === 0 ? <></> :
+            <>
+            <div className="text-center">
+                <NavLink tag={Link} className="button"
+                    to={{
+                        pathname: '/adminquizstart',
+                    }}>
+                    <button className="button">Create New Quiz</button>
+                </NavLink>
+                <NavLink tag={Link} className="button"
+                    to={{
+                        pathname: '/adminquestiponanswer',
+                    }}>
+                    <button className="button">Edit Questions and Answers</button>
+                </NavLink>
+            </div>
+            <div className="row">
+                {
+                    props.quizes.map((q, index) => {
+                        return <div className="col-md-6" key={q.id}>
+                            <NavLink key={q.id} tag={Link} className="button"
+                                to={{
+                                    pathname: '/adminquiz',
+                                    state: { id: q.id, name: q.name },
+                                }}>
+                                <div key={q.id} className="box_feat" id={"icon_" + GetImageIndex(index)}>
+                                    <h3 className="mt-3 black"><b>{q.name}</b></h3>
+                                    <div className="quizinfo">
+                                        <span className="mr-2">Questions <span className="color-black">{q.questions.length}</span></span>
+                                        <div>Answers <span className="color-black">{GetAnswerCount(q.questions)}</span></div>
+                                        <div>Attempts <span className="color-black">{q.attempts}</span></div>
+                                        <div>Best Score <span className="color-black">{q.bestScore}%</span></div>
+                                        <div>Average Score <span className="color-black">{q.averageScore}%</span></div>
+                                    </div>
+                                </div>
+                            </NavLink>
                         </div>
-                    </NavLink>
-                </div>
-            })
-        }
-    </div>
-
+                    })
+                }
+            </div>
+            </>
 }
 
 export const AdminQuizList = () => {
 
+    const [error, seterror] = useState('');
     const [quizes, setquizes] = useState([]);
 
     const LoadData = async (/*abortController*/) => {
-        const vm = await LoadAdminQuizes(/*abortController*/);
-        setquizes(vm);
+        try {
+            const vm = await LoadAdminQuizes(/*abortController*/);
+            if(vm)
+                setquizes(vm);
+        } catch (e) {
+            seterror(e.message);
+            //console.log(e.message);
+        }
     }
 
     useEffect(() => {
@@ -70,21 +92,11 @@ export const AdminQuizList = () => {
     }, []);
 
     return <div>
-                <div className="text-center">
-                    <NavLink tag={Link} className="button"
-                        to={{
-                    pathname: '/adminquizstart',
-                    }}>
-                        <button className="button">Create New Quiz</button>
-                    </NavLink>
-                    <NavLink tag={Link} className="button"
-                        to={{
-                            pathname: '/adminquestiponanswer',
-                        }}>
-                        <button className="button">Edit Questions and Answers</button>
-                    </NavLink>
-                </div>
-                <Quizes quizes={quizes} />
+        {
+                error.length===0 && quizes.length === 0 ? <div className="container text-center largeandbold">Loading...</div> :
+                    <Quizes quizes={quizes} />
+                }
+                <div className="largeandbold">{error}</div>
             </div>
 
 }
