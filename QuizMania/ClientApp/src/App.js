@@ -82,7 +82,7 @@ function App() {
 
 
     const { token, setToken, clearToken } = useToken();
-
+    console.log(token);
     if (!token)
         return <Login clearToken={clearToken} token={token} setToken={setToken}></Login> 
      

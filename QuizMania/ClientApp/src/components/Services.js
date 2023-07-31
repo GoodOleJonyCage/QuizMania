@@ -237,8 +237,8 @@ export const LoginUser = async (name, pwd) => {
     return await fetch(`user/login`, {
         method: 'POST',
         body: JSON.stringify({
-            name: name
-            /*password: pwd*/
+            name: name,
+            password: pwd
         }),
         headers: {
             'Content-Type': 'application/json',

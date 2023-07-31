@@ -8,6 +8,9 @@ using System.Web.Http;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using QuizMania.Models;
+using System.Linq;
 
 namespace QuizMania.Controllers
 {
@@ -22,9 +25,16 @@ namespace QuizMania.Controllers
         }
 
 
-        public bool Authenticate(Models.User user)
+        public Models.User Authenticate(Models.User user)
         {
-            return user.Name == "himan_sa@yahoo.com" ;
+            Models.User userFound = null;
+            using (QuizMasterContext context = new QuizMasterContext())
+            {
+                userFound = context.User
+                    .SingleOrDefault(u => u.Name == user.Name &&
+                                          u.Password == user.Password);
+            }
+            return userFound;
         }
 
         [AllowAnonymous]
@@ -34,11 +44,13 @@ namespace QuizMania.Controllers
         {
             var user = new Models.User() 
             { 
-              Name = userParam.GetProperty("name").ToString()
+              Name = userParam.GetProperty("name").ToString(),
+              Password = userParam.GetProperty("password").ToString()
             };
-            if (Authenticate(user))
+            var userLogged = Authenticate(user);
+            if (userLogged != null)
             {
-                var token = GenerateToken(user.Name);
+                var token = GenerateToken(userLogged);
                 return Ok(token);
             }
             else
@@ -47,14 +59,14 @@ namespace QuizMania.Controllers
         }
 
         // To generate token
-        private string GenerateToken(string username)
+        private string GenerateToken(Models.User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier,username),
-                new Claim(ClaimTypes.Role,"admin")
+                new Claim(ClaimTypes.NameIdentifier,user.Name),
+                new Claim(ClaimTypes.Role,user.IsAdmin.Value ? "Admin" : string.Empty)
             };
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                 _config["Jwt:Audience"],
