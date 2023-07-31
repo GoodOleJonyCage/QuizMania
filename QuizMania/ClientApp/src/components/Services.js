@@ -1,6 +1,8 @@
-﻿import { createContext, useEffect, useState, Component } from "react";
-import axios from 'axios';
-import { Question } from "./Question";
+﻿//import { createContext, useEffect, useState, Component } from "react";
+//import axios from 'axios';
+import { userNameStore } from './userNameStore'
+
+let { getJwtToken } = userNameStore();
 
 export const LoadQuizToEdit = (quizid, setquestionanswers) => {
 
@@ -147,11 +149,15 @@ export const LoadAdminQuizes = async (/*abortController*/) => {
         //signal: abortController.signal,
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': "Bearer " + getJwtToken()
         }
     })
         .then((response) => response.json())
-        .then((data) => { return data; });
+        .then((data) => { return data; })
+        .catch((error) => {
+            console.log(error)
+        });
 }
 
 export const LoadQuizes = async (/*abortController*/) => {
@@ -160,7 +166,8 @@ export const LoadQuizes = async (/*abortController*/) => {
         //signal: abortController.signal,
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization' : "Bearer " + getJwtToken()
         }
     })
         .then((response) => response.json())

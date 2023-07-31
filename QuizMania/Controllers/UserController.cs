@@ -17,6 +17,8 @@ namespace QuizMania.Controllers
     [AllowAnonymous]
     public class UserController : ControllerBase
     {
+        const string roleAdmin = "Admin";
+        const string roleUser  = "User";
 
         private readonly IConfiguration _config;
         public UserController(IConfiguration config)
@@ -66,7 +68,7 @@ namespace QuizMania.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier,user.Name),
-                new Claim(ClaimTypes.Role,user.IsAdmin.Value ? "Admin" : string.Empty)
+                new Claim(ClaimTypes.Role,user.IsAdmin.Value ? roleAdmin : roleUser)
             };
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                 _config["Jwt:Audience"],

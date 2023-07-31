@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace QuizMania.Controllers
 {
-    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class QuizController : ControllerBase
@@ -368,8 +367,7 @@ namespace QuizMania.Controllers
             return vm;
         }
 
-        
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("quizes")]
         public ActionResult Quizes()
@@ -383,7 +381,7 @@ namespace QuizMania.Controllers
             return Ok(lst);
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("adminquizes")]
         public ActionResult AdminQuizes()

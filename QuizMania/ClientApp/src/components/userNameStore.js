@@ -22,7 +22,39 @@ export const userNameStore = () => {
         localStorage.setItem('username', null);
     }
 
+    const getJwtToken = () => {
+
+        let tokenstr = localStorage.getItem('token');
+        if (tokenstr) {
+            const usertoken = JSON.parse(tokenstr);
+            return usertoken;
+        }
+        return null;
+    }
+
+    const isAdmin = () => {
+
+        let tokenstr = localStorage.getItem('token');
+        if (tokenstr) {
+
+            let jwtData = tokenstr.split('.')[1];
+            let decodedJwtJsonData = window.atob(jwtData);
+            let decodedJwtData = JSON.parse(decodedJwtJsonData);
+
+            let roles = []
+            Object.keys(decodedJwtData)
+                .forEach(key => {
+                    if (key.match(/.*role$/)) { roles = decodedJwtData[key] }
+                })
+            //console.log(roles);
+            return roles === "Admin";
+        }
+        return false;
+    }
+
     return {
+        isAdmin: isAdmin,
+        getJwtToken: getJwtToken,
         setUsername: setUsername,
         getUsername: getUsername,
         clearUsername: clearUsername

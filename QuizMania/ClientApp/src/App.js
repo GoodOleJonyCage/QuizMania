@@ -29,54 +29,6 @@ import './styles/custom.css'
 import './styles/login.css'
 import './styles/shortcodes.css'
 
-//const Header = () => {
-//    return <header>
-//        <a id="menu-button-mobile" className="cmn-toggle-switch cmn-toggle-switch__htx" href="#"><span>Menu mobile</span></a>
-//        <nav className="main_nav">
-//            <ul className="nav nav-tabs">
-//                <li><a href="#tab_1" data-toggle="tab" className="active show">Request a quote</a></li>
-//                <li><a href="#tab_2" data-toggle="tab">About</a></li>
-//                <li><a href="#tab_3" data-toggle="tab">Contact</a></li>
-//            </ul>
-//        </nav>
-//    </header>;
-//}
-
-////use enums
-    //function pageType(string route) {
-    //    let pagetype = "";
-    //    switch (location.pathname) {
-
-    //        case "/":
-    //            pagetype = "Home";
-    //            break;
-    //        case "/quizlist":
-    //            pagetype = "Our Quizes";
-    //            break;
-
-    //        case "/adminquizlist":
-    //            pagetype = "Admin - Our Quizes";
-    //            break;
-
-    //        case "/adminquizstart":
-    //            pagetype = "Create Quiz";
-    //            break;
-
-
-    //        case "/adminquiz":
-    //            pagetype = "Start Quiz";
-    //            break;
-
-    //        case "/adminquestiponanswer":
-    //            pagetype = "Questions and Answers";
-    //            break;
-
-    //        default:
-    //            title = "Home";
-    //            break;
-    //    }
-    //    return pagetype;
-    //}
 
 function App() {
 
