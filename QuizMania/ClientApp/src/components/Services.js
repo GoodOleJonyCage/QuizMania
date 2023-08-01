@@ -257,12 +257,18 @@ export const LoginUser = async (name, pwd) => {
         }
     })
         .then(response => {
+            
             if (response.ok)
                 return response.json();
-            else {
-                //console.log(response);
-                throw Error(response);
-            }
+
+             return Promise.reject(response);
         })
+        //.catch((response) => {
+        //    console.log(response);
+        //    response.json().then((json ) => {
+        //        //console.log(json);
+        //        return Error(json);
+        //    })
+        //});
 
 }

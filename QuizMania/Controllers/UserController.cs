@@ -56,8 +56,7 @@ namespace QuizMania.Controllers
                 return Ok(token);
             }
             else
-                return NotFound("User Not Found (server side)");
-            //find a way to pass this message to client
+                return NotFound("User Not Found");
         }
 
         // To generate token

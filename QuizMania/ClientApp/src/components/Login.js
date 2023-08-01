@@ -21,12 +21,13 @@ export const Login = (props) => {
         if (userID.length > 0 && password.length > 0) {
             try {
                 const token = await LoginUser(userID, password);
-                //console.log(token);
                 setUsername(userID);
                 props.setToken(token);
-            } catch (e) {
-                setauthresult('User Not Found');
-                //console.log(e);
+            } catch (error) {
+                error.json().then((errorMessage) => {
+                    //console.log(errorMessage);
+                    setauthresult(errorMessage);
+                });
             }
         }
     }
