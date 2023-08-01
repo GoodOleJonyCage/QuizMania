@@ -16,13 +16,12 @@ import { AdminQuizList } from './components/AdminQuizList'
 import { StartQuizPage } from './components/StartQuizPage'
 import { EndQuizPage } from './components/EndQuizPage'
 import { QuizList } from './components/QuizList'
-
 import { Aside } from './components/Aside'
 import { Login } from './components/Login'
+import { Register } from './components/register';
 import { Logo } from './components/Logo'
 import { useToken } from './components/useToken'
-
-import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
+/*import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';*/
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 
 import './styles/custom.css'
@@ -30,13 +29,21 @@ import './styles/login.css'
 import './styles/shortcodes.css'
 
 
+
 function App() {
 
+    //select login vs register page
+    const [registerPageSelected, setregisterPageSelected] = useState(false);
 
     const { token, setToken, clearToken } = useToken();
     //console.log(token);
-    if (!token)
-        return <Login clearToken={clearToken} token={token} setToken={setToken}></Login> 
+    if (!token) {
+
+        if (registerPageSelected)
+            return <Register clearToken={clearToken} token={token} setToken={setToken} setregisterPageSelected={setregisterPageSelected}></Register>
+        else
+            return <Login clearToken={clearToken} token={token} setToken={setToken} setregisterPageSelected={setregisterPageSelected}></Login>
+    }
      
     return (
         <div>

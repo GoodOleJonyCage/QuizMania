@@ -2,7 +2,7 @@
 //import axios from 'axios';
 import { userNameStore } from './userNameStore'
 
-let { getJwtToken } = userNameStore();
+let { getJwtToken, getUsername } = userNameStore();
 
 export const LoadQuizToEdit = (quizid, setquestionanswers) => {
 
@@ -68,7 +68,8 @@ export const saveAndSubmitQuiz = (quizid,questionlist) => {
         method: 'POST',
         body: JSON.stringify({
             quizid: quizid,
-            questionlist: questionlist
+            questionlist: questionlist 
+            //username : getUsername()
         }),
         headers: {
             'Content-Type': 'application/json',
@@ -271,4 +272,26 @@ export const LoginUser = async (name, pwd) => {
         //    })
         //});
 
+}
+
+export const RegisterUser = async (name, pwd) => {
+
+
+    return await fetch(`user/registerUser`, {
+        method: 'POST',
+        body: JSON.stringify({
+            name: name,
+            password: pwd
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+        })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        });
 }

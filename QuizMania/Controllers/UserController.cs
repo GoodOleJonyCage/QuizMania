@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuizMania.Models;
 using System.Linq;
+using System.Net.Mail;
 
 namespace QuizMania.Controllers
 {
@@ -26,6 +27,61 @@ namespace QuizMania.Controllers
             _config = config;
         }
 
+        [AllowAnonymous]
+        [System.Web.Http.HttpPost]
+        public ActionResult RegisterUser([Microsoft.AspNetCore.Mvc.FromBody] System.Text.Json.JsonElement userParams)
+        {
+            var user = new Models.User()
+            {
+                Name = userParams.GetProperty("name").ToString(),
+                Password = userParams.GetProperty("password").ToString()
+            };
+            
+            //validation
+            if (string.IsNullOrEmpty(user.Name))
+            {
+                return BadRequest("Username required");
+            }
+            if (string.IsNullOrEmpty(user.Password))
+            {
+                return BadRequest("Password required");
+            }
+
+            //check for email validity
+            try
+            {
+                MailAddress email = new MailAddress(user.Name);
+            }
+            catch (FormatException fe)
+            {
+                //Bad email
+                return BadRequest("Username should be a valid email address");
+            }
+
+            if (UserExists(user))
+            {
+                return BadRequest("User already exists");
+            }
+            else
+            {
+                using (QuizMasterContext context = new QuizMasterContext())
+                {
+                    context.User.Add(user);
+                    context.SaveChanges();
+                }
+                return Ok(true);
+            }
+        }
+
+        public bool UserExists(Models.User user)
+        {
+            Models.User userFound = null;
+            using (QuizMasterContext context = new QuizMasterContext())
+            {
+                userFound = context.User.SingleOrDefault(u => u.Name == user.Name);
+            }
+            return userFound != null;
+        }
 
         public Models.User Authenticate(Models.User user)
         {
@@ -42,13 +98,23 @@ namespace QuizMania.Controllers
         [AllowAnonymous]
         [System.Web.Http.HttpPost]
         public ActionResult Login
-            ([Microsoft.AspNetCore.Mvc.FromBody] System.Text.Json.JsonElement userParam)
+            ([Microsoft.AspNetCore.Mvc.FromBody] System.Text.Json.JsonElement userParams)
         {
             var user = new Models.User() 
             { 
-              Name = userParam.GetProperty("name").ToString(),
-              Password = userParam.GetProperty("password").ToString()
+              Name = userParams.GetProperty("name").ToString(),
+              Password = userParams.GetProperty("password").ToString()
             };
+            //validation
+            if (string.IsNullOrEmpty(user.Name))
+            {
+                return BadRequest("Username required");
+            }
+            if (string.IsNullOrEmpty(user.Password))
+            {
+                return BadRequest("Password required");
+            }
+
             var userLogged = Authenticate(user);
             if (userLogged != null)
             {

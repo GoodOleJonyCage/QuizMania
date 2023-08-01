@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Logo } from './Logo'
+import { RegisterUser } from './Services'
 import { LoginUser } from './Services'
 import { userNameStore } from './userNameStore'
 
-export const Login = (props) => {
+export const Register = (props) => {
 
     const { setUsername, clearUsername } = userNameStore();
 
@@ -15,21 +16,31 @@ export const Login = (props) => {
     const handleSubmit = async (e) => {
 
         setauthresult('');
-        clearUsername(null);
         setsubmitted(true);
 
-        if (userID.length > 0 && password.length > 0)
-        {
+         if (userID.length > 0 && password.length > 0) {
             try {
-                const token = await LoginUser(userID, password);
-                setUsername(userID);
-                props.setToken(token);
+                const userRegistered = await RegisterUser(userID, password);
+                if (userRegistered) {
+                    try {
+                        const token = await LoginUser(userID, password);
+                        setUsername(userID);
+                        props.setToken(token);
+                    } catch (error) {
+                        error.json().then((errorMessage) => {
+                            //console.log(errorMessage);
+                            setauthresult(errorMessage);
+                        });
+                    }
+                }
+                //props.setToken(token);
             } catch (error) {
                 error.json().then((errorMessage) => {
+                    //console.log(errorMessage);
                     setauthresult(errorMessage);
                 });
             }
-        }
+         }
     }
 
     return (
@@ -46,10 +57,10 @@ export const Login = (props) => {
                                 <div className="subheader" id="quote" />
                                 <div className="login-form">
                                     <div className="font-icon-detail">
-                                        <span className="pe-7s-user"></span>
+                                        <span className="pe-7s-users"></span>
                                     </div>
                                     <div className="container m-auto">
-                                        <h2>Login</h2>
+                                        <h2>Register</h2>
                                     </div>
                                     <div className="container">
                                         <label htmlFor="uname"><b>Username</b></label>
@@ -63,14 +74,14 @@ export const Login = (props) => {
                                         <div className="text-center text-danger bold">{authresult}</div>
                                         <div className="row m-auto">
                                             <div className="">
-                                            <button
-                                                onClick={handleSubmit}
-                                                    type="submit" className="btn_1 medium">Login</button>
+                                                <button
+                                                    onClick={handleSubmit}
+                                                    className="btn_1 medium">Register</button>
                                             </div>
                                             <div className="">
-                                            <button
-                                                    onClick={(e) => { props.setregisterPageSelected(true) }}
-                                                    className="btn_outline ml-2">Register</button>
+                                                <button
+                                                    onClick={(e) => { props.setregisterPageSelected(false) }}
+                                                    type="submit" className="btn_outline  ml-2">Login</button>
                                             </div>
                                         </div>
                                         {/*<label>*/}

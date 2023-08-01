@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React  from 'react';
 
 export const ButtonSection = (props) => {
     return props.QuestionIndex == props.QuestionLength ? "" :

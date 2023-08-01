@@ -4,10 +4,15 @@ export const useToken = () => {
 
     const getToken = () => {
         let tokenstr = localStorage.getItem('token');
-        if (tokenstr != null) {
-            const usertoken = JSON.parse(tokenstr);
-            return usertoken ;
+        try {
+            if (tokenstr) {
+                const usertoken = JSON.parse(tokenstr);
+                return usertoken;
+            }
+        } catch (e) {
+            return null;
         }
+        
         return null;
     }
 

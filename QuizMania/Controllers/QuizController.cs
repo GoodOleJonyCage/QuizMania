@@ -250,6 +250,7 @@ namespace QuizMania.Controllers
             ViewModels.Quiz vm  = new ViewModels.Quiz();
             vm.ID               = Int32.Parse(questions.GetProperty("quizid").ToString());
             var questionlist = questions.GetProperty("questionlist");
+            //var username = questions.GetProperty("username"); 
 
             //ResetQuizForUser(1, vm.ID);
             var newAttempt = GetMaxQuizAttemptForUser(1, vm.ID) + 1;
