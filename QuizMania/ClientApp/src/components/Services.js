@@ -68,8 +68,8 @@ export const saveAndSubmitQuiz = (quizid,questionlist) => {
         method: 'POST',
         body: JSON.stringify({
             quizid: quizid,
-            questionlist: questionlist 
-            //username : getUsername()
+            questionlist: questionlist, 
+            username : getUsername()
         }),
         headers: {
             'Content-Type': 'application/json',

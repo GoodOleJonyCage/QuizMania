@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
- 
 
 namespace QuizMania.Controllers
 {
@@ -250,10 +249,12 @@ namespace QuizMania.Controllers
             ViewModels.Quiz vm  = new ViewModels.Quiz();
             vm.ID               = Int32.Parse(questions.GetProperty("quizid").ToString());
             var questionlist = questions.GetProperty("questionlist");
-            //var username = questions.GetProperty("username"); 
+            var username = questions.GetProperty("username").ToString();
+
+            var userID = (new UserController()).GetUserIDByName(username);
 
             //ResetQuizForUser(1, vm.ID);
-            var newAttempt = GetMaxQuizAttemptForUser(1, vm.ID) + 1;
+            var newAttempt = GetMaxQuizAttemptForUser(userID, vm.ID) + 1;
 
             vm.Questions        = JsonConvert.DeserializeObject<List<ViewModels.Question>>(questionlist.ToString());
             vm.Questions.ForEach(q =>
@@ -264,7 +265,7 @@ namespace QuizMania.Controllers
                     {
                         context.QuizQuestionAnswered.Add(new QuizQuestionAnswered()
                         {
-                            UserId = 1,
+                            UserId = userID,
                             QuizId = vm.ID,
                             QuestionId = q.QID,
                             AnswerId = a.AID,

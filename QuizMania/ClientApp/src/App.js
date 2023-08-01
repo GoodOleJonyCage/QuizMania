@@ -16,6 +16,7 @@ import { AdminQuizList } from './components/AdminQuizList'
 import { StartQuizPage } from './components/StartQuizPage'
 import { EndQuizPage } from './components/EndQuizPage'
 import { QuizList } from './components/QuizList'
+import { ScoreBoard } from './components/ScoreBoard'
 import { Aside } from './components/Aside'
 import { Login } from './components/Login'
 import { Register } from './components/register';
@@ -66,6 +67,7 @@ function App() {
                                         <Route path='/quizlist' component={(e) => <QuizList {...e} />} />
                                         <Route path='/endquizpage' component={(e) => <EndQuizPage />} />
                                         <Route path='/quiz' component={(e) => <Quiz {...e} />} />
+                                        <Route path='/scoreboard' component={(e) => <ScoreBoard {...e} />} />
                                         <Route path='/adminquizstart' component={(e) => <AdminQuizStart {...e} />} />
                                         <Route path='/adminquiz' component={(e) => <AdminQuiz  {...e} />} />
                                         <Route path='/adminquizlist' component={(e) => <AdminQuizList  {...e} />} />

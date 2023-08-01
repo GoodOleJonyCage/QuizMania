@@ -21,6 +21,10 @@ namespace QuizMania.Controllers
         const string roleAdmin = "Admin";
         const string roleUser  = "User";
 
+        public UserController()
+        {
+        }
+
         private readonly IConfiguration _config;
         public UserController(IConfiguration config)
         {
@@ -144,6 +148,20 @@ namespace QuizMania.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
 
+        }
+
+        public int GetUserIDByName(string username)
+        {
+            int userID = 0;
+            using (QuizMasterContext context = new QuizMasterContext())
+            {
+                userID = context.User
+                            .Where(u => u.Name == username)
+                            .Select(u => u.Id)
+                            .SingleOrDefault();
+                            
+            }
+            return userID;
         }
     }
 }
