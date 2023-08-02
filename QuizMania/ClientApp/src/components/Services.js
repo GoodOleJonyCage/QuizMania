@@ -48,7 +48,6 @@ export const LoadQuiz = (quizid, func) => {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
             for (var i = 0; i < data.questions.length; i++) {
                 let question = { QID: data.questions[i].qid, Name: data.questions[i].name, Answers: [], Active: true, Message: '' };
                 for (var j = 0; j < data.questions[i].answers.length; j++) {

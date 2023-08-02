@@ -101,16 +101,7 @@ namespace QuizMania.Controllers
             return total;
         }
 
-        //private int GetBestScoreForUser(List<int> lstScores)
-        //{
-        //    return lstScores.Count > 0 ? lstScores.Max() : 0;
-        //}
-
-        //private int GetAverageScoreForUser(List<int> lstScores)
-        //{
-        //    return lstScores.Count > 0 ? (int)lstScores.Average() : 0;
-        //}
-
+        
         [Route("editquestion")]
         public JsonVM EditQuestion([FromBody] System.Text.Json.JsonElement obj)
         {
