@@ -29,6 +29,7 @@ namespace QuizMania.ViewModels
         public int Attempts { get; set; }
         public int BestScore { get; set; }
         public int AverageScore { get; set; }
+        public int Attendies { get; set; }
         public string Name { get; set; }
         public List<Question> Questions { get; set; } = new List<Question>();
     }

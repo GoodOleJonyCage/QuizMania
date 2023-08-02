@@ -8,10 +8,11 @@ export const LoadQuizToEdit = (quizid, setquestionanswers) => {
 
     if (quizid > 0) {
         let questions = [];
-        fetch(`quiz`, {
+        fetch(`quiz/quizdetails`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Authorization': "Bearer " + getJwtToken()
             },
             method: 'POST',
             body: JSON.stringify({ quizid: quizid }),
@@ -36,16 +37,18 @@ export const LoadQuizToEdit = (quizid, setquestionanswers) => {
 
 export const LoadQuiz = (quizid, func) => {
     let Questions = [];
-    fetch(`quiz`, {
+    fetch(`quiz/quizdetails`, {
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': "Bearer " + getJwtToken()
         },
         method: 'POST',
         body: JSON.stringify({ quizid : quizid }),
     })
         .then((response) => response.json())
         .then((data) => {
+            console.log(data);
             for (var i = 0; i < data.questions.length; i++) {
                 let question = { QID: data.questions[i].qid, Name: data.questions[i].name, Answers: [], Active: true, Message: '' };
                 for (var j = 0; j < data.questions[i].answers.length; j++) {
@@ -144,6 +147,32 @@ export const LoadAnswers = (func) => {
         });
 }
 
+
+export const LoadScoreBoard = async (/*abortController*/) => {
+
+    let response = await fetch(`quiz/scoreboard`, {
+        //signal: abortController.signal,
+        method: 'POST',
+        body: JSON.stringify({
+            username: getUsername()
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': "Bearer " + getJwtToken()
+        }
+    });
+    //console.log(response.status);
+    if (response.ok) {
+        let data = response.json();
+        return data;
+    }
+    //else if (response.status === 401 || response.status === 403) {
+    //    throw new Error("Unauthorized Access");
+    //}
+
+}
+
 export const LoadAdminQuizes = async (/*abortController*/) => {
 
     let response = await fetch(`quiz/adminquizes`, {
@@ -169,6 +198,10 @@ export const LoadQuizes = async (/*abortController*/) => {
      
     return await fetch(`quiz/quizes`, {
         //signal: abortController.signal,
+        method: 'POST',
+        body: JSON.stringify({
+            username: getUsername()
+        }),
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',

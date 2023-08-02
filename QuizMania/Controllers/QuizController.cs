@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using QuizMania.Helper;
 using QuizMania.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,9 @@ namespace QuizMania.Controllers
             var maxValue = 0;
             using (QuizMasterContext context = new QuizMasterContext())
             {
-                var numAttempts = context.QuizQuestionAnswered.Where(q => q.QuizId == QuizId && q.UserId == UserID)
+                var numAttempts = context.QuizQuestionAnswered
+                    .Where(q => q.QuizId == QuizId
+                    && q.UserId == UserID)
                                   .Select(x => x.Attempt);
                 maxValue = numAttempts.Max().HasValue ? numAttempts.Max().Value : 0;
             }
@@ -56,7 +59,8 @@ namespace QuizMania.Controllers
             List<int> lstScores = new List<int>();
             using (QuizMasterContext context = new QuizMasterContext())
             {
-                var lstAttempts = context.QuizQuestionAnswered.Where(q => q.QuizId == QuizId && q.UserId == UserID)
+                var lstAttempts = context.QuizQuestionAnswered
+                    .Where(q => q.QuizId == QuizId && q.UserId == UserID )
                                  .Select(x => x.Attempt)
                                  .ToList().Distinct();
 
@@ -81,6 +85,20 @@ namespace QuizMania.Controllers
             }
 
             return lstScores;
+        }
+
+        public int GetTotalAttendies(int quizID)
+        {
+            var total = 0;
+            using (QuizMasterContext context = new QuizMasterContext())
+            {
+                total = context.QuizQuestionAnswered
+                           .Where(q => q.QuizId == quizID)
+                           .Select(u => u.UserId)
+                           .Distinct()
+                           .Count();
+            }
+            return total;
         }
 
         //private int GetBestScoreForUser(List<int> lstScores)
@@ -370,9 +388,20 @@ namespace QuizMania.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpPost]
         [Route("quizes")]
-        public ActionResult Quizes()
+        public ActionResult Quizes([FromBody] System.Text.Json.JsonElement param)
+        {
+            var username = param.GetProperty("username").ToString();
+            var userID = (new UserController()).GetUserIDByName(username);
+            List<ViewModels.Quiz> vm = RetreiveQuizDetails(userID);
+            return Ok(vm);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("adminquizes")]
+        public ActionResult AdminQuizes()
         {
             //sp implementation
             var lst = new List<GetQuizSummary_Result>();
@@ -383,54 +412,25 @@ namespace QuizMania.Controllers
             return Ok(lst);
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        [Route("adminquizes")]
-        public ActionResult AdminQuizes()
+        [Authorize]
+        [HttpPost]
+        [Route("scoreboard")]
+        public ActionResult ScoreBoard([FromBody] System.Text.Json.JsonElement param)
         {
-            //EF implemenation
-            var vm = new List<ViewModels.Quiz>();
-            using (QuizMasterContext context = new QuizMasterContext())
-            {
-                context.Quiz.ToList().ForEach(q =>
-                {
-                    var quizQuestions = (from qt in context.Question
-                                         join qa in context.QuizQuestionAnswer
-                                          on qt.Id equals qa.QuestionId
-                                         where qa.QuizId == q.Id
-                                         select new ViewModels.Question
-                                         {
-                                             QID = qt.Id,
-                                             Answers = (from a in context.Answer
-                                                        join qa in context.QuizQuestionAnswer
-                                                        on a.Id equals qa.AnswerId
-                                                        where qa.QuizId == q.Id && qa.QuestionId == qt.Id
-                                                        select new ViewModels.Answer { AID = a.Id })
-                                                        .Distinct()
-                                                        .ToList()
-                                         })
-                                         .Distinct()
-                                         .ToList();
-
-                    var lstScores = GetScoresForUser(1, q.Id);
-                    vm.Add(new ViewModels.Quiz()
-                    {
-                        ID = q.Id,
-                        Name = q.Name,
-                        Questions = quizQuestions,
-                        BestScore = lstScores.Count > 0 ? lstScores.Max() : 0,
-                        AverageScore = lstScores.Count > 0 ? (int)lstScores.Average() : 0,
-                        Attempts = GetAttemptCountForUser(1, q.Id)
-                    });
-                });
-            }
+            var username = param.GetProperty("username").ToString();
+            var userID = (new UserController()).GetUserIDByName(username);
+            List<ViewModels.Quiz> vm = RetreiveQuizDetails(userID);
             return Ok(vm);
+
         }
 
-        public ViewModels.Quiz Get([FromBody] System.Text.Json.JsonElement param)
+        [Authorize]
+        [HttpPost]
+        [Route("quizdetails")]
+        public ActionResult Get([FromBody] System.Text.Json.JsonElement param)
         {
             ViewModels.Quiz vm = new ViewModels.Quiz();
-            vm.ID =  Int32.Parse(param.GetProperty("quizid").ToString());
+            vm.ID = Int32.Parse(param.GetProperty("quizid").ToString());
             using (QuizMasterContext context = new QuizMasterContext())
             {
                 vm = (from q in context.Quiz
@@ -472,8 +472,49 @@ namespace QuizMania.Controllers
                     vm.Questions = questions;
                 });
             }
+            return Ok(vm);
+        }
+
+        private List<ViewModels.Quiz> RetreiveQuizDetails(int  userID)
+        {
+            var vm = new List<ViewModels.Quiz>();
+            using (QuizMasterContext context = new QuizMasterContext())
+            {
+                context.Quiz.ToList().ForEach(q =>
+                {
+                    var quizQuestions = (from qt in context.Question
+                                         join qa in context.QuizQuestionAnswer
+                                          on qt.Id equals qa.QuestionId
+                                         where qa.QuizId == q.Id
+                                         select new ViewModels.Question
+                                         {
+                                             QID = qt.Id,
+                                             Answers = (from a in context.Answer
+                                                        join qa in context.QuizQuestionAnswer
+                                                        on a.Id equals qa.AnswerId
+                                                        where qa.QuizId == q.Id && qa.QuestionId == qt.Id
+                                                        select new ViewModels.Answer { AID = a.Id })
+                                                        .Distinct()
+                                                        .ToList()
+                                         })
+                                         .Distinct()
+                                         .ToList();
+
+                    var lstScores = GetScoresForUser(userID, q.Id);
+                    vm.Add(new ViewModels.Quiz()
+                    {
+                        ID = q.Id,
+                        Name = q.Name,
+                        Questions = quizQuestions,
+                        BestScore = lstScores.Count > 0 ? lstScores.Max() : 0,
+                        AverageScore = lstScores.Count > 0 ? (int)lstScores.Average() : 0,
+                        //Attendies = GetTotalAttendies(q.Id),
+                        Attempts = GetAttemptCountForUser(userID, q.Id)
+                    });
+                });
+            }
             return vm;
         }
-       
+        
     }
 }

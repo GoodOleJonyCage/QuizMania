@@ -11,6 +11,7 @@ namespace QuizMania.Models
         public int QuestionCount { get; set; }
         public int AnswerCount { get; set; }
         public int Attempts { get; set; }
+        public int Attendies { get; set; }
         public decimal AverageScore { get; set; }
         public decimal BestScore { get; set; }
     }
