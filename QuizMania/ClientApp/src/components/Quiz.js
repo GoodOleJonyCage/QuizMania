@@ -1,4 +1,4 @@
-﻿import React, { Component, useState, useEffect } from 'react';
+﻿import React, {  useState, useEffect } from 'react';
 import { LoadQuiz } from './Services'
 import { saveAndSubmitQuiz } from './Services'
 import { QuestionContainer } from './QuestionContainer'
@@ -11,7 +11,16 @@ export const Quiz = (props) => {
 
     useEffect(() => {
         setquizid(props.location.state.id);
-        LoadQuiz(props.location.state.id, updatequiz);
+        try {
+            LoadQuiz(props.location.state.id, updatequiz);
+            //console.log(vm);
+            //updatequiz(vm);
+        } catch (response) {
+            //console.log(response);
+            //if (response.status === 401)
+            //    props.clearToken();
+        }
+        
     }, []);
 
 

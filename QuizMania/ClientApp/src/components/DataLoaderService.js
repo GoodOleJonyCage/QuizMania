@@ -9,7 +9,7 @@ export class DataLoaderService extends Component {
             question: {
                 QID  : 0,
                 Name : '',
-                Answers: [],
+               /* Answers: [],*/
                 Active: true,
                 Message: '',
                 Answers: [

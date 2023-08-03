@@ -41,7 +41,9 @@ namespace QuizMania
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-            services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = System.TimeSpan.FromSeconds(double.Parse(Configuration["Timeout"].ToString())));
+            services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval =
+            System.TimeSpan.FromMinutes(double.Parse(Configuration["Timeout"].ToString())));
+            //System.TimeSpan.FromSeconds(double.Parse(Configuration["Timeout"].ToString())));
             //services.AddAuthentication()
             //    .AddIdentityServerJwt()
             //    .Services.ConfigureApplicationCookie(options =>

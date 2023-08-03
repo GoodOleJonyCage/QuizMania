@@ -1,5 +1,5 @@
-﻿import React, { Component, useState, useEffect } from 'react';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+﻿import React, { useState } from 'react';
+import {  NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 export const StartQuizPage = (props) => {
@@ -13,13 +13,12 @@ export const StartQuizPage = (props) => {
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="noti-layout-three__logo-wrap">
                                 <img
-                                    src="./Notifications/assets/images/butterfly.png"
-
+                                    src="./Notifications/assets/images/butterfly.png" alt=""
                                     className="img-responsive noti-layout-three__sticker-image "
                                 />
                                 <img
                                     src="./Notifications/assets/images/index1.png"
-
+                                    alt=""
                                     className="img-responsive noti-layout-three__logo"
                                 />
                             </div>
@@ -45,7 +44,7 @@ export const StartQuizPage = (props) => {
                         </div>
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="noti-layout-three__button-wrap">
-                                <a href="#" className="anchor-btn close-one">
+                                <a href="/#" className="anchor-btn close-one">
                                     Best of Luck !
                                 </a>
                             </div>

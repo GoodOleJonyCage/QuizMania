@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState} from 'react';
+import React, {  useState} from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
@@ -6,7 +6,7 @@ import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants';
 import { Quiz } from './components/Quiz'
-import { ProgressBar } from 'react-bootstrap';
+/*import { ProgressBar } from 'react-bootstrap';*/
 import { DataLoaderService } from './components/DataLoaderService'
 import { AdminQuestionAnswer } from './components/AdminQuestionAnswer'
 import { AdminQuiz } from './components/AdminQuiz'
@@ -37,7 +37,6 @@ function App() {
     const [registerPageSelected, setregisterPageSelected] = useState(false);
 
     const { token, setToken, clearToken } = useToken();
-    //console.log(token);
     if (!token) {
 
         if (registerPageSelected)
@@ -62,17 +61,17 @@ function App() {
                                     <Aside></Aside>
                                     <Layout>
                                         <Route exact path='/' component={(e) => <Home  {...e} />} />
-                                        <Route path='/counter' component={(e) => <Counter  {...e} />} />
-                                        <Route path='/startquizpage' component={(e) => <StartQuizPage {...e} />} />
-                                        <Route path='/quizlist' component={(e) => <QuizList {...e} />} />
-                                        <Route path='/endquizpage' component={(e) => <EndQuizPage />} />
-                                        <Route path='/quiz' component={(e) => <Quiz {...e} />} />
-                                        <Route path='/scoreboard' component={(e) => <ScoreBoard {...e} />} />
-                                        <Route path='/adminquizstart' component={(e) => <AdminQuizStart {...e} />} />
-                                        <Route path='/adminquiz' component={(e) => <AdminQuiz  {...e} />} />
-                                        <Route path='/adminquizlist' component={(e) => <AdminQuizList  {...e} />} />
-                                        <Route path='/adminquizcreated' component={(e) => <AdminQuizCreated  {...e} />} />
-                                        <Route path='/adminquestiponanswer' component={(e) => <AdminQuestionAnswer  {...e} />} />
+                                        <Route path='/counter' component={(e) => <Counter  {...e} clearToken={clearToken} />} />
+                                        <Route path='/startquizpage' component={(e) => <StartQuizPage {...e} clearToken={clearToken} />} />
+                                        <Route path='/quizlist' component={(e) => <QuizList {...e} clearToken={clearToken} />} />
+                                        <Route path='/endquizpage' component={(e) => <EndQuizPage clearToken={clearToken} />} />
+                                        <Route path='/quiz' component={(e) => <Quiz {...e} clearToken={clearToken} />} />
+                                        <Route path='/scoreboard' component={(e) => <ScoreBoard {...e} clearToken={clearToken} />} />
+                                        <Route path='/adminquizstart' component={(e) => <AdminQuizStart {...e} clearToken={clearToken} />} />
+                                        <Route path='/adminquiz' component={(e) => <AdminQuiz  {...e} clearToken={clearToken} />} />
+                                        <Route path='/adminquizlist' component={(e) => <AdminQuizList  {...e} clearToken={clearToken} />} />
+                                        <Route path='/adminquizcreated' component={(e) => <AdminQuizCreated  {...e} clearToken={clearToken} />} />
+                                        <Route path='/adminquestiponanswer' component={(e) => <AdminQuestionAnswer  {...e} clearToken={clearToken} />} />
                                         <Route path='/fetch-data' component={FetchData} />
                                         <Route path='/dataload' component={DataLoaderService} />
                                         {/*<AuthorizeRoute  path='/startquizpage' component={(e) => <StartQuizPage {...e} />} />*/}

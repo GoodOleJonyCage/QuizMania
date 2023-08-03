@@ -1,5 +1,5 @@
-﻿import React, { Component, useEffect, useState } from 'react'
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+﻿import React, {  useEffect, useState } from 'react'
+import {   NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { LoadAdminQuizes } from './Services'
 import { LoadingDiv } from './LoadingDiv'
@@ -52,7 +52,7 @@ export const Quizes = (props) => {
             </>
 }
 
-export const AdminQuizList = () => {
+export const AdminQuizList = (props) => {
 
     const [error, seterror] = useState('');
     const [quizes, setquizes] = useState([]);
@@ -60,11 +60,19 @@ export const AdminQuizList = () => {
     const LoadData = async (/*abortController*/) => {
         try {
             const vm = await LoadAdminQuizes(/*abortController*/);
-            if(vm)
+            if (vm)
                 setquizes(vm);
-        } catch (e) {
-            seterror(e.message);
-            //console.log(e.message);
+        }
+        catch (response) {
+            if (response.status === 401)
+                props.clearToken();
+
+            if (response.status === 403)
+                seterror("Unauthorized Access");
+
+            seterror(response.statusCode);
+            //console.log(response);
+            
         }
     }
 

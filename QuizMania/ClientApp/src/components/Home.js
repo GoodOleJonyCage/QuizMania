@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 
 export class Home extends Component {
     static displayName = Home.name;
-
-    constructor(props) {
-        super(props);
-    }
+    
+    //constructor(props) {
+    //    super(props);
+    //}
 
     render() {
         return (
@@ -140,7 +140,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar2.jpg"   />
+                                                        <img src="img/avatar2.jpg" alt=""   />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -163,7 +163,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar3.jpg"   />
+                                                        <img src="img/avatar3.jpg" alt="" />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -187,7 +187,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar1.jpg"   />
+                                                        <img src="img/avatar1.jpg" alt="" />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -210,7 +210,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar2.jpg"   />
+                                                        <img src="img/avatar2.jpg" alt="" />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -233,7 +233,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar3.jpg"   />
+                                                        <img src="img/avatar3.jpg" alt="" />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -257,7 +257,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar1.jpg"   />
+                                                        <img src="img/avatar1.jpg" alt="" />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -280,7 +280,7 @@ export class Home extends Component {
                                                 <div className="testimonial-arrow-down"></div>
                                                 <div className="testimonial-author">
                                                     <div className="img-thumbnail img-thumbnail-small">
-                                                        <img src="img/avatar2.jpg"   />
+                                                        <img src="img/avatar2.jpg" alt="" />
                                                     </div>
                                                     <p>
                                                         <strong>Mark Smith</strong>
@@ -345,25 +345,25 @@ export class Home extends Component {
                             <h4>follow us</h4>
                             <ul>
                                 <li>
-                                    <a href="#">
+                                    <a href="/#">
                                         <i className="icon-facebook" />
                                         Facebook
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="/#">
                                         <i className="icon-twitter" />
                                         Twitter
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="/#">
                                         <i className="icon-google" />
                                         Google plus
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="/#">
                                         <i className="icon-instagram" />
                                         Instagram
                                     </a>

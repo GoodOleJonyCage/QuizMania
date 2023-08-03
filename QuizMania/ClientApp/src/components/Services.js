@@ -1,14 +1,15 @@
 ﻿//import { createContext, useEffect, useState, Component } from "react";
 //import axios from 'axios';
+import { Question } from './Question';
 import { userNameStore } from './userNameStore'
 
 let { getJwtToken, getUsername } = userNameStore();
 
-export const LoadQuizToEdit = (quizid, setquestionanswers) => {
+export const LoadQuizToEdit = async  (quizid, setquestionanswers) => {
 
     if (quizid > 0) {
         let questions = [];
-        fetch(`quiz/quizdetails`, {
+       await fetch(`quiz/quizdetails`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -35,38 +36,44 @@ export const LoadQuizToEdit = (quizid, setquestionanswers) => {
     }
 }
 
-export const LoadQuiz = (quizid, func) => {
+export const LoadQuiz = async (quizid, func) => {
+
     let Questions = [];
-    fetch(`quiz/quizdetails`, {
+    let response = await fetch(`quiz/quizdetails`, {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Authorization': "Bearer " + getJwtToken()
         },
         method: 'POST',
-        body: JSON.stringify({ quizid : quizid }),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            for (var i = 0; i < data.questions.length; i++) {
-                let question = { QID: data.questions[i].qid, Name: data.questions[i].name, Answers: [], Active: true, Message: '' };
-                for (var j = 0; j < data.questions[i].answers.length; j++) {
-                    question.Answers.push({
-                        AID: data.questions[i].answers[j].aid,
-                        Name: data.questions[i].answers[j].name,
-                        AnsweredCorrectly: data.questions[i].answers[j].answeredCorrectly,
-                        Selected: false
-                    });
-                }
-                Questions.push(question);
+        body: JSON.stringify({ quizid: quizid }),
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        for (var i = 0; i < data.questions.length; i++) {
+            let question = { QID: data.questions[i].qid, Name: data.questions[i].name, Answers: [], Active: true, Message: '' };
+            for (var j = 0; j < data.questions[i].answers.length; j++) {
+                question.Answers.push({
+                    AID: data.questions[i].answers[j].aid,
+                    Name: data.questions[i].answers[j].name,
+                    AnsweredCorrectly: data.questions[i].answers[j].answeredCorrectly,
+                    Selected: false
+                });
             }
-            func(Questions);
-        });
+            Questions.push(question);
+        }
+        func(Questions);
+        //return Questions;
+    }
+    else
+        return Promise.reject(response);
+        
 }
 
-export const saveAndSubmitQuiz = (quizid,questionlist) => {
+export const saveAndSubmitQuiz = async (quizid,questionlist) => {
 
-    fetch('quiz/submitquiz', {
+    await fetch('quiz/submitquiz', {
         method: 'POST',
         body: JSON.stringify({
             quizid: quizid,
@@ -78,13 +85,13 @@ export const saveAndSubmitQuiz = (quizid,questionlist) => {
             'Accept': 'application/json'
         }
     })
-        .then(res => res.json())
+        .then(res =>   res.json())
         .then(res =>  res);
 }
 
-export const AddQuestion = (question, func) => {
+export const AddQuestion = async (question, func) => {
 
-    fetch('quiz/addquestion', {
+    await fetch('quiz/addquestion', {
         method: 'POST',
         body: JSON.stringify({ question }),
         headers: {
@@ -96,9 +103,9 @@ export const AddQuestion = (question, func) => {
         .then(res => LoadQuestions(func));
 }
 
-export const AddAnswer = (answer, func) => {
+export const AddAnswer = async (answer, func) => {
 
-    fetch('quiz/addanswer', {
+    await fetch('quiz/addanswer', {
         method: 'POST',
         body: JSON.stringify({ answer }),
         headers: {
@@ -110,9 +117,9 @@ export const AddAnswer = (answer, func) => {
         .then(res => LoadAnswers(func));
 }
 
-export const LoadQuestions = (func) => {
+export const LoadQuestions = async  (func) => {
     let Questions = [];
-    fetch(`quiz/questions`, {
+    await fetch(`quiz/questions`, {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -129,9 +136,9 @@ export const LoadQuestions = (func) => {
         });
 }
 
-export const LoadAnswers = (func) => {
+export const LoadAnswers = async  (func) => {
     let Answers = [];
-    fetch(`quiz/answers`, {
+    await fetch(`quiz/answers`, {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -163,9 +170,10 @@ export const LoadScoreBoard = async (/*abortController*/) => {
     });
     //console.log(response.status);
     if (response.ok) {
-        let data = response.json();
+        let data = await response.json();
         return data;
     }
+    throw (response);
     //else if (response.status === 401 || response.status === 403) {
     //    throw new Error("Unauthorized Access");
     //}
@@ -184,18 +192,16 @@ export const LoadAdminQuizes = async (/*abortController*/) => {
     });
     //console.log(response.status);
     if (response.ok) {
-        let data = response.json();
+        let data = await response.json();
         return data;
     }
-    else if (response.status === 401 || response.status === 403) {
-        throw new Error("Unauthorized Access");
-    }
+    throw (response);
 
 }
 
 export const LoadQuizes = async (/*abortController*/) => {
      
-    return await fetch(`quiz/quizes`, {
+    const response = await fetch(`quiz/quizes`, {
         //signal: abortController.signal,
         method: 'POST',
         body: JSON.stringify({
@@ -204,11 +210,16 @@ export const LoadQuizes = async (/*abortController*/) => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization' : "Bearer " + getJwtToken()
+            'Authorization': "Bearer " + getJwtToken()
         }
-    })
-        .then((response) => response.json())
-        .then((data) => { return data; });
+    });
+
+    if (response.ok) {
+        let data = await response.json();
+        return data;
+    }
+    throw (response);
+    //return Promise.reject(response);
 }
 
 export async function EditAnswer(id, name) {

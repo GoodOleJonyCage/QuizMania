@@ -4,6 +4,7 @@ export const useToken = () => {
 
     const getToken = () => {
         let tokenstr = localStorage.getItem('token');
+        //console.log(tokenstr);
         try {
             if (tokenstr) {
                 const usertoken = JSON.parse(tokenstr);

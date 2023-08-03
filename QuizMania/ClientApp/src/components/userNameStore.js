@@ -1,4 +1,3 @@
-/*import React from 'react';*/
 
 export const userNameStore = () => {
 
@@ -51,6 +50,16 @@ export const userNameStore = () => {
         }
         return false;
     }
+
+    //const isLoggedIn = () => {
+
+    //    let tokenstr = localStorage.getItem('token');
+    //    console.log(tokenstr);
+    //    if (!tokenstr) {
+    //        return false;
+    //    }
+    //    return true;
+    //}
 
     return {
         isAdmin: isAdmin,

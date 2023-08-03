@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React  from 'react';
 import { Question } from './Question';
 import { ButtonSection } from './ButtonSection'
 

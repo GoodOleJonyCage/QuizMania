@@ -1,10 +1,10 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
 import { useRef,useState, useEffect } from 'react';
-import { AddQuestion, AddAnswer, LoadQuestions, LoadAnswers, EditAnswer, EditQuestion } from './Services';
-import { AgGridColumn, AgGridReact } from 'ag-grid-react';
-import ReactDom from 'react-dom';
-import Popup from 'react-popup';
-import { BtnCellRenderer} from './BtnCellRenderer'
+import {  LoadQuestions, LoadAnswers, EditAnswer, EditQuestion } from './Services';
+/*import { AgGridColumn, AgGridReact } from 'ag-grid-react';*/
+//import ReactDom from 'react-dom';
+//import Popup from 'react-popup';
+/*import { BtnCellRenderer} from './BtnCellRenderer'*/
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
@@ -94,7 +94,7 @@ export const AdminQuestionAnswer = () => {
                         return (
                             <div className="item-row" key={i} ref={bottomRef}>
                                 {
-                                    editquestion.index == i ?
+                                    editquestion.index === i ?
                                         <div className="questionitem" >
                                             <div className="questionitem" >
                                                 <span   className="mr-2">A-{i + 1})</span>
@@ -214,7 +214,7 @@ export const AdminQuestionAnswer = () => {
                     return (
                         <div className="item-row" key={i}>
                             {
-                                editanswer.index == i ?
+                                editanswer.index === i ?
                                     <div className="questionitem">
                                         <div className="questionitem">
                                             <span className="mr-2">A-{i + 1})</span>

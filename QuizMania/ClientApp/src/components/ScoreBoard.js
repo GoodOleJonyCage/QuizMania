@@ -55,16 +55,24 @@ const ScoreBoardQuizAttempts = (props) => {
 }
 
 
-export const ScoreBoard = () => {
+export const ScoreBoard = (props) => {
 
-
+    const [error, seterror] = useState('');
     const [quizes, setquizes] = useState([]);
     const { GetScoreBoardHeading } = SectionHeadings();
 
     const LoadData = async () => {
-        const vm = await LoadScoreBoard();
-        if (vm)
-            setquizes(vm);
+        try {
+            const vm = await LoadScoreBoard();
+            if (vm)
+                setquizes(vm);
+
+        } catch (response) {
+            if (response.status === 401)
+                props.clearToken();
+
+            seterror(response.statusCode);
+        }
     }
 
     useEffect(() => {
@@ -76,11 +84,10 @@ export const ScoreBoard = () => {
             {
             quizes.length === 0 ? <LoadingDiv></LoadingDiv> :
             quizes.map((quiz,quizindex) => {
-
                 return <ScoreboardQuiz key={quiz.id} quiz={quiz} quizindex={quizindex} ></ScoreboardQuiz>
-
                 })
             }
+            <div className="largeandbold">{error}</div>
             </div>
 
 }

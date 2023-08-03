@@ -420,6 +420,7 @@ namespace QuizMania.Controllers
         [Route("quizdetails")]
         public ActionResult Get([FromBody] System.Text.Json.JsonElement param)
         {
+            //return Unauthorized("sss");
             ViewModels.Quiz vm = new ViewModels.Quiz();
             vm.ID = Int32.Parse(param.GetProperty("quizid").ToString());
             using (QuizMasterContext context = new QuizMasterContext())
@@ -464,6 +465,7 @@ namespace QuizMania.Controllers
                 });
             }
             return Ok(vm);
+
         }
 
         private List<ViewModels.Quiz> RetreiveQuizDetails(int  userID)

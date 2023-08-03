@@ -1,15 +1,15 @@
 ﻿import React  from 'react';
 
 export const ButtonSection = (props) => {
-    return props.QuestionIndex == props.QuestionLength ? "" :
+    return props.QuestionIndex === props.QuestionLength ? "" :
         <div id="bottom-wizard" >
             {
-                props.QuestionIndex == 0 ? "" :
+                props.QuestionIndex === 0 ? "" :
                     <button onClick={() => { props.moveToPreviousQuestion() }}
                         type="button" name="backward" className="backward">Back </button>
             }
             {
-                props.QuestionIndex + 1 == props.QuestionLength ?
+                props.QuestionIndex + 1 === props.QuestionLength ?
                     <button
                         onClick={() => { props.submitQuiz() }}
                         type="submit" name="process" className="submit">Submit</button>

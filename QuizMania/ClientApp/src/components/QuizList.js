@@ -1,5 +1,5 @@
-﻿import React, { Component, useEffect, useState } from 'react'
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+﻿import React, { useEffect, useState } from 'react'
+import {  NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { LoadQuizes } from './Services'
 import { LoadingDiv } from './LoadingDiv'
@@ -41,11 +41,19 @@ export const Quizes = (props) => {
 
 export const QuizList = (props) => {
 
+    const [error, seterror] = useState('');
     const [quizes, setquizes] = useState([]);
-
+    
     const LoadData = async (/*abortController*/) => {
-        const vm = await LoadQuizes(/*abortController*/);
-        setquizes(vm);
+        try {
+            const vm = await LoadQuizes(/*abortController*/);
+            setquizes(vm);
+        } catch (response) {
+            if (response.status === 401)
+                props.clearToken();
+
+            seterror(response.statusCode);
+        }
     }
 
     useEffect(() => {
@@ -59,6 +67,7 @@ export const QuizList = (props) => {
     return <div>
                 <h3 className="text-center">Start a Quiz!</h3>
                 <Quizes quizes={quizes} {...props} />
+                <div className="largeandbold">{error}</div>
             </div>
 
 }

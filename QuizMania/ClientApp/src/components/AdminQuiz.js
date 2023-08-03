@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React  from 'react';
 import { useState, useEffect } from 'react';
 import { LoadAnswers, LoadQuestions, SaveQuiz, LoadQuizToEdit } from './Services'
  
@@ -186,7 +186,7 @@ const SaveCurrentQuiz = (props) => {
 
 const QuestionAnswerRemoved = (props,questionasnwer) => {
 
-    var newquestionanswers = props.questionanswers.filter(x => x.name != questionasnwer.name);
+    var newquestionanswers = props.questionanswers.filter(x => x.name !== questionasnwer.name);
     props.setquestionanswers(newquestionanswers);
 }
 
@@ -204,7 +204,7 @@ const QuizQuestionAnswers = (props) => {
                                 {q.name}
                                 </span>
                             </div>
-                            <a href="#"  onClick={(e) => { QuestionAnswerRemoved(props, q) }}>
+                            <a href="/#" onClick={(e) => { QuestionAnswerRemoved(props, q) }}>
                                 <i className="icon-cancel-circle-2 color-red" />
                             </a>
                         </div>

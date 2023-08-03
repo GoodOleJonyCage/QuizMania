@@ -1,5 +1,5 @@
-﻿import React, { Component, useState, useEffect } from 'react';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+﻿import React, {  useState  } from 'react';
+import {   NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 export const EndQuizPage = (props) => {
@@ -24,7 +24,7 @@ export const EndQuizPage = (props) => {
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div className="noti-layout-nine__content-wrap">
                                     <div className="noti-layout-nine__img-wrap">
-                                        <img src="./Notifications/assets/images/congrats.png" alt />
+                                        <img src="./Notifications/assets/images/congrats.png" alt="" />
                                     </div>
                                     {
                                         props.message ?
