@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -34,6 +35,7 @@ namespace QuizMania.Models
         public virtual DbSet<QuizQuestionAnswer> QuizQuestionAnswer { get; set; }
         public virtual DbSet<QuizQuestionAnswered> QuizQuestionAnswered { get; set; }
         public virtual DbSet<User> User { get; set; }
+
         //to store the value of a stored proc call
         public virtual DbSet<Models.GetQuizSummary_Result> sp_GetQuizSummary { get; set; } // stored proc result
 
@@ -260,6 +262,10 @@ namespace QuizMania.Models
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.AnswerId).HasColumnName("AnswerID");
+
+                entity.Property(e => e.DateEntered)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
 
