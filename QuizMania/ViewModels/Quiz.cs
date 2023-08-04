@@ -23,6 +23,15 @@ namespace QuizMania.ViewModels
         public List<Answer> Answers { get; set; } = new List<Answer>();
     }
 
+    public class Attempt
+    {
+        public int AttemptNum { get; set; }
+        public int Correct { get; set; }
+        public decimal Score { get; set; }
+        public DateTime Date { get; set; }
+
+    }
+
     public class Quiz
     {
         public int ID { get; set; }
@@ -32,5 +41,6 @@ namespace QuizMania.ViewModels
         public int Attendies { get; set; }
         public string Name { get; set; }
         public List<Question> Questions { get; set; } = new List<Question>();
+        public List<Attempt> AttemptDetails { get; set; } = new List<Attempt>();
     }
 }

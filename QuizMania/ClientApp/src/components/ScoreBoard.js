@@ -5,31 +5,33 @@ import { SectionHeadings } from './SectionHeadings'
 import { LoadScoreBoard } from './Services'
 import { QuestionAnswerUtility} from './QuestionAnswerUtility'
 
+import Moment from 'react-moment';
+
 const ScoreBoardQuizAttempts = (props) => {
 
-    return props.attempts === 0 ? <LoadingDiv></LoadingDiv> :
-        <div className="mt-2">
+    return props.attemptDetails.length === 0 ? <LoadingDiv></LoadingDiv> :
+        <div className="mt-4">
             <table className="table table-striped table-bordered table-condensed">
                 <thead>
                     <tr>
                         <th>Attempt</th>
-                        <th>Correct</th>
+                        <th>Correctly Answered</th>
                         <th>Score</th>
                         <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {/*{*/}
-                    {/*    props.attempts.map((attempt, index) => {*/}
+                    {
+                        props.attemptDetails.map((attempt, index) => {
 
-                    {/*        return <tr>*/}
-                    {/*            <td>{attempt}</td>*/}
-                    {/*            <td>Jacob</td>*/}
-                    {/*            <td>Thornton</td>*/}
-                    {/*            <td>@fat</td>*/}
-                    {/*        </tr>*/}
-                    {/*    })*/}
-                    {/*}*/}
+                            return <tr key={attempt.attemptNum}>
+                                    <td>{attempt.attemptNum}</td>
+                                    <td>{attempt.correct}</td>
+                                    <td>{attempt.score}%</td>
+                                    <td><Moment format="DD MMM YYYY hh:mm:ss:A">{attempt.date}</Moment></td>
+                                </tr>
+                        })
+                    }
                 </tbody>
             </table>
         </div>
@@ -50,7 +52,7 @@ const ScoreBoardQuizAttempts = (props) => {
                  <div>Best Score <span className="color-black">{props.quiz.bestScore}%</span></div>
                  <div>Average Score <span className="color-black">{props.quiz.averageScore}%</span></div>
              </div>
-             <ScoreBoardQuizAttempts attempts={props.quiz.attempts} ></ScoreBoardQuizAttempts>
+             <ScoreBoardQuizAttempts key={props.quiz.id}  attemptDetails={props.quiz.attemptDetails} ></ScoreBoardQuizAttempts>
             </div>
 }
 
@@ -64,6 +66,7 @@ export const ScoreBoard = (props) => {
     const LoadData = async () => {
         try {
             const vm = await LoadScoreBoard();
+            //console.log(vm);
             if (vm)
                 setquizes(vm);
 
@@ -77,7 +80,7 @@ export const ScoreBoard = (props) => {
 
     useEffect(() => {
         LoadData();
-    },[]);
+    } ,[]);
 
     return <div className="container">
             {GetScoreBoardHeading()}

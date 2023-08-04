@@ -66,7 +66,7 @@ export const AdminQuestionAnswer = (props) => {
 
     useEffect(() => {
         LoadData();
-    });
+    }, []);
 
     //Questions
 

@@ -290,7 +290,8 @@ export async function SaveQuiz(id, name, questionanswers,currpage) {
         }),
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Authorization': "Bearer " + getJwtToken()
         }
     })
         .then((response) => response.json())

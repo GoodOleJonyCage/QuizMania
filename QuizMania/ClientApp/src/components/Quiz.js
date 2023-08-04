@@ -25,7 +25,7 @@ export const Quiz = (props) => {
     useEffect(() => {
         setquizid(props.location.state.id);
         LoadData();
-    });
+    },[]);
 
 
     const moveToNextQuestion = () => {

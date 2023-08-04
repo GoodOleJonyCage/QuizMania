@@ -411,8 +411,44 @@ namespace QuizMania.Controllers
             var username = param.GetProperty("username").ToString();
             var userID = (new UserController()).GetUserIDByName(username);
             List<ViewModels.Quiz> vm = RetreiveQuizDetails(userID);
+            vm.ForEach(quiz =>
+            {
+                quiz.AttemptDetails = quiz.Attempts > 0 ? RetreiveAttemptDetails(quiz.ID, userID) : null;
+            });
             return Ok(vm);
+        }
 
+        public List<ViewModels.Attempt> RetreiveAttemptDetails(int quizID, int userID)
+        {
+            var attempts = new List<ViewModels.Attempt> ();
+            using (QuizMasterContext context = new QuizMasterContext() )
+            {
+                var lstGroup = context.QuizQuestionAnswered
+                                        .Where(entry => entry.QuizId == quizID && 
+                                                        entry.UserId == userID)
+                                        .Select( row => row)
+                                        .ToList();
+
+                var lstAttempts = lstGroup.DistinctBy(row => row.Attempt).ToList();
+
+                lstAttempts.ForEach(attempt =>
+                {
+                    var lstAttempt = lstGroup.Where(e => e.Attempt == attempt.Attempt).ToList();
+                    var lstQuestions = lstAttempt.DistinctBy(q => q.QuestionId).ToList();
+                    var correct = lstQuestions.Where(question => question.IsCorrect.Value == true && question.Selected.Value == true).Count();
+                    decimal total = lstQuestions.Count();
+                    int score = (int)((correct / total) * 100);
+                    var dateTaken = attempt.DateEntered.Value;
+                    attempts.Add(new ViewModels.Attempt()
+                    {
+                        AttemptNum = attempt.Attempt.Value,
+                        Score = score,
+                        Correct = correct,
+                        Date = dateTaken
+                    });
+                });
+            }
+            return attempts; 
         }
 
         [Authorize]
