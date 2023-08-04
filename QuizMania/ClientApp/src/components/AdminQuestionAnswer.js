@@ -5,11 +5,12 @@ import {  LoadQuestions, LoadAnswers, EditAnswer, EditQuestion } from './Service
 //import ReactDom from 'react-dom';
 //import Popup from 'react-popup';
 /*import { BtnCellRenderer} from './BtnCellRenderer'*/
+import { LoadingDiv } from './LoadingDiv'
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-export const AdminQuestionAnswer = () => {
+export const AdminQuestionAnswer = (props) => {
 
     //const rowData = [
     //    { name: "Toyota", model: "Celica", price: 35000 },
@@ -39,10 +40,33 @@ export const AdminQuestionAnswer = () => {
     //figure out how load scroll position
     const bottomRef = useRef(null);
 
+
+    const ReLoadQuestions = async () => {
+        const vmsetquestionlist = await LoadQuestions();
+        setquestionlist(vmsetquestionlist);
+    }
+
+    const ReLoadAnswers = async () => {
+        const vmsetanswerlist = await LoadAnswers();
+        setanswerlist(vmsetanswerlist);
+    }
+
+    const LoadData = async () => {
+
+        try {
+            
+            ReLoadQuestions();
+            ReLoadAnswers();
+
+        } catch (response) {
+            if (response.status === 401)
+                props.clearToken();
+        }
+    }
+
     useEffect(() => {
-        LoadQuestions(setquestionlist);
-        LoadAnswers(setanswerlist);
-    }, []);
+        LoadData();
+    });
 
     //Questions
 
@@ -64,8 +88,8 @@ export const AdminQuestionAnswer = () => {
                 }
                 else {
                     updateeditquestion({ index: -1, message: '' });
-                    LoadQuestions(setquestionlist);
-
+                    ReLoadQuestions();
+                    //LoadQuestions(setquestionlist);
                     //let v  = bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
                 }
                 
@@ -90,6 +114,7 @@ export const AdminQuestionAnswer = () => {
                 
                 className="mt-3 " >
                 {
+                    questions.length === 0 ? <LoadingDiv></LoadingDiv> :
                     questions.map((q, i) => {
                         return (
                             <div className="item-row" key={i} ref={bottomRef}>
@@ -97,7 +122,7 @@ export const AdminQuestionAnswer = () => {
                                     editquestion.index === i ?
                                         <div className="questionitem" >
                                             <div className="questionitem" >
-                                                <span   className="mr-2">A-{i + 1})</span>
+                                                <span className="mr-2">Q-{i + 1})</span>
                                                 <textarea 
                                                     ref={textQuestionEditInput}
                                                     key={i}
@@ -117,7 +142,7 @@ export const AdminQuestionAnswer = () => {
                                         </div>
                                         :
                                         <div className="questionitem">
-                                            <span ><span className="mr-2">A-{i + 1})</span>{q.name}</span>
+                                            <span ><span className="mr-2">Q-{i + 1})</span>{q.name}</span>
                                             <div className="text-right">
                                                 <button onClick={() => updateeditquestion({ index: i, message: ''})}>
                                                     <i className="icon-edit text-success"></i>
@@ -132,51 +157,10 @@ export const AdminQuestionAnswer = () => {
                  
             </div>
         </div>;
-        //const columnDefs = [
-        //    {
-        //        field: 'Name',
-        //        valueFormatter: function (params) {
-        //            return params.data.name;
-        //        },
-        //    },
-        //    {
-        //        headerName: "Delete Sessio",
-        //        cellRenderer: "buttonRenderer",
-        //        cellRendererParams: {
-        //            onClick: function () {
-        //                console.log('A');
-        //            },
-        //            label: "Edit",
-        //        }
-        //    }
-             
-        //]
-        //return <div className="ag-theme-alpine" style={{ height: 400 }}>
-        //        <AgGridReact frameworkComponents={frameworkComponents} columnDefs={columnDefs} rowData={questions}>
-        //        </AgGridReact>
-        //        </div>;
-
-        //return <div className="mt-3 scrollable">
-        //    {
-        //        questions.map((q, i) => {
-        //            return (
-        //                <div className="questionitem" key={i}>
-        //                    <span className="mr-2">Q {i + 1}</span> <span >{q}</span>
-        //                </div>
-        //            );
-        //        })
-        //    }
-        //</div>;
+        
     }
 
-    //Questions
-
-    //Answers
-
-    //const handleanswerchange = (e) => {
-    //    setanswer({ name: e.target.value });
-    //}
-
+     
     const onEditAnswerChanged = e => {
         e.preventDefault();
         textAnswerEditInput.current.value = e.target.value;
@@ -190,26 +174,17 @@ export const AdminQuestionAnswer = () => {
               }
               else {
                   updateeditanswer({ index: -1, message: '' });
-                  LoadAnswers(setanswerlist);
+                  ReLoadAnswers();
               }
           });
     }
 
-    //const AddNewAnswer = () => {
-    //    console.log(answer);
-    //    if (answer.name.length == 0) {
-    //        setanswer({ message: 'Required' });
-    //    }
-    //    else {
-    //        AddAnswer(answer.name, setanswerlist);
-    //        setanswer({name :'', message: '' });
-    //    }
-    //}
-
+     
     const AllAnswers = () => {
            
         return <div className="mt-3 ">
             {
+                answers.length === 0 ? <LoadingDiv></LoadingDiv> :
                 answers.map((a, i) => {
                     return (
                         <div className="item-row" key={i}>

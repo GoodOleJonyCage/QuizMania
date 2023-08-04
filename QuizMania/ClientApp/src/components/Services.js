@@ -1,15 +1,16 @@
 ﻿//import { createContext, useEffect, useState, Component } from "react";
 //import axios from 'axios';
-import { Question } from './Question';
+
 import { userNameStore } from './userNameStore'
 
 let { getJwtToken, getUsername } = userNameStore();
 
-export const LoadQuizToEdit = async  (quizid, setquestionanswers) => {
+export const LoadQuizToEdit = async  (quizid,/* setquestionanswers*/) => {
 
     if (quizid > 0) {
+
         let questions = [];
-       await fetch(`quiz/quizdetails`, {
+        let response = await fetch(`quiz/quizdetails`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -17,26 +18,31 @@ export const LoadQuizToEdit = async  (quizid, setquestionanswers) => {
             },
             method: 'POST',
             body: JSON.stringify({ quizid: quizid }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                for (var i = 0; i < data.questions.length; i++) {
-                    let question = { id: data.questions[i].qid, name: data.questions[i].name, answers: [] };
-                    for (var j = 0; j < data.questions[i].answers.length; j++) {
-                        question.answers.push({
-                            id: data.questions[i].answers[j].aid,
-                            name: data.questions[i].answers[j].name,
-                            iscorrect: data.questions[i].answers[j].answeredCorrectly
-                        });
-                    }
-                    questions.push(question);
+        });
+
+
+        if (response.ok) {
+
+            const data = await response.json();
+            for (var i = 0; i < data.questions.length; i++) {
+                let question = { id: data.questions[i].qid, name: data.questions[i].name, answers: [] };
+                for (var j = 0; j < data.questions[i].answers.length; j++) {
+                    question.answers.push({
+                        id: data.questions[i].answers[j].aid,
+                        name: data.questions[i].answers[j].name,
+                        iscorrect: data.questions[i].answers[j].answeredCorrectly
+                    });
                 }
-                setquestionanswers(questions);
-            });
+                questions.push(question);
+            }
+            return questions;
+        }
+
+        throw response;
     }
 }
 
-export const LoadQuiz = async (quizid, func) => {
+export const LoadQuiz = async (quizid/*, func*/) => {
 
     let Questions = [];
     let response = await fetch(`quiz/quizdetails`, {
@@ -63,94 +69,102 @@ export const LoadQuiz = async (quizid, func) => {
             }
             Questions.push(question);
         }
-        func(Questions);
-        //return Questions;
+        //func(Questions);
+        return Questions;
     }
     else
-        return Promise.reject(response);
+        throw response;
         
 }
 
 export const saveAndSubmitQuiz = async (quizid,questionlist) => {
 
-    await fetch('quiz/submitquiz', {
+    let response = fetch('quiz/submitquiz', {
         method: 'POST',
         body: JSON.stringify({
             quizid: quizid,
-            questionlist: questionlist, 
-            username : getUsername()
+            questionlist: questionlist,
+            username: getUsername()
         }),
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-    })
-        .then(res =>   res.json())
-        .then(res =>  res);
+    });
+
+    if (response.ok) {
+        let data = await response.json();
+        return data;
+    }
+    throw response;
 }
 
-export const AddQuestion = async (question, func) => {
+//export const AddQuestion = async (question, func) => {
 
-    await fetch('quiz/addquestion', {
-        method: 'POST',
-        body: JSON.stringify({ question }),
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-        .then(res => res.json())
-        .then(res => LoadQuestions(func));
-}
+//    await fetch('quiz/addquestion', {
+//        method: 'POST',
+//        body: JSON.stringify({ question }),
+//        headers: {
+//            'Content-Type': 'application/json',
+//            'Accept': 'application/json'
+//        }
+//    })
+//        .then(res => res.json())
+//        .then(res => LoadQuestions(func));
+//}
 
-export const AddAnswer = async (answer, func) => {
+//export const AddAnswer = async (answer, func) => {
 
-    await fetch('quiz/addanswer', {
-        method: 'POST',
-        body: JSON.stringify({ answer }),
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-        .then(res => res.json())
-        .then(res => LoadAnswers(func));
-}
+//    await fetch('quiz/addanswer', {
+//        method: 'POST',
+//        body: JSON.stringify({ answer }),
+//        headers: {
+//            'Content-Type': 'application/json',
+//            'Accept': 'application/json'
+//        }
+//    })
+//        .then(res => res.json())
+//        .then(res => LoadAnswers(func));
+//}
 
-export const LoadQuestions = async  (func) => {
+export const LoadQuestions = async  (/*func*/) => {
+
     let Questions = [];
-    await fetch(`quiz/questions`, {
+    const response = await fetch(`quiz/questions`, {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            for (var i = 0; i < data.length; i++) {
-                Questions.push({ id: data[i].id, name: data[i].name });
-            }
-            //console.log(Questions);
-            func(Questions);
+    });
 
-        });
+    if (response.ok) {
+        let data = await response.json();
+        for (var i = 0; i < data.length; i++) {
+            Questions.push({ id: data[i].id, name: data[i].name });
+        }
+        return Questions;
+    }
+    throw response;
 }
 
-export const LoadAnswers = async  (func) => {
+export const LoadAnswers = async  (/*func*/) => {
+
     let Answers = [];
-    await fetch(`quiz/answers`, {
+    const response = await fetch(`quiz/answers`, {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            for (var i = 0; i < data.length; i++) {
-                Answers.push({ id: data[i].id, name: data[i].name });
-            }
-            func(Answers);
-        });
+    });
+
+    if (response.ok) {
+        let data = await response.json();
+        for (var i = 0; i < data.length; i++) {
+            Answers.push({ id: data[i].id, name: data[i].name });
+        }
+        return Answers;
+    }
+    throw response;
 }
 
 
@@ -289,7 +303,7 @@ export async function SaveQuiz(id, name, questionanswers,currpage) {
 
 export const LoginUser = async (name, pwd) => {
 
-    return await fetch(`user/login`, {
+    let response = await fetch(`user/login`, {
         method: 'POST',
         body: JSON.stringify({
             name: name,
@@ -299,14 +313,13 @@ export const LoginUser = async (name, pwd) => {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-    })
-        .then(response => {
-            
-            if (response.ok)
-                return response.json();
+    });
+    if (response.ok) {
+        let data = await response.json();
+        return data;
+    }
 
-             return Promise.reject(response);
-        })
+    return Promise.reject(response);
         //.catch((response) => {
         //    console.log(response);
         //    response.json().then((json ) => {
@@ -320,7 +333,7 @@ export const LoginUser = async (name, pwd) => {
 export const RegisterUser = async (name, pwd) => {
 
 
-    return await fetch(`user/registerUser`, {
+    let response = await fetch(`user/registerUser`, {
         method: 'POST',
         body: JSON.stringify({
             name: name,
@@ -330,11 +343,14 @@ export const RegisterUser = async (name, pwd) => {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-        })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject(response);
-        });
+    });
+
+    if (response.ok) {
+
+        let data = await response.json();
+        return data;
+
+    }
+    return Promise.reject(response);
+        
 }

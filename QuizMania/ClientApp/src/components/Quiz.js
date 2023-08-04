@@ -2,6 +2,7 @@
 import { LoadQuiz } from './Services'
 import { saveAndSubmitQuiz } from './Services'
 import { QuestionContainer } from './QuestionContainer'
+import { LoadingDiv } from './LoadingDiv'
 
 export const Quiz = (props) => {
 
@@ -9,19 +10,22 @@ export const Quiz = (props) => {
     const [questions, updatequiz] = useState([]);
     const [currentquestionindex, setcurrentquestionindex] = useState(0);
 
-    useEffect(() => {
-        setquizid(props.location.state.id);
+
+    const LoadData = async  () => {
         try {
-            LoadQuiz(props.location.state.id, updatequiz);
-            //console.log(vm);
-            //updatequiz(vm);
+            const vm = await LoadQuiz(props.location.state.id/*, updatequiz*/);
+            updatequiz(vm);
         } catch (response) {
-            //console.log(response);
-            //if (response.status === 401)
-            //    props.clearToken();
+            if (response.status === 401)
+                props.clearToken();
         }
         
-    }, []);
+    }
+
+    useEffect(() => {
+        setquizid(props.location.state.id);
+        LoadData();
+    });
 
 
     const moveToNextQuestion = () => {
@@ -97,15 +101,17 @@ export const Quiz = (props) => {
     }
 
     return (
-        <QuestionContainer
-            disableClick={disableClick}
-            calculateScore={calculateScore}
-            getPercentCompleted={getPercentCompleted}
-            moveToPreviousQuestion={moveToPreviousQuestion}
-            submitQuiz={submitQuiz}
-            moveToNextQuestion={moveToNextQuestion}
-            currentquestionindex={currentquestionindex}
-            selectOneAnswer={selectOneAnswer}
-            Questions={questions} />
+        
+            questions.length === 0 ? <LoadingDiv></LoadingDiv> :
+                <QuestionContainer
+                    disableClick={disableClick}
+                    calculateScore={calculateScore}
+                    getPercentCompleted={getPercentCompleted}
+                    moveToPreviousQuestion={moveToPreviousQuestion}
+                    submitQuiz={submitQuiz}
+                    moveToNextQuestion={moveToNextQuestion}
+                    currentquestionindex={currentquestionindex}
+                    selectOneAnswer={selectOneAnswer}
+                    Questions={questions} />
     );
 }

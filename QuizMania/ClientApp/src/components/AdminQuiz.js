@@ -276,17 +276,31 @@ export const AdminQuiz = (props) => {
 
     const [ansmessage, setansmessage] = useState('');
     const [quesmessage, setquesmessage] = useState('');
-    
+
+
+    const LoadData = async () => {
+
+        try {
+
+            const vmsetquestions = await LoadQuestions();
+            setquestions(vmsetquestions);
+
+            const vmsetanswers = await LoadAnswers();
+            setanswers(vmsetanswers);
+
+            let quizid = props.location.state.id;
+            if (quizid > 0) {
+                const vm = await LoadQuizToEdit(quizid/*, setquestionanswers*/);
+                setquestionanswers(vm);
+            }
+        } catch (response) {
+            if (response.status === 401)
+                props.clearToken();
+        }
+    }
 
     useEffect(() => {
-        LoadQuestions(setquestions);
-        LoadAnswers(setanswers);
-
-        let quizid = props.location.state.id;
-        if (quizid > 0) {
-            LoadQuizToEdit(quizid, setquestionanswers);
-        }
-
+        LoadData();
     }, []);
     
     return <div>
