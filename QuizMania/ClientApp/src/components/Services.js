@@ -224,6 +224,9 @@ export const LoadQuizes = async (/*abortController*/) => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            //'pragma': 'no-cache',
+            //'cache-control': 'no-cache, no-store, must-revalidate',
+            //'Expires': '0',
             'Authorization': "Bearer " + getJwtToken()
         }
     });

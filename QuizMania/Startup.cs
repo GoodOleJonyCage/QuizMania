@@ -120,6 +120,15 @@ namespace QuizMania
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            //app.Use(async (context, next) =>
+            //{
+            //    context.Response.Headers.Add("cache-control", "no-cache, no-store, must-revalidate");
+            //    context.Response.Headers.Add("pragma", "no-cache");
+            //    context.Response.Headers.Add("Expires", "0");
+            //    await next.Invoke();
+            //});
+
             app.UseMvcWithDefaultRoute();
             app.UseCors("policyName");
             app.UseSpa(spa =>
