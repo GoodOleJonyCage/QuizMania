@@ -142,7 +142,7 @@ namespace QuizMania.Controllers
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                 _config["Jwt:Audience"],
                 claims,
-                expires: DateTime.Now.AddMinutes(10),//DateTime.Now.AddMinutes(double.Parse(_config["Timeout"])),
+                expires: DateTime.Now.AddMinutes(double.Parse(_config["Timeout"])),
                 signingCredentials: credentials); 
 
 
