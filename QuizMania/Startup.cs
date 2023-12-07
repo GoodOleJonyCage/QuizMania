@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using QuizMania.Data;
 using QuizMania.Models;
+using System;
 using System.Text;
 
 namespace QuizMania
@@ -57,6 +58,7 @@ namespace QuizMania
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
+                    ClockSkew = TimeSpan.Zero,
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
