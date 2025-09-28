@@ -1,10 +1,12 @@
 ﻿import React, { useState } from 'react';
 import {  NavLink } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export const StartQuizPage = (props) => {
     //load total questions 
     const [classs, setclasss] = useState(true);
+    const params = useParams();
+    
     return (
             <div className={`noti-section-one noti-design-one ${classs ? 'fadeInLeft' : 'fadeOutLeft'} animated`}>
             <div className="noti-layout-three">
@@ -25,15 +27,15 @@ export const StartQuizPage = (props) => {
                         </div>
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="noti-layout-three__para-wrap">
-                                <h3><b>{props.location.state.name}</b></h3>
+                                <h3><b>{params.name}</b></h3>
                             </div>
                         </div>
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="noti-layout-three__check-in-button">
                                 <NavLink tag={Link} className="button"
                                     to={{
-                                        pathname: '/quiz',
-                                        state: { id: props.location.state.id, name: props.location.state.name }
+                                        pathname: '/quiz/' + params.id + ' /' + params.name, 
+                                        state: { id: params.id, name: params.name }
                                     }}>
                                     <button type="button" className="noti-layout-three__check-in" onClick={(e) => { setclasss(false) }} >
                                         Start Quiz

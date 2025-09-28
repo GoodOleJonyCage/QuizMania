@@ -3,6 +3,7 @@ import { LoadQuiz } from './Services'
 import { saveAndSubmitQuiz } from './Services'
 import { QuestionContainer } from './QuestionContainer'
 import { LoadingDiv } from './LoadingDiv'
+import { Link, useParams } from 'react-router-dom';
 
 export const Quiz = (props) => {
 
@@ -10,10 +11,11 @@ export const Quiz = (props) => {
     const [questions, updatequiz] = useState([]);
     const [currentquestionindex, setcurrentquestionindex] = useState(0);
 
+    const params = useParams();
 
-    const LoadData = async  () => {
+    const LoadData = async () => {
         try {
-            const vm = await LoadQuiz(props.location.state.id/*, updatequiz*/);
+            const vm = await LoadQuiz(params.id/*, updatequiz*/);
             updatequiz(vm);
         } catch (response) {
             if (response.status === 401)
@@ -23,7 +25,7 @@ export const Quiz = (props) => {
     }
 
     useEffect(() => {
-        setquizid(props.location.state.id);
+        setquizid(params.id);
         LoadData();
     },[]);
 
@@ -55,7 +57,12 @@ export const Quiz = (props) => {
     const submitQuiz  = () => {
 
         moveToNextQuestion();
-        saveAndSubmitQuiz(quizid,questions);
+        try {
+            saveAndSubmitQuiz(quizid, questions);
+        } catch (e) {
+            console.log(e);
+        }
+        
         
     }
 

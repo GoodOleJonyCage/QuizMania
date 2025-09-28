@@ -1,5 +1,6 @@
 import React, {  useState} from 'react';
-import { Route } from 'react-router';
+import { Routes, Router, Route } from 'react-router-dom';
+//import {  } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
@@ -44,7 +45,7 @@ function App() {
         else
             return <Login clearToken={clearToken} token={token} setToken={setToken} setregisterPageSelected={setregisterPageSelected}></Login>
     }
-     
+
     return (
         <div>
             <div id="loader_form">
@@ -60,32 +61,29 @@ function App() {
                                 <div className="row">
                                     <Aside></Aside>
                                     <Layout>
-                                        <Route exact path='/' component={(e) => <Home  {...e} />} />
-                                        <Route path='/counter' component={(e) => <Counter  {...e} clearToken={clearToken} />} />
-                                        <Route path='/startquizpage' component={(e) => <StartQuizPage {...e} clearToken={clearToken} />} />
-                                        <Route path='/quizlist' component={(e) => <QuizList {...e} clearToken={clearToken} />} />
-                                        <Route path='/endquizpage' component={(e) => <EndQuizPage clearToken={clearToken} />} />
-                                        <Route path='/quiz' component={(e) => <Quiz {...e} clearToken={clearToken} />} />
-                                        <Route path='/scoreboard' component={(e) => <ScoreBoard {...e} clearToken={clearToken} />} />
-                                        <Route path='/adminquizstart' component={(e) => <AdminQuizStart {...e} clearToken={clearToken} />} />
-                                        <Route path='/adminquiz' component={(e) => <AdminQuiz  {...e} clearToken={clearToken} />} />
-                                        <Route path='/adminquizlist' component={(e) => <AdminQuizList  {...e} clearToken={clearToken} />} />
-                                        <Route path='/adminquizcreated' component={(e) => <AdminQuizCreated  {...e} clearToken={clearToken} />} />
-                                        <Route path='/adminquestiponanswer' component={(e) => <AdminQuestionAnswer  {...e} clearToken={clearToken} />} />
-                                        <Route path='/fetch-data' component={FetchData} />
-                                        <Route path='/dataload' component={DataLoaderService} />
+                                        
+                                        <Routes>
+                                            <Route exact path='/' element={<Home />} />
+                                            <Route path='/counter' element={<Counter clearToken={clearToken} />} />
+                                            {/*<Route path='/startquizpage' render={(props) => <StartQuizPage {...props} clearToken={clearToken} />} />*/}
+                                            <Route path='/startquizpage/:id/:name' element={ <StartQuizPage clearToken={clearToken} />} />
+                                            {/*<Route path="/startquizpage" component={Wrapper} />*/}
+                                            <Route path='/quizlist' element={<QuizList clearToken={clearToken} />} />
+                                            <Route path='/endquizpage' element={<EndQuizPage clearToken={clearToken} />} />
+                                            <Route path='/quiz/:id/:name' element={<Quiz clearToken={clearToken} />} />
+                                            <Route path='/scoreboard' element={<ScoreBoard clearToken={clearToken} />} />
+                                            <Route path='/adminquizstart' element={<AdminQuizStart clearToken={clearToken} />} />
+                                            <Route path='/adminquiz' element={<AdminQuiz clearToken={clearToken} />} />
+                                            <Route path='/adminquizlist' element={<AdminQuizList clearToken={clearToken} />} />
+                                            <Route path='/adminquizcreated' element={<AdminQuizCreated clearToken={clearToken} />} />
+                                            <Route path='/adminquestiponanswer' element={<AdminQuestionAnswer clearToken={clearToken} />} />
+                                            <Route path='/fetch-data' element={FetchData} />
+                                            <Route path='/dataload' element={DataLoaderService} />
                                         {/*<AuthorizeRoute  path='/startquizpage' component={(e) => <StartQuizPage {...e} />} />*/}
                                         {/*<AuthorizeRoute  path='/quizlist' component={(e) => <QuizList {...e} />} />*/}
-                                        {/*<AuthorizeRoute  path='/endquizpage' component={(e) => <EndQuizPage  />}  />*/}
-                                        {/*<AuthorizeRoute  path='/quiz' component={(e) => <Quiz {...e} />} />*/}
-                                        {/*<AuthorizeRoute  path='/adminquizstart' component={(e) => <AdminQuizStart {...e}   />}   />*/}
-                                        {/*<AuthorizeRoute  path='/adminquiz' component={(e) => <AdminQuiz  {...e}  />}   />*/}
-                                        {/*<AuthorizeRoute  path='/adminquizlist' component={(e) => <AdminQuizList  {...e} />}  />*/}
-                                        {/*<AuthorizeRoute  path='/adminquizcreated' component={(e) => <AdminQuizCreated  {...e} />}    />*/}
-                                        {/*<AuthorizeRoute  path='/adminquestiponanswer' component={(e) => <AdminQuestionAnswer  {...e}   />}    />*/}
-                                        {/*<AuthorizeRoute  path='/fetch-data'      component={FetchData} />*/}
-                                        {/*<AuthorizeRoute path='/dataload'        component={DataLoaderService} />*/}
-                                        <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
+                                            <Route path={ApplicationPaths.ApiAuthorizationPrefix} element={ApiAuthorizationRoutes} />
+                                        </Routes>
+                                     
                                     </Layout>
                                 </div>
                             </div>

@@ -44,7 +44,7 @@ namespace QuizMania.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-HJJ87HE\\SQLEXPRESS;Database=QuizMaster;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=LAPTOP-6CKU0B7N\\SQLEXPRESS;Database=QuizMaster;Trusted_Connection=True;");
             }
         }
 

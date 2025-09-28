@@ -1,3 +1,5 @@
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -5,15 +7,19 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 //import registerServiceWorker from './registerServiceWorker';
 /*import { Button } from "@material-ui/core";*/
-
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
-
-ReactDOM.render(
-    <BrowserRouter basename={baseUrl}>
-        <App />
-    </BrowserRouter>,
-    rootElement);
+const root = createRoot(rootElement);
+//ReactDOM.render(
+//    <BrowserRouter basename={baseUrl}>
+//        <App />
+//    </BrowserRouter>,
+//    rootElement);
+root.render(
+        <BrowserRouter basename={baseUrl}>
+            <App />
+         </BrowserRouter>
+);
 
 
 //ReactDOM.render(

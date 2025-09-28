@@ -17,7 +17,8 @@ export const QuestionContainer = (props) => {
                 <div className="step wizard-step cumoveToNextQuestionrrent" >
                     <ProgressBarHtml />
                     {
-                        props.currentquestionindex === props.Questions.length && props.Questions.length > 0 ? <EOFQuiz {...props} /> :
+                    props.currentquestionindex === props.Questions.length && props.Questions.length > 0 ?
+                        <EOFQuiz {...props} /> :
                             props.Questions.map(function (q, i) {
                                 return props.currentquestionindex === i ?
                                     <Question
