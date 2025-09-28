@@ -78,7 +78,7 @@ export const Register = (props) => {
                                                     onClick={handleSubmit}
                                                     className="btn_1 medium">Register</button>
                                             </div>
-                                            <div className="">
+                                            <div className="mt-4">
                                                 <button
                                                     onClick={(e) => { props.setregisterPageSelected(false) }}
                                                     type="submit" className="btn_outline  ml-2">Login</button>
