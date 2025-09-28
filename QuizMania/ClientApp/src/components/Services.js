@@ -91,12 +91,12 @@ export const saveAndSubmitQuiz = async (quizid,questionlist) => {
             'Accept': 'application/json'
         }
     });
-
+    
     if (response.ok) {
         let data = await response.json();
         return data;
     }
-    throw response;
+    //throw response;
 }
 
 //export const AddQuestion = async (question, func) => {
