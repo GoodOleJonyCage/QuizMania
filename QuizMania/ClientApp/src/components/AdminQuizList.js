@@ -30,7 +30,7 @@ export const Quizes = (props) => {
                         return <div className="col-md-6" key={q.id}>
                             <NavLink key={q.id} tag={Link} className="button"
                                 to={{
-                                    pathname: '/adminquiz',
+                                    pathname: '/adminquiz/' + q.id + '/' + q.name,
                                     state: { id: q.id, name: q.name },
                                 }}>
                                 <div key={q.id} className="box_feat" id={"icon_" + GetImageIndex(index)}>

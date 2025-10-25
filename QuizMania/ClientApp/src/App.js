@@ -73,7 +73,7 @@ function App() {
                                             <Route path='/quiz/:id/:name' element={<Quiz clearToken={clearToken} />} />
                                             <Route path='/scoreboard' element={<ScoreBoard clearToken={clearToken} />} />
                                             <Route path='/adminquizstart' element={<AdminQuizStart clearToken={clearToken} />} />
-                                            <Route path='/adminquiz' element={<AdminQuiz clearToken={clearToken} />} />
+                                            <Route path='/adminquiz/:id/:name' element={<AdminQuiz clearToken={clearToken} />} />
                                             <Route path='/adminquizlist' element={<AdminQuizList clearToken={clearToken} />} />
                                             <Route path='/adminquizcreated' element={<AdminQuizCreated clearToken={clearToken} />} />
                                             <Route path='/adminquestiponanswer' element={<AdminQuestionAnswer clearToken={clearToken} />} />

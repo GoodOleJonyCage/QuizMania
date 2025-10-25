@@ -1,5 +1,6 @@
 ﻿import React  from 'react';
 import { useState, useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { LoadAnswers, LoadQuestions, SaveQuiz, LoadQuizToEdit } from './Services'
  
 //let ddAnsSelected = React.createRef();
@@ -180,7 +181,7 @@ const AddToQuiz = (props) => {
 }
 
 const SaveCurrentQuiz = (props) => {
-    SaveQuiz(props.location.state.id,props.location.state.name, props.questionanswers,props.history);
+    SaveQuiz(props.params.id, props.params.name, props.questionanswers, props.navigate);
     //props.history.push('/adminquizlist')
 }
 
@@ -237,8 +238,8 @@ const AddButton = (props) => {
 }
 
 const Header = (props) => {
-
-    return <div className="text-center mb-3"><h4>{props.location.state.name}</h4></div>;
+    const params = useParams();
+    return <div className="text-center mb-3"><h4>{params.name}</h4></div>;
 }
 
 const Message = (props) => {
@@ -258,6 +259,9 @@ const QuestionMessage = (props) => {
 
 export const AdminQuiz = (props) => {
 
+
+    const params = useParams();
+    const navigate = useNavigate();
     //question entered
     const [questionentered, setquestionentered] = useState({ id: 0, name: "", iscorrect: false });
 
@@ -281,14 +285,15 @@ export const AdminQuiz = (props) => {
     const LoadData = async () => {
 
         try {
-
+            
             const vmsetquestions = await LoadQuestions();
             setquestions(vmsetquestions);
 
             const vmsetanswers = await LoadAnswers();
             setanswers(vmsetanswers);
-
-            let quizid = props.location.state.id;
+            
+            let quizid = params.id;
+            
             if (quizid > 0) {
                 const vm = await LoadQuizToEdit(quizid/*, setquestionanswers*/);
                 setquestionanswers(vm);
@@ -333,6 +338,6 @@ export const AdminQuiz = (props) => {
                 setquestionentered={setquestionentered}
                 {...props} />
         <QuizQuestionAnswers setquestionanswers={setquestionanswers} questionanswers={questionanswers} />
-            <AddButton questionanswers={questionanswers}  {...props}/>
+        <AddButton navigate={navigate} params={params} questionanswers={questionanswers}  {...props}/>
         </div>;
 }

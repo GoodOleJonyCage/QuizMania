@@ -301,7 +301,8 @@ export async function SaveQuiz(id, name, questionanswers,currpage) {
         .then((data) => {
             //return data;
             //navigate back to admin quiz page
-            currpage.push('/adminquizlist');
+            //currpage.push('/adminquizlist');
+            currpage('/adminquizlist');
         });
 }
 
